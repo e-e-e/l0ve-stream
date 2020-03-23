@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Date</key><date>2020-03-08T12:35:16Z</date>
+	<key>Application Version</key><string>1.0.3.1</string>
+	<key>Features</key><integer>5</integer>
+	<key>Show Content Ratings</key><true/>
+	<key>Music Folder</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/</string>
+	<key>Library Persistent ID</key><string>479C1DFB8D7E4D7B</string>
+	<key>Tracks</key>
+	<dict>
+		<key>2185</key>
+		<dict>
+			<key>Track ID</key><integer>2185</integer>
+			<key>Name</key><string>あの娘がくれたブルース</string>
+			<key>Artist</key><string>浅川マキ</string>
+			<key>Album</key><string>DARKNESS I</string>
+			<key>Genre</key><string>Jazz</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>44391028</integer>
+			<key>Total Time</key><integer>249333</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>2</integer>
+			<key>Track Number</key><integer>13</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1995</integer>
+			<key>BPM</key><integer>80</integer>
+			<key>Date Modified</key><date>2020-03-04T10:41:17Z</date>
+			<key>Date Added</key><date>2020-02-27T02:38:06Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>6B</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3666454864</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:41:04Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2020-03-02T12:09:03Z</date>
+			<key>Normalization</key><integer>1176</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>162E23112DFA6014</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/%E6%B5%85%E5%B7%9D%E3%83%9E%E3%82%AD/DARKNESS%20I/1-13%20%E3%81%82%E3%81%AE%E5%A8%98%E3%81%8B%E3%82%99%E3%81%8F%E3%82%8C%E3%81%9F%E3%83%95%E3%82%99%E3%83%AB%E3%83%BC%E3%82%B9.aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>6733</key>
+		<dict>
+			<key>Track ID</key><integer>6733</integer>
+			<key>Name</key><string>Jeux d'eau</string>
+			<key>Artist</key><string>Paul Crossley</string>
+			<key>Album</key><string>Complete Piano Music (CD1)</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>11964886</integer>
+			<key>Total Time</key><integer>367412</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>BPM</key><integer>133</integer>
+			<key>Date Modified</key><date>2020-03-04T10:07:20Z</date>
+			<key>Date Added</key><date>2020-02-27T02:38:06Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>12A</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3666453682</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:21:22Z</date>
+			<key>Normalization</key><integer>239</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>D163A0ABA91E2AF2</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Paul%20Crossley/Complete%20Piano%20Music%20(CD1)/10%20Jeux%20d'eau.mp3</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>8167</key>
+		<dict>
+			<key>Track ID</key><integer>8167</integer>
+			<key>Name</key><string>Open Letters</string>
+			<key>Artist</key><string>Dustin O'Halloran</string>
+			<key>Album Artist</key><string>Dustin O'Halloran</string>
+			<key>Composer</key><string>Dustin O'Halloran</string>
+			<key>Album</key><string>An American Affair</string>
+			<key>Genre</key><string>Soundtrack</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>4633672</integer>
+			<key>Total Time</key><integer>113005</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Year</key><integer>2009</integer>
+			<key>BPM</key><integer>83</integer>
+			<key>Date Modified</key><date>2020-03-04T09:59:15Z</date>
+			<key>Date Added</key><date>2020-02-27T02:38:06Z</date>
+			<key>Bit Rate</key><integer>320</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>1A</string>
+			<key>Play Count</key><integer>9</integer>
+			<key>Play Date</key><integer>3666454977</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:42:57Z</date>
+			<key>Normalization</key><integer>410</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>American Affair</string>
+			<key>Persistent ID</key><string>F6C84BBEAFF8978C</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Dustin%20O'Halloran/An%20American%20Affair/02%20Open%20Letters.mp3</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>9013</key>
+		<dict>
+			<key>Track ID</key><integer>9013</integer>
+			<key>Name</key><string>Opus #17</string>
+			<key>Artist</key><string>Dustin O'Halloran</string>
+			<key>Album Artist</key><string>Dustin O'Halloran</string>
+			<key>Album</key><string>Piano Solos Vol. 1</string>
+			<key>Genre</key><string>New Age</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>2942512</integer>
+			<key>Total Time</key><integer>121808</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>12</integer>
+			<key>Year</key><integer>2004</integer>
+			<key>BPM</key><integer>87</integer>
+			<key>Date Modified</key><date>2020-03-04T13:36:05Z</date>
+			<key>Date Added</key><date>2020-02-27T02:38:06Z</date>
+			<key>Bit Rate</key><integer>192</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>5A</string>
+			<key>Play Count</key><integer>7</integer>
+			<key>Play Date</key><integer>3666455243</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:47:23Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2020-03-02T11:35:46Z</date>
+			<key>Normalization</key><integer>984</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>48F754822104A57F</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Dustin%20O'Halloran/Piano%20Solos%20Vol.%201/10%20Opus%20%2317.mp3</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12077</key>
+		<dict>
+			<key>Track ID</key><integer>12077</integer>
+			<key>Name</key><string>Stolen Diary</string>
+			<key>Artist</key><string>Dustin O'Halloran</string>
+			<key>Album Artist</key><string>Dustin O'Halloran</string>
+			<key>Composer</key><string>Dustin O'Halloran</string>
+			<key>Album</key><string>An American Affair</string>
+			<key>Genre</key><string>Soundtrack</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>5897169</integer>
+			<key>Total Time</key><integer>144718</integer>
+			<key>Track Number</key><integer>12</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2009</integer>
+			<key>BPM</key><integer>113</integer>
+			<key>Date Modified</key><date>2020-03-04T09:59:20Z</date>
+			<key>Date Added</key><date>2020-02-27T02:38:06Z</date>
+			<key>Bit Rate</key><integer>320</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>2A</string>
+			<key>Play Count</key><integer>8</integer>
+			<key>Play Date</key><integer>3666455121</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:45:21Z</date>
+			<key>Normalization</key><integer>600</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>American Affair</string>
+			<key>Persistent ID</key><string>ED2F3A638FBF957F</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Dustin%20O'Halloran/An%20American%20Affair/12%20Stolen%20Diary.mp3</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12669</key>
+		<dict>
+			<key>Track ID</key><integer>12669</integer>
+			<key>Name</key><string>Plastic</string>
+			<key>Artist</key><string>Moses Sumney</string>
+			<key>Album Artist</key><string>Moses Sumney</string>
+			<key>Album</key><string>Aromanticism</string>
+			<key>Genre</key><string>Alternative</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>33361650</integer>
+			<key>Total Time</key><integer>188557</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2017</integer>
+			<key>BPM</key><integer>115</integer>
+			<key>Date Modified</key><date>2020-03-04T09:57:57Z</date>
+			<key>Date Added</key><date>2020-02-27T02:45:40Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>2B</string>
+			<key>Play Count</key><integer>5</integer>
+			<key>Play Date</key><integer>3666453315</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:15:15Z</date>
+			<key>Normalization</key><integer>1464</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>C58EEE05220231F5</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Moses%20Sumney/Aromanticism/03%20Plastic.aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12701</key>
+		<dict>
+			<key>Track ID</key><integer>12701</integer>
+			<key>Name</key><string>you were there with me</string>
+			<key>Artist</key><string>Four Tet</string>
+			<key>Album Artist</key><string>Four Tet</string>
+			<key>Composer</key><string>Kieran Hebden</string>
+			<key>Album</key><string>Everything Ecstatic</string>
+			<key>Genre</key><string>Alternative</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>62620966</integer>
+			<key>Total Time</key><integer>352520</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>2005</integer>
+			<key>BPM</key><integer>125</integer>
+			<key>Date Modified</key><date>2020-03-04T09:57:42Z</date>
+			<key>Date Added</key><date>2020-02-28T03:21:44Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>10B</string>
+			<key>Play Count</key><integer>8</integer>
+			<key>Play Date</key><integer>3666455596</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:53:16Z</date>
+			<key>Normalization</key><integer>1259</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>95FECC33F27C7C74</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Four%20Tet/Everything%20Ecstatic/10%20you%20were%20there%20with%20me.aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12703</key>
+		<dict>
+			<key>Track ID</key><integer>12703</integer>
+			<key>Name</key><string>Nowhere Near (Demo)</string>
+			<key>Artist</key><string>Yo La Tengo</string>
+			<key>Album</key><string>Extra Painful</string>
+			<key>Genre</key><string>Indie</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>76644900</integer>
+			<key>Total Time</key><integer>434493</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2020-02-28T04:15:43Z</date>
+			<key>Date Added</key><date>2020-02-28T04:15:56Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>6</integer>
+			<key>Play Date</key><integer>3666454614</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:36:54Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2020-03-02T12:11:29Z</date>
+			<key>Normalization</key><integer>1202</integer>
+			<key>Persistent ID</key><string>1ECD19FE4E45C0BE</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Yo%20La%20Tengo/Extra%20Painful/01%20Nowhere%20Near%20(Demo).aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12753</key>
+		<dict>
+			<key>Track ID</key><integer>12753</integer>
+			<key>Name</key><string>Walk Tall</string>
+			<key>Artist</key><string>Hiroshi Suzuki</string>
+			<key>Album Artist</key><string>Hiroshi Suzuki</string>
+			<key>Album</key><string>Cat</string>
+			<key>Genre</key><string>Jazz</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>108449052</integer>
+			<key>Total Time</key><integer>614373</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>5</integer>
+			<key>Year</key><integer>1975</integer>
+			<key>BPM</key><integer>98</integer>
+			<key>Date Modified</key><date>2020-03-04T09:57:59Z</date>
+			<key>Date Added</key><date>2020-02-29T14:00:06Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>9A</string>
+			<key>Play Count</key><integer>10</integer>
+			<key>Play Date</key><integer>3666452904</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:08:24Z</date>
+			<key>Normalization</key><integer>1726</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>1C5D1692F005C52E</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Hiroshi%20Suzuki/Cat/03%20Walk%20Tall.aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12803</key>
+		<dict>
+			<key>Track ID</key><integer>12803</integer>
+			<key>Name</key><string>Slim Bertha</string>
+			<key>Artist</key><string>Pierre-Alain Dahan, Slim Pezin</string>
+			<key>Album Artist</key><string>Pierre-Alain Dahan / Slim Pezin</string>
+			<key>Composer</key><string>Pierre-Alain Dahan, Slim Pezin</string>
+			<key>Album</key><string>Neo Rythmiques</string>
+			<key>Genre</key><string>Library Music</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>52596012</integer>
+			<key>Total Time</key><integer>297678</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Year</key><integer>1976</integer>
+			<key>BPM</key><integer>131</integer>
+			<key>Date Modified</key><date>2020-03-04T09:56:05Z</date>
+			<key>Date Added</key><date>2020-02-29T22:26:12Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>10A</string>
+			<key>Play Count</key><integer>5</integer>
+			<key>Play Date</key><integer>3666453980</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:26:20Z</date>
+			<key>Normalization</key><integer>1923</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>EC6C196069301BCE</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Pierre-Alain%20Dahan%20_%20Slim%20Pezin/Neo%20Rythmiques/05%20Slim%20Bertha.aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12875</key>
+		<dict>
+			<key>Track ID</key><integer>12875</integer>
+			<key>Name</key><string>Foreplay</string>
+			<key>Artist</key><string>Jalen Santoyern</string>
+			<key>Album</key><string>Foreplay</string>
+			<key>Genre</key><string>Hip-Hop/Rap</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>9157620</integer>
+			<key>Total Time</key><integer>222589</integer>
+			<key>Year</key><integer>2016</integer>
+			<key>BPM</key><integer>119</integer>
+			<key>Date Modified</key><date>2020-03-04T09:56:00Z</date>
+			<key>Date Added</key><date>2020-03-01T13:07:44Z</date>
+			<key>Bit Rate</key><integer>320</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>4A</string>
+			<key>Play Count</key><integer>6</integer>
+			<key>Play Date</key><integer>3666453126</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:12:06Z</date>
+			<key>Normalization</key><integer>2646</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>4D84DCDFEA16D1CE</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Jalen%20Santoyern/Foreplay/Foreplay.mp3</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12883</key>
+		<dict>
+			<key>Track ID</key><integer>12883</integer>
+			<key>Name</key><string>Moon River (Vocal By Audrey Hepburn)</string>
+			<key>Artist</key><string>Henry Mancini</string>
+			<key>Album Artist</key><string>Henry Mancini</string>
+			<key>Album</key><string>Breakfast At Tiffany's</string>
+			<key>Genre</key><string>Soundtrack</string>
+			<key>Kind</key><string>AIFF audio file</string>
+			<key>Size</key><integer>22474504</integer>
+			<key>Total Time</key><integer>125866</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Year</key><integer>1961</integer>
+			<key>BPM</key><integer>117</integer>
+			<key>Date Modified</key><date>2020-03-04T09:55:51Z</date>
+			<key>Date Added</key><date>2020-03-01T13:19:35Z</date>
+			<key>Bit Rate</key><integer>1411</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>7B</string>
+			<key>Play Count</key><integer>8</integer>
+			<key>Play Date</key><integer>3666455721</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:55:21Z</date>
+			<key>Normalization</key><integer>1173</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>4E750942236ABCE6</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Henry%20Mancini/Breakfast%20At%20Tiffany's/11%20Moon%20River%20(Vocal%20By%20Audrey%20Hepburn).aiff</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>12979</key>
+		<dict>
+			<key>Track ID</key><integer>12979</integer>
+			<key>Name</key><string>Love Ya</string>
+			<key>Artist</key><string>Sonya Spence</string>
+			<key>Album</key><string>The Aggrovators Present Sonya Spence</string>
+			<key>Genre</key><string>Reggae</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>4877039</integer>
+			<key>Total Time</key><integer>200202</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Year</key><integer>2017</integer>
+			<key>BPM</key><integer>151</integer>
+			<key>Date Modified</key><date>2020-03-04T09:54:29Z</date>
+			<key>Date Added</key><date>2020-03-02T10:51:20Z</date>
+			<key>Bit Rate</key><integer>192</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>8B</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3666454180</integer>
+			<key>Play Date UTC</key><date>2020-03-07T08:29:40Z</date>
+			<key>Normalization</key><integer>2921</integer>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Aggrovators Present Sonya Spence</string>
+			<key>Persistent ID</key><string>560C7CF2A814B8ED</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file:///Volumes/Samsung_T5/Music%20Library/Media/Sonya%20Spence/The%20Aggrovators%20Present%20Sonya%20Spence/02%20Love%20Ya.mp3</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>Week 1</string>
+			<key>Description</key><string></string>
+			<key>Playlist ID</key><integer>32423</integer>
+			<key>Playlist Persistent ID</key><string>F722E9700BA914CF</string>
+			<key>Parent Persistent ID</key><string>D838A3251A537A09</string>
+			<key>All Items</key><true/>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>8167</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12701</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12703</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12753</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12803</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12669</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12883</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12875</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>6733</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>9013</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12979</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12077</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>2185</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,39 @@
+{
+  "name": "playlist-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-datasource": "^0.7.0",
+    "apollo-server-express": "^2.11.0",
+    "express": "^4.17.1",
+    "graphql-tools": "^4.0.7",
+    "knex": "^0.20.11",
+    "node-expat": "^2.3.18",
+    "pg": "^7.18.2",
+    "qs-middleware": "^1.0.3",
+    "xml2json": "^0.12.0"
+  },
+  "devDependencies": {
+    "@types/node-expat": "^2.3.0",
+    "@types/xml2json": "^0.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "add": "^2.0.6",
+    "eslint": "^6.8.0",
+    "graphql-import-node": "0.0.4",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3",
+    "yarn": "^1.22.4"
+  }
+}

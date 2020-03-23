@@ -1,0 +1,100 @@
+type User {
+    id: ID
+    name: String
+    role: String
+    playlists(id: ID, pagesize: Int, after: String): [Playlist]
+}
+
+type Playlist {
+    id: ID
+    title: String
+    description: String
+    owner: User
+    tracks: [Track]
+}
+
+type Track {
+    id: ID
+    title: String
+    artist: String
+    album: String
+    genre: String
+    year: Int
+    files: [Files]
+    links: [Links]
+}
+
+type Files {
+    id: ID
+    filename: String
+}
+
+type Links {
+    id: ID
+    uri: String
+    type: String
+}
+
+type Query {
+    playlist(playlist: ID): Playlist
+    playlists(id: ID, pageSize: Int, after: String): [Playlist]
+    user(id: ID): User
+    users(pageSize: Int, after: String): [User]
+    track(id: ID): Track
+    tracks(playlist: ID): [Track]
+}
+
+input TrackInput {
+    title: String!
+    artist: String!
+    album: String!
+    genre: String,
+    year: Int,
+}
+
+input PlaylistInput {
+    title: String!
+    description: String
+    tracks: [TrackInput]
+    owner: ID
+}
+
+input UserInput {
+    name: String
+    role: Int
+}
+
+type PlainMutationResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+}
+
+type PlaylistMutationResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    playlist: Playlist
+}
+
+type TrackMutationResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    track: Track
+}
+
+type UserMutationResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    user: User
+}
+
+type Mutation {
+    createPlaylist(data: PlaylistInput): PlaylistMutationResponse
+    deletePlaylist(id: ID): PlainMutationResponse
+    createTrack(id: ID, data: TrackInput): TrackMutationResponse
+    deleteTrack(id: ID): PlainMutationResponse
+    createUser(data: UserInput): UserMutationResponse
+}
