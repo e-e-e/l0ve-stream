@@ -69,7 +69,6 @@ const resolverMap: IResolvers = {
         title: args.data.title,
         description: args.data.description,
         owner_id: args.data.owner,
-        // tracks: args.data.tracks,
       };
       const playlist = await context.dataSources.playlists.createPlaylist(playlistData);
       const tracks: TrackWithId[] = [];
@@ -93,15 +92,18 @@ const resolverMap: IResolvers = {
         }
       };
     }),
-    deletePlaylist: (parent, args, context) => {
-      return context.dataSources.playlists.deletePlaylist(args.id);
-    },
-    createTrack: (parent, args, context) => {
-      return context.dataSources.playlists.createTrack(args.data);
-    },
-    deleteTrack: (parent, args, context) => {
-      return context.dataSources.playlists.deleteTrack(args.id);
-    },
+    deletePlaylist: handleMutationError(async (parent, args, context) => {
+      await context.dataSources.playlists.deletePlaylist(args.id);
+      return {};
+    }),
+    createTrack: handleMutationError(async (parent, args, context) => {
+      const track = context.dataSources.playlists.createTrack(args.data);
+      return { track };
+    }),
+    deleteTrack: handleMutationError(async (parent, args, context) => {
+      await context.dataSources.playlists.deleteTrack(args.id);
+      return {};
+    }),
     createUser: handleMutationError(async (parent, args, context) => {
       const user = await context.dataSources.users.createUser(args.data);
       return {user};
