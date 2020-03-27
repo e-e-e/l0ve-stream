@@ -2,13 +2,9 @@ import * as Knex from "knex";
 
 
 export async function up(knex: Knex): Promise<any> {
-  try {
-    await knex.schema.raw('CREATE EXTENSION "pgcrypto";')
-  } catch (e) { }
-  try {
-    await knex.schema.raw('CREATE EXTENSION "uuid-ossp";')
-  } catch (e) { }
   return knex.schema
+    .raw('CREATE EXTENSION IF NOT EXISTS "pgcrypto";')
+    .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";')
     .createTable('users', function (table) {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
       table.string('name', 255).notNullable().unique();

@@ -12,9 +12,9 @@ module.exports = {
   },
   production: {
     client: "pg",
-    connection: {
+    connection: process.env.DATABASE_URL ? {
       ssl: true,
       ...parse(process.env.DATABASE_URL)
-    }
+    } : false
   }
 };
