@@ -1,7 +1,7 @@
 import * as typeDefs from './schema/schema.graphql';
 import {IResolvers} from 'graphql-tools';
 import {UsersDataSource} from "./datasources/users";
-import * as Knex from "knex";
+import Knex from "knex";
 import {PlaylistsDataSource} from "./datasources/playlists";
 import {Track, TracksDataSource, TrackWithId} from "./datasources/tracks";
 
@@ -33,25 +33,25 @@ function success<T extends Record<string, I>, I>(data: T): T & MutationResponse 
 
 const resolverMap: IResolvers = {
   Query: {
-    user: (parent, args, context) => {
-      return context.dataSources.users.getUser(args.id);
+    user: async (parent, args, context) => {
+      const data = await context.dataSources.users.getUser(args.id);
+      return data;
     },
     users: (parent, args, context) => {
       return context.dataSources.users.getUsers(args.pageSize, args.after);
     },
-    playlists: (parent, args, context) => {
-      return context.dataSources.playlists.getPlaylists(args.pageSize, args.after)
+    playlists: async (parent, args, context) => {
+       return context.dataSources.playlists.getPlaylists(args.pageSize, args.after);
     }
   },
   User: {
     playlists: (parent, args, context) => {
-      console.log(parent);
-      // return context.dataSources.playlists.getPlaylists(args.pageSize, args.after)
+      return context.dataSources.playlists.getPlaylists(args.pageSize, args.after)
     }
   },
   Playlist: {
-    tracks: () => {
-
+    tracks: (parent, args, context) => {
+      return context.dataSources.playlists.getTracks(parent.id);
     }
   },
   Track: {
@@ -70,20 +70,21 @@ const resolverMap: IResolvers = {
         description: args.data.description,
         owner_id: args.data.owner,
       };
-      const playlist = await context.dataSources.playlists.createPlaylist(playlistData);
+      const playlist = (await context.dataSources.playlists.createPlaylist(playlistData))[0];
       const tracks: TrackWithId[] = [];
-      for (let i = 0; i < args.data.tracks.length; i++) {
-        const trackInput = args.data.tracks[i];
-        const trackData = {
-          title: trackInput.title,
-          artist: trackInput.artist,
-          album: trackInput.album,
-          genre: trackInput.genre,
-          year: trackInput.year
-        };
-        const track = await context.dataSources.tracks.addTrack(trackData);
-        await context.dataSources.playlists.addTrack(playlist.id, track.id, i);
-        tracks.push(track)
+      if (args.data.tracks) {
+        for (let i = 0; i < args.data.tracks.length; i++) {
+          const trackInput = args.data.tracks[i];
+          const trackData = {
+            title: trackInput.title,
+            artist: trackInput.artist,
+            album: trackInput.album,
+            genre: trackInput.genre,
+            year: trackInput.year
+          };
+          const track = await context.dataSources.playlists.addTrack(playlist.id, trackData, i);
+          tracks.push(track)
+        }
       }
       return {
         playlist: {
@@ -105,7 +106,7 @@ const resolverMap: IResolvers = {
       return {};
     }),
     createUser: handleMutationError(async (parent, args, context) => {
-      const user = await context.dataSources.users.createUser(args.data);
+      const user = (await context.dataSources.users.createUser(args.data))[0];
       return {user};
     })
   }

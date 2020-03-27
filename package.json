@@ -1,0 +1,30 @@
+{
+  "name": "playlists",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A place for the creating, sharing and listening to playlists of music.",
+  "main": "index.js",
+  "engines": {
+    "yarn": "1",
+    "node": "12"
+  },
+  "scripts": {
+    "postinstall": "cd server && yarn && yarn build && cd ../client && yarn && yarn build",
+    "start": "node server/build/index.js",
+    "dev": "concurrently -n watch-node,watch-react \"cd server && yarn watch\" \"cd client && yarn start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/e-e-e/l0ve-stream.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/e-e-e/l0ve-stream/issues"
+  },
+  "homepage": "https://github.com/e-e-e/l0ve-stream#readme",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  }
+}

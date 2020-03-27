@@ -1,5 +1,5 @@
 import {DataSource, DataSourceConfig} from 'apollo-datasource';
-import * as Knex from 'knex';
+import Knex from 'knex';
 
 
 export type Playlist = {
@@ -9,6 +9,16 @@ export type Playlist = {
 }
 
 export type PlaylistWithId = Playlist & { id: string }
+
+export type Track = {
+  title: string,
+  artist: string
+  album: string
+  genre?: string
+  year?: number
+}
+
+export type TrackWithId = Track & { id: string }
 
 export class PlaylistsDataSource extends DataSource {
 
@@ -32,6 +42,23 @@ export class PlaylistsDataSource extends DataSource {
       .limit(pageSize || 20)
   }
 
+  async getTracks(id: string): Promise<TrackWithId[]> {
+    return this.database
+      .select('*')
+      .from('playlists_tracks')
+      .where({playlist_id: id})
+      .join('tracks', 'tracks.id', '=', 'playlists_tracks.track_id')
+  }
+
+  async addTrack(id: string, track: Track, order: number): Promise<TrackWithId> {
+    const trackWithId = (await this.database
+      .insert(track)
+      .into('tracks')
+      .returning('*'))[0];
+    await this.database.insert({ track_id: trackWithId.id, playlist_id: id, order }).into('playlists_tracks');
+    return trackWithId[0]
+  }
+
   async createPlaylist(playlist: Playlist): Promise<PlaylistWithId> {
     return this.database
       .insert(playlist)
@@ -45,15 +72,5 @@ export class PlaylistsDataSource extends DataSource {
       .delete()
       .from('playlist')
       .where({ id: playlist });
-  }
-
-  async addTrack(playlist: string, track: string, index: number) {
-    return this.database
-      .insert({
-        playlist_id: playlist,
-        track_id: track,
-        order: index,
-      })
-      .into('playlists_tracks')
   }
 }

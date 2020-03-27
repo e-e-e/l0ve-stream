@@ -65,27 +65,23 @@ input UserInput {
 }
 
 type PlainMutationResponse {
-    code: Int!
     success: Boolean!
     message: String!
 }
 
 type PlaylistMutationResponse {
-    code: Int!
     success: Boolean!
     message: String!
     playlist: Playlist
 }
 
 type TrackMutationResponse {
-    code: Int!
     success: Boolean!
     message: String!
     track: Track
 }
 
 type UserMutationResponse {
-    code: Int!
     success: Boolean!
     message: String!
     user: User

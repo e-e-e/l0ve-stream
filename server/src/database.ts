@@ -1,5 +1,4 @@
-import * as knex from 'knex';
-// import { default as connections } from '../knexfile';
+import knex from 'knex';
 
 const connections: Record<'development' | 'production', Object> = {
   development: {
@@ -13,6 +12,9 @@ const connections: Record<'development' | 'production', Object> = {
   production: {},
 };
 
-export function createDatabase(env: 'development' | 'production') {
-  return knex(connections[env]);
+export function createDatabase(config: { database: string, user: string, password: string}) {
+  return knex({
+    client: "pg",
+    connection: config
+  });
 }

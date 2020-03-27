@@ -15,8 +15,11 @@
   "dependencies": {
     "apollo-datasource": "^0.7.0",
     "apollo-server-express": "^2.11.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
     "graphql-tools": "^4.0.7",
+    "helmet": "^3.22.0",
     "knex": "^0.20.11",
     "node-expat": "^2.3.18",
     "pg": "^7.18.2",
@@ -24,6 +27,7 @@
     "xml2json": "^0.12.0"
   },
   "devDependencies": {
+    "@types/helmet": "^0.0.45",
     "@types/node-expat": "^2.3.0",
     "@types/xml2json": "^0.11.0",
     "@typescript-eslint/eslint-plugin": "^2.22.0",
