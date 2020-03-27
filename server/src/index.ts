@@ -26,7 +26,8 @@ const server = new ApolloServer({...createApolloServerContext(database), playgro
 
 if (process.env.ENV === 'production') {
   app.use(basicAuth({
-    users: { 'admin': 'supersecret' }
+    users: { 'admin': 'supersecret' },
+    challenge: true
   }))
 }
 
