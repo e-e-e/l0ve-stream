@@ -21,7 +21,7 @@ const database = createDatabase(process.env.DATABASE_URL || {
   user: process.env.DB_USER!,
   password: process.env.DB_PASSWORD!
 });
-const server = new ApolloServer({...createApolloServerContext(database), playground: {settings: {'editor.theme': 'light'}}});
+const server = new ApolloServer({...createApolloServerContext(database), playground: true, introspection: true });
 
 //
 // if (process.env.NODE_ENV === 'production') {
