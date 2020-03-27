@@ -23,13 +23,13 @@ const database = createDatabase(process.env.DATABASE_URL || {
 });
 const server = new ApolloServer({...createApolloServerContext(database), playground: {settings: {'editor.theme': 'light'}}});
 
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(basicAuth({
-    users: { 'admin': 'supersecret' },
-    challenge: true
-  }))
-}
+//
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(basicAuth({
+//     users: { 'admin': 'supersecret' },
+//     challenge: true
+//   }))
+// }
 
 app.use(helmet());
 
