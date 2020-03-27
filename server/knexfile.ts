@@ -1,4 +1,5 @@
 // Update with your config settings.
+const { parse } = require('pg-connection-string');
 
 module.exports = {
   development: {
@@ -11,6 +12,9 @@ module.exports = {
   },
   production: {
     client: "pg",
-    connection: process.env.DATABASE_URL
+    connection: {
+      ssl: true,
+      ...parse(process.env.DATABASE_URL)
+    }
   }
 };
