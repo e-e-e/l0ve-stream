@@ -9,4 +9,8 @@ module.exports = {
       password: "love"
     }
   },
+  production: {
+    client: "pg",
+    connection: process.env.DATABASE_URL
+  }
 };

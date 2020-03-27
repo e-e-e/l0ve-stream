@@ -16,7 +16,7 @@ config({ path: path.resolve(__dirname, '../.env') });
 const PORT = process.env.PORT;
 const app = express();
 
-const database = createDatabase({
+const database = createDatabase(process.env.DATABASE_URL || {
   database: process.env.DB_DATABASE!,
   user: process.env.DB_USER!,
   password: process.env.DB_PASSWORD!
@@ -24,7 +24,7 @@ const database = createDatabase({
 const server = new ApolloServer({...createApolloServerContext(database), playground: {settings: {'editor.theme': 'light'}}});
 
 
-if (process.env.ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(basicAuth({
     users: { 'admin': 'supersecret' },
     challenge: true
