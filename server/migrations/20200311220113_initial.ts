@@ -3,10 +3,10 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<any> {
   try {
-    await knex.schema.raw('CREATE EXTENSION pgcrypto;')
+    await knex.schema.raw('CREATE EXTENSION "pgcrypto";')
   } catch (e) { }
   try {
-    await knex.schema.raw('CREATE EXTENSION uuid-ossp;')
+    await knex.schema.raw('CREATE EXTENSION "uuid-ossp";')
   } catch (e) { }
   return knex.schema
     .createTable('users', function (table) {
