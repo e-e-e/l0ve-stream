@@ -9,7 +9,7 @@
     "node": "12"
   },
   "scripts": {
-    "postinstall": "cd server && yarn && yarn build && yarn migrate:rollback && yarn migrate:latest && cd ../client && yarn && yarn build",
+    "postinstall": "cd server && yarn && yarn build && yarn migrate:rollback && yarn migrate:latest && yarn seed && cd ../client && yarn && yarn build",
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server/build/index.js",
     "dev": "concurrently -n watch-node,watch-react \"cd server && yarn watch\" \"cd client && yarn start\"",
     "test": "echo \"Error: no test specified\" && exit 1"

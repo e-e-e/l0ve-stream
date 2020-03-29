@@ -14,6 +14,18 @@ import {installWebsockets} from "./websocket_server";
 
 config({ path: path.resolve(__dirname, '../.env') });
 
+function getBasicAuthUsers(usersData:string) {
+  if(!usersData || usersData.indexOf(':') === -1) {
+    throw Error('Failed to generate users from env');
+  }
+  const users: string[] = usersData.split(',');
+  return users.reduce<Record<string, string>>((prev, user) => {
+    const [name, password] = user.split(':');
+    prev[name] = password;
+    return prev;
+  }, {})
+}
+
 const PORT = process.env.PORT;
 const app = express();
 
@@ -27,7 +39,7 @@ const server = new ApolloServer({...createApolloServerContext(database), playgro
 
 if (process.env.NODE_ENV === 'production') {
   app.use(basicAuth({
-    users: { 'admin': 'supersecret' },
+    users: getBasicAuthUsers(process.env.BASIC_USERS || 'admin:supersecret'),
     challenge: true
   }))
 }
