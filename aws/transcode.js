@@ -24,7 +24,7 @@ exports.handler = function (event, context) {
     return;
   }
   var srcKey = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " ")); //the object may have spaces
-  var newKey = removeExtension(key);
+  var newKey = removeExtension(srcKey);
   var params = {
     PipelineId: process.env.PIPELINE_ID,
     Input: {
