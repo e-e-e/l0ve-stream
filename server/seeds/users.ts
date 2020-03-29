@@ -1,7 +1,8 @@
 import * as Knex from "knex";
 import { config } from "dotenv"
+import path from "path"
 
-config({ path: '../.env' });
+config({ path: path.resolve(__dirname, '../.env' ) });
 
 export async function seed(knex: Knex): Promise<any> {
     // Deletes ALL existing entries

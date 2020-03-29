@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/e-e-e/l0ve-stream#readme",
   "devDependencies": {
+    "apollo": "^2.25.0",
     "concurrently": "^5.1.0"
   }
 }

@@ -36,6 +36,7 @@ type Links {
 }
 
 type Query {
+    whoami: User,
     playlist(playlist: ID): Playlist
     playlists(id: ID, pageSize: Int, after: String): [Playlist]
     user(id: ID): User

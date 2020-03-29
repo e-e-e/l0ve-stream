@@ -1,42 +1,42 @@
 import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
-import './App.css';
 import img1 from './1.jpeg';
 import img2 from './2.jpeg';
-
+import {useQuery} from "@apollo/react-hooks";
+import {gql} from "apollo-boost";
+import Playlists from "./containers/playlists";
+import Page from "./components/page/page";
+import CreatePlaylist from "./containers/create_playlist";
 
 function App() {
-  const [flip, setFlip ] = useState(true);
-  useEffect(() => {
-    let timer = requestAnimationFrame(loop);
-    let previousTime: number;
-    function loop(t: number) {
-      if (!previousTime) previousTime = t;
-      const diff = t - previousTime
-      if (diff > 200 ) {
-        setFlip(f => !f);
-        previousTime = t;
-      }
-      timer = requestAnimationFrame(loop);
+  const {
+    data,
+    loading,
+    error
+  } = useQuery(gql`
+    query {
+        whoami {
+            id
+            name
+            role
+        }
     }
-    return () => {
-      cancelAnimationFrame(timer);
-    }
-  })
+  `);
   return (
-    <div className="App">
-      <header><h1>❤ l0ve.stream ❤</h1></header>
+    <Page>
       <main>
-        <p>hello my love, this is a place holder</p>
+        <p>hello my love, this is a construction zone</p>
+        {loading && <p>loading</p>}
+        {error && <p>{error?.message}</p>}
+        <div>{data?.whoami.name} {data?.whoami.id} {data?.whoami.role}</div>
+        <Playlists/>
+        {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id}/>}
         <div>
-          <img src={flip ? img1 : img2 }/>
+          <img style={{width: '100%'}} src={img1 }/>
         </div>
-        <p>it's working though</p>
-        <p>we now have a website</p>
-        <p>which is deployed automatically</p>
-        <p>( ( ( ❤ ) ) )️</p>
+        <p> ( ( ( ❤ ) ) ) ️</p>
       </main>
-    </div>
+    </Page>
   );
 }
 

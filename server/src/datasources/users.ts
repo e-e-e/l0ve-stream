@@ -12,6 +12,15 @@ export class UsersDataSource extends DataSource {
   constructor(private readonly database: Knex) {
     super();
   }
+
+  async getUserByName(name: string): Promise<UserWithId> {
+    return this.database
+      .select('*')
+      .from('users')
+      .where({ name })
+      .first();
+  }
+
   async getUser(id: string): Promise<UserWithId> {
     console.log(id);
     return this.database

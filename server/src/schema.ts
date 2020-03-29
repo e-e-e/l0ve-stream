@@ -4,6 +4,7 @@ import {UsersDataSource} from "./datasources/users";
 import Knex from "knex";
 import {PlaylistsDataSource} from "./datasources/playlists";
 import {Track, TracksDataSource, TrackWithId} from "./datasources/tracks";
+import {IBasicAuthedRequest} from "express-basic-auth";
 
 type MutationResponse = {
   success: boolean,
@@ -33,6 +34,9 @@ function success<T extends Record<string, I>, I>(data: T): T & MutationResponse 
 
 const resolverMap: IResolvers = {
   Query: {
+    whoami: async (parent, args, context) => {
+      return context.dataSources.users.getUserByName(context.user);
+    },
     user: async (parent, args, context) => {
       const data = await context.dataSources.users.getUser(args.id);
       return data;
@@ -51,7 +55,12 @@ const resolverMap: IResolvers = {
   },
   Playlist: {
     tracks: (parent, args, context) => {
+      // console.log('ppp', parent);
       return context.dataSources.playlists.getTracks(parent.id);
+    },
+    owner: (parent, args, context) => {
+      console.log('ppp', parent);
+      return context.dataSources.users.getUser(parent.owner_id);
     }
   },
   Track: {
@@ -112,10 +121,16 @@ const resolverMap: IResolvers = {
   }
 };
 
-export function createApolloServerContext(db: Knex) {
+export function createApolloServerConfig(db: Knex) {
   return {
     typeDefs,
     resolvers: resolverMap,
+    context: (data: { req: IBasicAuthedRequest }) => {
+      console.log(data);
+      return {
+        user: data.req.auth.user
+      }
+    },
     dataSources: () => {
       return {
         users: new UsersDataSource(db),
