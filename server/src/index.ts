@@ -10,6 +10,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { config } from "dotenv"
 import basicAuth from 'express-basic-auth'
 import helmet from 'helmet'
+import {installWebsockets} from "./websocket_server";
 
 config({ path: path.resolve(__dirname, '../.env') });
 
@@ -21,8 +22,8 @@ const database = createDatabase(process.env.DATABASE_URL || {
   user: process.env.DB_USER!,
   password: process.env.DB_PASSWORD!
 });
-const server = new ApolloServer({...createApolloServerContext(database), playground: true, introspection: true });
 
+const server = new ApolloServer({...createApolloServerContext(database), playground: true, introspection: true });
 
 if (process.env.NODE_ENV === 'production') {
   app.use(basicAuth({
@@ -40,3 +41,5 @@ app.use(express.static(path.resolve(__dirname, '../../client/build')));
 app.listen({port: PORT}, () => {
   console.log(`listening on port ${PORT}`);
 });
+
+installWebsockets({port: 8000});

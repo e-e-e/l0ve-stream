@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 // import * as serviceWorker from './serviceWorker';
+import { installWebsocketClient } from './websocket_client'
+
+installWebsocketClient({ url: 'ws://localhost:8000' });
 
 ReactDOM.render(
   <React.StrictMode>
