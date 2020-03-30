@@ -9,7 +9,7 @@ type Track = {
 }
 
 type Playlist = {
-  name: string,
+  title: string,
   description: string,
   tracks: Track[],
 }
@@ -36,7 +36,7 @@ function toValue(type: string, value: string | XMLDictMap | XMLArray): XMLValue 
   }
 }
 
-async function decode(xml: string): Promise<Playlist> {
+async function decode(xml: Buffer): Promise<Playlist> {
   return new Promise((resolve, reject) => {
     const parser = new Parser('utf-8');
     let root: XMLDictMap = new Map();
@@ -48,7 +48,7 @@ async function decode(xml: string): Promise<Playlist> {
     let dictStack: XMLDictMap[] = [];
 
     parser.on('startElement', function (name: string, attrs: any) {
-      console.log('start', name)
+      // console.log('start', name)
       switch (name) {
         case 'array':
           arrayStack.push([]);
@@ -115,7 +115,7 @@ async function decode(xml: string): Promise<Playlist> {
         }
         const array = arrayStack[arrayStack.length - 1];
         array.push(value ? toValue(name, value) : undefined);
-        console.log(array);
+        // console.log(array);
       }
       if (parent === 'plist') {
         const dict = dictStack.pop();
@@ -146,8 +146,8 @@ function decodeXmlTrackToPlaylistTrack(data: XMLDictMap): Track {
   const album = data.get('Album');
   expect(typeof album === "string", 'album to be string');
   const year = data.get('Year');
-  console.log(year);
-  console.log(data);
+  // console.log(year);
+  // console.log(data);
   expect(year === undefined || typeof year === "number", 'year to be number or undefined');
   const genre = data.get('Genre');
   expect(genre === undefined || typeof genre === "string", 'genre to be string or undefined');
@@ -182,7 +182,7 @@ function decodeXmlToPlaylist(data: XMLDictMap): Playlist {
     return decodeXmlTrackToPlaylistTrack(track);
   });
   return {
-    name,
+    title: name,
     description,
     tracks: items,
   }

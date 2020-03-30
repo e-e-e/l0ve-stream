@@ -8,6 +8,14 @@ const FETCH_PLAYLISTS = gql`
             id
             title
             description
+            tracks {
+                id
+                title
+                album
+                artist
+                year
+                genre
+            }
             owner {
                 id
                 name
@@ -17,7 +25,32 @@ const FETCH_PLAYLISTS = gql`
 `
 
 const List = ({children} : {children: React.ReactNode[]}) => (<ul>{children}</ul>);
-const PlaylistItem = ({ data }: { data: any}) => (<li>{JSON.stringify(data)}</li>);
+
+const Track = ({
+  index,
+  title,
+  artist,
+  album,
+  year,
+ } : { index: number, title: string, artist: string, album: string, year?: number }) => {
+  return <li>
+    {title}, {artist}, {album}
+  </li>
+};
+
+const PlaylistItem = ({ data }: { data: any}) => {
+  return (
+    <li>
+      <h2>{data.title}</h2>
+      <p>{data.description}</p>
+      <ol>
+        {data.tracks?.map((track: any, i: number) => {
+          return <Track index={i} title={track.title} artist={track.artist} album={track.album} />;
+        })}
+      </ol>
+    </li>
+  );
+};
 
 function Playlists() {
   const {
@@ -30,10 +63,9 @@ function Playlists() {
     <section>
       <h2>Playlists</h2>
       {loading && <div>loading</div>}
-      {error && <div>{error}</div>}
+      {error && <div>{error?.message}</div>}
       <List>
       {data && data.playlists && data.playlists.map((v: any) => {
-        console.log(v);
          return <PlaylistItem data={v}/>
       })}
       </List>

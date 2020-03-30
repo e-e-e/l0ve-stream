@@ -59,7 +59,7 @@ const resolverMap: IResolvers = {
       return context.dataSources.playlists.getTracks(parent.id);
     },
     owner: (parent, args, context) => {
-      console.log('ppp', parent);
+      // console.log('ppp', parent);
       return context.dataSources.users.getUser(parent.owner_id);
     }
   },
@@ -74,10 +74,12 @@ const resolverMap: IResolvers = {
   Mutation: {
     createPlaylist: handleMutationError(async (parent, args, context) => {
       // map to datasource
+      const user = await context.dataSources.users.getUserByName(context.user);
+      console.log(args);
       const playlistData = {
         title: args.data.title,
         description: args.data.description,
-        owner_id: args.data.owner,
+        owner_id: user.id,
       };
       const playlist = (await context.dataSources.playlists.createPlaylist(playlistData))[0];
       const tracks: TrackWithId[] = [];
@@ -126,7 +128,7 @@ export function createApolloServerConfig(db: Knex) {
     typeDefs,
     resolvers: resolverMap,
     context: (data: { req: IBasicAuthedRequest }) => {
-      console.log(data);
+      // console.log(data);
       return {
         user: data.req.auth.user
       }

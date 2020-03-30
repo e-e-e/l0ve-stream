@@ -8,7 +8,9 @@ type PageProps = {
 
 function Page({ children }: PageProps) {
   return (
-    <div className={styles.page}>
+    <div
+      className={styles.page}
+    >
       <Header/>
       {children}
     </div>

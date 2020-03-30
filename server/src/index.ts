@@ -11,7 +11,8 @@ import { config } from "dotenv"
 import basicAuth from 'express-basic-auth'
 import helmet from 'helmet'
 import {installWebsockets} from "./websocket_server";
-import cors from 'cors';
+// import cors from 'cors';
+import fileUpload, {FileArray} from "express-fileupload";
 
 config({ path: path.resolve(__dirname, '../.env') });
 
@@ -50,6 +51,21 @@ app.use(helmet());
 server.applyMiddleware({app});
 
 app.use(express.static(path.resolve(__dirname, '../../client/build')));
+// default options
+app.use(fileUpload());
+
+app.post('/convert/itunes', async (req, res) => {
+  const { files } = req;
+  if (!files) return res.sendStatus(400);
+  if (Array.isArray(files.file)) return res.sendStatus(400);
+  try {
+    const playlist = await itunesPlaylist.decode(files?.file.data);
+    return res.json(playlist)
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+})
 
 app.listen({port: PORT}, () => {
   console.log(`listening on port ${PORT}`);

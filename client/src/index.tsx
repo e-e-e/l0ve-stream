@@ -6,7 +6,7 @@ import App from './App';
 import { installWebsocketClient } from './websocket_client'
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
-
+import { install as installDnD } from './drag_and_drop/install';
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URI  || 'http://localhost:3000/graphql',
   credentials: "include",
@@ -16,6 +16,8 @@ const client = new ApolloClient({
 });
 
 installWebsocketClient({ url: 'ws://localhost:8000' });
+installDnD({ url: '/convert/itunes', apolloClient: client });
+
 
 ReactDOM.render(
   <React.StrictMode>

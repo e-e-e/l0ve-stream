@@ -6,14 +6,12 @@ const CREATE_PLAYLIST = gql`
   mutation createPlaylist(
       $title: String!, 
       $description: String!, 
-      $owner: ID!, 
       $tracks: [TrackInput],
   ) {
       createPlaylist(data: {
           title: $title
           description: $description
           tracks: $tracks
-          owner: $owner
       }) {
           message
           success
@@ -35,7 +33,6 @@ function CreatePlaylist({ userId }: { userId: string }) {
     const data = {
       title: formdata.get('title'),
       description: formdata.get('description'),
-      owner: userId
     };
     create({ variables: data });
   }, []);

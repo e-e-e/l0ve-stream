@@ -3,3 +3,4 @@ build/
 .idea/
 server/.env
 *.log
+.DS_Store
