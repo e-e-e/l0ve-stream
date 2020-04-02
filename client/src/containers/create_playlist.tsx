@@ -1,6 +1,7 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { Input } from "../components/input/input";
 
 const CREATE_PLAYLIST = gql`
   mutation createPlaylist(
@@ -20,7 +21,7 @@ const CREATE_PLAYLIST = gql`
   }
 `;
 
-function CreatePlaylist({ userId }: { userId: string }) {
+export function CreatePlaylist({ userId }: { userId: string }) {
   const [create, { data, loading, error }] = useMutation(CREATE_PLAYLIST);
   const onSubmit = React.useCallback((event: React.FormEvent) => {
     event.preventDefault();
@@ -36,13 +37,9 @@ function CreatePlaylist({ userId }: { userId: string }) {
   }, []);
   return (
     <form onSubmit={onSubmit}>
-      <label htmlFor="title">Title:</label>
-      <input name="title" type="input" placeholder="playlist name" />
-      <label htmlFor="title">Description:</label>
-      <input name="description" type="text" />
+      <Input name="title" placeholder="Playlist name" />
+      <Input name="description" type="text" placeholder="Description" />
       <input type="submit" value="Create" />
     </form>
   );
 }
-
-export default CreatePlaylist;

@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Playlists from "./containers/playlists";
 import Page from "./components/page/page";
-import CreatePlaylist from "./containers/create_playlist";
+import {CreatePlaylist} from "./containers/create_playlist";
 
 function App() {
   const { data, loading, error } = useQuery(gql`
