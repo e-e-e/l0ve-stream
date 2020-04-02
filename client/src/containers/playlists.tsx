@@ -5,6 +5,7 @@ import { GridCard } from "../components/grid_card/grid_card";
 import { PlayIcon, PointIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
 import { TrackItem } from "../components/track_item/track_item";
+import {Section} from "../components/section/section";
 
 const FETCH_PLAYLISTS = gql`
   query {
@@ -36,10 +37,11 @@ const PlaylistItem = ({ data }: { data: any }) => {
   return (
     <div>
       <GridCard
-        topLeft={<h2>{data.title}</h2>}
+        topLeft={<Typography variant="h2">{data.title}</Typography>}
+        bottomLeft={<Typography>{data.owner.name}</Typography>}
       />
       <p>{data.description}</p>
-      <div>
+      <Section>
         {data.tracks?.map((track: any, i: number) => {
           return (
             <TrackItem
@@ -50,7 +52,7 @@ const PlaylistItem = ({ data }: { data: any }) => {
             />
           );
         })}
-      </div>
+      </Section>
     </div>
   );
 };
