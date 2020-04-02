@@ -1,0 +1,28 @@
+h1.typography {
+    text-transform: capitalize;
+}
+
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
+}
+.center {
+    text-align: center;
+}
+.nowrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.black {
+    color: black;
+}
+.grey {
+    color: #8D8D8D;
+}
+.white {
+    color: white;
+}

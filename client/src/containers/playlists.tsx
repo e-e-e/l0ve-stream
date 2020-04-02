@@ -1,6 +1,8 @@
 import React from "react";
 import {gql} from "apollo-boost";
 import {useQuery} from "@apollo/react-hooks";
+import { Grid } from "../components/grid_card/grid_card";
+import {PlayIcon} from "../components/icons/icons";
 
 const FETCH_PLAYLISTS = gql`
     query {
@@ -62,6 +64,12 @@ function Playlists() {
   return (
     <section>
       <h2>Playlists</h2>
+      <Grid
+        topLeft={'some image'}
+        info={{top: "2", bottom: "14m"}}
+        bottomLeft={'some text'}
+        bottomRight={'some icon'}
+      />
       {loading && <div>loading</div>}
       {error && <div>{error?.message}</div>}
       <List>

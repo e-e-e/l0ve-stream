@@ -1,0 +1,60 @@
+.gridContainer {
+    display: flex;
+    flex-direction: column;
+    border: black thin solid;
+}
+
+.item {
+    padding: 1rem;
+}
+
+.gridLeft {
+    display: flex;
+    border: none;
+    border-right: black thin solid;
+    flex-grow: 1;
+}
+
+.gridRight {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.gridTop {
+    display: flex;
+    border: none;
+    border-bottom: black thin solid;
+}
+
+.gridBottom {
+    display: flex;
+}
+
+.aspect {
+    padding-top: 100%; /* 1:1 Aspect Ratio */
+    position: relative; /* If you want text inside of it */
+    width:100%;
+}
+
+.info {
+    position: absolute;
+}
+
+.fill {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 0;
+}
+
+.infoTop {
+    left: 0;
+    top: 0;
+}
+
+.infoBottom {
+    right: 0;
+    bottom: 0;
+}
+
