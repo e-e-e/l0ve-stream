@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<any> {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
       table.string('name', 255).notNullable().unique();
       table.integer('role').notNullable().unsigned();
+      table.timestamps(true, true);
     })
     .createTable('playlists', function (table) {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
@@ -16,6 +17,7 @@ export async function up(knex: Knex): Promise<any> {
       table.text('description');
       table.uuid('owner_id');
       table.unique(['title', 'owner_id']);
+      table.timestamps(true, true);
     })
     .createTable('tracks', function (table) {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
@@ -24,18 +26,21 @@ export async function up(knex: Knex): Promise<any> {
       table.string('album', 512).notNullable();
       table.string('genre', 1000);
       table.integer('year').unsigned();
+      table.timestamps(true, true);
     })
     .createTable('files', function (table) {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
       table.string('filename', 1000).notNullable().unique();
       table.string('type').notNullable();
       table.integer('size').notNullable();
+      table.timestamps(true, true);
     })
     .createTable('links', function (table) {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
       table.string('uri', 1024);
       table.string('type', 128);
       table.unique(['uri', 'type']);
+      table.timestamps(true, true);
     })
     .createTable('playlists_tracks', function (table) {
       table.uuid('playlist_id').notNullable();
