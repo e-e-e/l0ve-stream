@@ -11,7 +11,7 @@ type GridProps = {
     bottom?: string;
   };
 };
-export const Grid = (props: GridProps) => {
+export const GridCard = (props: GridProps) => {
   const { topLeft, bottomLeft, bottomRight, info } = props;
   return (
     <div className={styles.gridContainer}>

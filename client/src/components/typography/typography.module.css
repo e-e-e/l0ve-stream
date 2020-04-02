@@ -1,6 +1,9 @@
 h1.typography {
     text-transform: uppercase;
 }
+p.typography {
+    margin: 0;
+}
 
 .left {
     text-align: left;

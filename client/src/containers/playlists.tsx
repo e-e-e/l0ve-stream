@@ -1,9 +1,10 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
-import { Grid } from "../components/grid_card/grid_card";
+import { GridCard } from "../components/grid_card/grid_card";
 import { PlayIcon, PointIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
+import { TrackItem } from "../components/track_item/track_item";
 
 const FETCH_PLAYLISTS = gql`
   query {
@@ -31,41 +32,17 @@ const List = ({ children }: { children: React.ReactNode[] }) => (
   <ul>{children}</ul>
 );
 
-const Track = ({
-  index,
-  title,
-  artist,
-  album,
-  year,
-}: {
-  index: number;
-  title: string;
-  artist: string;
-  album: string;
-  year?: number;
-}) => {
-  return (
-    <div>
-      <div>
-        <Typography>{title}</Typography>
-        <Typography variant="subtitle">{artist}</Typography>
-      </div>
-      <div>
-        <PointIcon />
-      </div>
-    </div>
-  );
-};
-
 const PlaylistItem = ({ data }: { data: any }) => {
   return (
-    <li>
-      <h2>{data.title}</h2>
+    <div>
+      <GridCard
+        topLeft={<h2>{data.title}</h2>}
+      />
       <p>{data.description}</p>
       <div>
         {data.tracks?.map((track: any, i: number) => {
           return (
-            <Track
+            <TrackItem
               index={i}
               title={track.title}
               artist={track.artist}
@@ -74,7 +51,7 @@ const PlaylistItem = ({ data }: { data: any }) => {
           );
         })}
       </div>
-    </li>
+    </div>
   );
 };
 
@@ -84,7 +61,7 @@ function Playlists() {
   return (
     <section>
       <Typography variant="h1">Playlists</Typography>
-      <Grid
+      <GridCard
         topLeft={"some image"}
         info={{ top: "2", bottom: "14m" }}
         bottomLeft={"some text"}
@@ -92,13 +69,11 @@ function Playlists() {
       />
       {loading && <div>loading</div>}
       {error && <div>{error?.message}</div>}
-      <List>
-        {data &&
-          data.playlists &&
-          data.playlists.map((v: any) => {
-            return <PlaylistItem data={v} />;
-          })}
-      </List>
+      {data &&
+        data.playlists &&
+        data.playlists.map((v: any) => {
+          return <PlaylistItem data={v} />;
+        })}
     </section>
   );
 }

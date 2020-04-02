@@ -1,8 +1,9 @@
 import { Typography } from "../typography/typography";
 import { PointIcon } from "../icons/icons";
 import React from "react";
+import styles from "./track_item.module.css";
 
-const Track = ({
+export const TrackItem = ({
   index,
   title,
   artist,
@@ -16,12 +17,12 @@ const Track = ({
   year?: number;
 }) => {
   return (
-    <div>
-      <div>
+    <div className={styles.track}>
+      <div className={styles.info}>
         <Typography>{title}</Typography>
         <Typography variant="subtitle">{artist}</Typography>
       </div>
-      <div>
+      <div className={styles.controls}>
         <PointIcon />
       </div>
     </div>
