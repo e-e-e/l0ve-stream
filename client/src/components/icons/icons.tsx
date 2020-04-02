@@ -1,4 +1,5 @@
-import { ReactComponent as PlayIconSvg } from "./play.svg";
+// import { ReactComponent as PlayIconSvg } from "./play.svg";
+import { ReactComponent as PlayIconSvg } from "./play-black.svg";
 import { ReactComponent as PointIconSvg } from "./icon-point.svg";
 import React from "react";
 

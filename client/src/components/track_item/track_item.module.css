@@ -1,17 +1,19 @@
 .track {
     display: flex;
     width: 100%;
-    margin-top: 1rem;
+    /*margin: 1rem 0;*/
+
 }
 
 .info {
     display: flex;
-    grow: 1;
     width: 100%;
+    margin: 0.5rem;
     flex-direction: column;
 }
 
 .controls {
     display: flex;
     align-items: center;
+    margin: 0.5rem;
 }

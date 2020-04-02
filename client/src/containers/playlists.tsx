@@ -39,6 +39,8 @@ const PlaylistItem = ({ data }: { data: any }) => {
       <GridCard
         topLeft={<Typography variant="h2">{data.title}</Typography>}
         bottomLeft={<Typography>{data.owner.name}</Typography>}
+        bottomRight={<div style={{textAlign: 'center'}}><PlayIcon/></div>}
+        info={{ top: "2", bottom: "14m" }}
       />
       <p>{data.description}</p>
       <Section>
@@ -63,12 +65,6 @@ function Playlists() {
   return (
     <section>
       <Typography variant="h1">Playlists</Typography>
-      <GridCard
-        topLeft={"some image"}
-        info={{ top: "2", bottom: "14m" }}
-        bottomLeft={"some text"}
-        bottomRight={"some icon"}
-      />
       {loading && <div>loading</div>}
       {error && <div>{error?.message}</div>}
       {data &&
