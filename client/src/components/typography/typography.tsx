@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import styles from '.typography.module.css';
+import styles from './typography.module.css';
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle' | 'body';
 type Color = 'black' | 'grey' | 'white'; // #8D8D8D
@@ -38,7 +38,7 @@ export const Typography = (props: React.PropsWithChildren<TypographyProps>) => {
   return (
     <Component
       className={classNames(
-        'typography',
+        styles.typography,
         styles[align || 'left'],
         styles[color || 'black'],
         {

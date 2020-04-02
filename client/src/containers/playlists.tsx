@@ -3,6 +3,7 @@ import {gql} from "apollo-boost";
 import {useQuery} from "@apollo/react-hooks";
 import { Grid } from "../components/grid_card/grid_card";
 import {PlayIcon} from "../components/icons/icons";
+import {Typography} from "../components/typography/typography";
 
 const FETCH_PLAYLISTS = gql`
     query {
@@ -63,7 +64,7 @@ function Playlists() {
 
   return (
     <section>
-      <h2>Playlists</h2>
+      <Typography variant="h1">Playlists</Typography>
       <Grid
         topLeft={'some image'}
         info={{top: "2", bottom: "14m"}}
