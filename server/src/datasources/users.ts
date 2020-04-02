@@ -1,49 +1,39 @@
-import {DataSource, DataSourceConfig} from 'apollo-datasource';
-import Knex from 'knex';
+import { DataSource, DataSourceConfig } from "apollo-datasource";
+import Knex from "knex";
 
 export type User = {
-  name: string,
-  role: number
-}
-export type UserWithId = User & { id: string }
+  name: string;
+  role: number;
+};
+export type UserWithId = User & { id: string };
 
 export class UsersDataSource extends DataSource {
-
   constructor(private readonly database: Knex) {
     super();
   }
 
   async getUserByName(name: string): Promise<UserWithId> {
-    return this.database
-      .select('*')
-      .from('users')
-      .where({ name })
-      .first();
+    return this.database.select("*").from("users").where({ name }).first();
   }
 
   async getUser(id: string): Promise<UserWithId> {
     console.log(id);
-    return this.database
-      .select('*')
-      .from('users')
-      .where({ id })
-      .first()
+    return this.database.select("*").from("users").where({ id }).first();
   }
 
   async getUsers(pageSize?: number, after?: string): Promise<UserWithId[]> {
     return this.database
-      .select('*')
-      .from('users')
+      .select("*")
+      .from("users")
       .offset(after ? parseInt(after, 10) : 0)
-      .limit(pageSize || 20)
+      .limit(pageSize || 20);
   }
 
   async createUser(user: User): Promise<UserWithId> {
     return this.database
       .insert(user)
-      .into('users')
-      .returning('*')
-      .then(x => x) as Promise<UserWithId>;
+      .into("users")
+      .returning("*")
+      .then((x) => x) as Promise<UserWithId>;
   }
-
 }

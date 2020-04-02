@@ -3,15 +3,13 @@ import styles from "./page.module.css";
 import Header from "../header/header";
 
 type PageProps = {
-  children: React.ReactNode,
-}
+  children: React.ReactNode;
+};
 
 function Page({ children }: PageProps) {
   return (
-    <div
-      className={styles.page}
-    >
-      <Header/>
+    <div className={styles.page}>
+      <Header />
       {children}
     </div>
   );
