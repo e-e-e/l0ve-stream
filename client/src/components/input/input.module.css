@@ -9,6 +9,7 @@
     width: 100%;
     display: block;
     box-shadow: none;
+    box-sizing: border-box;
 }
 
 .input:focus {

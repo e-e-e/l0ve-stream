@@ -2,6 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { Input } from "../components/input/input";
+import {Button} from "../components/button/button";
 
 const CREATE_PLAYLIST = gql`
   mutation createPlaylist(
@@ -39,7 +40,9 @@ export function CreatePlaylist({ userId }: { userId: string }) {
     <form onSubmit={onSubmit}>
       <Input name="title" placeholder="Playlist name" />
       <Input name="description" type="text" placeholder="Description" />
-      <input type="submit" value="Create" />
+      <Button type="submit">Create</Button>
+      <Button type="submit" disabled={true}>Disabled</Button>
+      {/*<input type="submit" value="Create" />*/}
     </form>
   );
 }

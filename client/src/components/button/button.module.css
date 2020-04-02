@@ -1,0 +1,47 @@
+.reset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+}
+
+.baseButton {
+    padding: 0.9rem 0.6rem;
+    margin: 1rem 0;
+    border: black solid thin;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    color: white;
+    background: black;
+    text-align: center;
+}
+
+.disabled {
+    background: white;
+    color: grey;
+    border: grey solid thin;
+}
+
+.baseButton:not(.disabled):hover {
+    background: white;
+    color: black;
+    cursor: pointer;
+}
