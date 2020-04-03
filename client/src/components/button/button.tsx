@@ -20,7 +20,12 @@ export const Button = ({
     [styles.disabled]: disabled,
   });
   return (
-    <button className={buttonClass} onClick={onClick} type={type} disabled={disabled}>
+    <button
+      className={buttonClass}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
