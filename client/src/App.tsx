@@ -10,7 +10,7 @@ import {CreatePlaylist} from "./containers/create_playlist";
 
 function App() {
   const { data, loading, error } = useQuery(gql`
-    query {
+    query WhoAmI {
       whoami {
         id
         name

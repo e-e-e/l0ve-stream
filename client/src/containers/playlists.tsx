@@ -8,7 +8,7 @@ import { TrackItem } from "../components/track_item/track_item";
 import {Section} from "../components/section/section";
 
 const FETCH_PLAYLISTS = gql`
-  query {
+  query FetchPlaylists {
     playlists {
       id
       title

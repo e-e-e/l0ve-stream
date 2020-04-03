@@ -5,7 +5,7 @@ import { Input } from "../components/input/input";
 import {Button} from "../components/button/button";
 
 const CREATE_PLAYLIST = gql`
-  mutation createPlaylist(
+  mutation CreatePlaylist(
     $title: String!
     $description: String!
     $tracks: [TrackInput]

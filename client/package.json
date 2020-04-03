@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src --ext ts --ext tsx",
+    "lint:fix": "eslint ./src --ext ts --ext tsx --fix",
+    "generate:types": "apollo codegen:generate --localSchemaFile=\"../server/src/schema/schema.graphql\" --target=typescript --includes=\"src/**/*.tsx\" --tagName=gql --addTypename __generated_types__"
+  },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "@testing-library/jest-dom": "^4.2.4",
@@ -29,14 +38,6 @@
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ./src --ext ts --ext tsx",
-    "lint:fix": "eslint ./src --ext ts --ext tsx --fix"
-  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -53,6 +54,8 @@
     ]
   },
   "devDependencies": {
+    "@types/graphql": "^14.5.0",
+    "apollo": "^2.26.0",
     "eslint-plugin-prettier": "^3.1.2"
   }
 }
