@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { Input } from "../components/input/input";
 import {Button} from "../components/button/button";
+import {CreatePlaylist, CreatePlaylistVariables} from "./__generated_types__/CreatePlaylist";
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -23,7 +24,10 @@ const CREATE_PLAYLIST = gql`
 `;
 
 export function CreatePlaylist({ userId }: { userId: string }) {
-  const [create, { data, loading, error }] = useMutation(CREATE_PLAYLIST);
+  const [create, { data, loading, error }] = useMutation<
+    CreatePlaylist,
+    CreatePlaylistVariables
+  >(CREATE_PLAYLIST);
   const onSubmit = React.useCallback((event: React.FormEvent) => {
     event.preventDefault();
     console.log("submitted", event.target);
@@ -31,8 +35,8 @@ export function CreatePlaylist({ userId }: { userId: string }) {
     if (!(event.target instanceof HTMLFormElement)) return;
     const formdata = new FormData(event.target);
     const data = {
-      title: formdata.get("title"),
-      description: formdata.get("description"),
+      title: formdata.get("title") as string,
+      description: formdata.get("description") as string,
     };
     create({ variables: data });
   }, []);

@@ -5,7 +5,8 @@ import { GridCard } from "../components/grid_card/grid_card";
 import { PlayIcon, PointIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
 import { TrackItem } from "../components/track_item/track_item";
-import {Section} from "../components/section/section";
+import { Section } from "../components/section/section";
+import { FetchPlaylists } from "./__generated_types__/FetchPlaylists";
 
 const FETCH_PLAYLISTS = gql`
   query FetchPlaylists {
@@ -39,7 +40,11 @@ const PlaylistItem = ({ data }: { data: any }) => {
       <GridCard
         topLeft={<Typography variant="h2">{data.title}</Typography>}
         bottomLeft={<Typography>{data.owner.name}</Typography>}
-        bottomRight={<div style={{textAlign: 'center'}}><PlayIcon/></div>}
+        bottomRight={
+          <div style={{ textAlign: "center" }}>
+            <PlayIcon />
+          </div>
+        }
         info={{ top: "2", bottom: "14m" }}
       />
       <p>{data.description}</p>
@@ -60,7 +65,7 @@ const PlaylistItem = ({ data }: { data: any }) => {
 };
 
 function Playlists() {
-  const { data, loading, error } = useQuery(FETCH_PLAYLISTS);
+  const { data, loading, error } = useQuery<FetchPlaylists>(FETCH_PLAYLISTS);
 
   return (
     <section>

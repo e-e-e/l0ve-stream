@@ -6,10 +6,11 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Playlists from "./containers/playlists";
 import Page from "./components/page/page";
-import {CreatePlaylist} from "./containers/create_playlist";
+import { CreatePlaylist } from "./containers/create_playlist";
+import { WhoAmI } from "./__generated_types__/WhoAmI";
 
 function App() {
-  const { data, loading, error } = useQuery(gql`
+  const { data, loading, error } = useQuery<WhoAmI>(gql`
     query WhoAmI {
       whoami {
         id
@@ -25,7 +26,7 @@ function App() {
         {loading && <p>loading</p>}
         {error && <p>{error?.message}</p>}
         <div>
-          {data?.whoami.name} {data?.whoami.id} {data?.whoami.role}
+          {data?.whoami?.name} {data?.whoami?.id} {data?.whoami?.role}
         </div>
         <Playlists />
         {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id} />}
