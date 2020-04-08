@@ -46,7 +46,6 @@ export function CreatePlaylist({ userId }: { userId: string }) {
       <Input name="description" type="text" placeholder="Description" />
       <Button type="submit">Create</Button>
       <Button type="submit" disabled={true}>Disabled</Button>
-      {/*<input type="submit" value="Create" />*/}
     </form>
   );
 }

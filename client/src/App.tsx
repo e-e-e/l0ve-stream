@@ -8,6 +8,8 @@ import Playlists from "./containers/playlists";
 import Page from "./components/page/page";
 import { CreatePlaylist } from "./containers/create_playlist";
 import { WhoAmI } from "./__generated_types__/WhoAmI";
+import { Layer } from "./components/layer/layer";
+import {Button} from "./components/button/button";
 
 function App() {
   const { data, loading, error } = useQuery<WhoAmI>(gql`
@@ -19,6 +21,7 @@ function App() {
       }
     }
   `);
+  const [openLayer, setOpenLayer] = useState<boolean>(false);
   return (
     <Page>
       <main>
@@ -30,10 +33,10 @@ function App() {
         </div>
         <Playlists />
         {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id} />}
-        <div>
-          <img style={{ width: "100%" }} src={img1} />
-        </div>
+        <div>{/*<img style={{ width: "100%" }} src={img1} />*/}</div>
         <p> ( ( ( ❤ ) ) ) ️</p>
+        <Button onClick={() => setOpenLayer(true)}>open layer</Button>
+        {openLayer && <Layer onBackgroundClick={() => setOpenLayer(false)}>HELLO</Layer>}
       </main>
     </Page>
   );
