@@ -9,7 +9,9 @@ import Page from "./components/page/page";
 import { CreatePlaylist } from "./containers/create_playlist";
 import { WhoAmI } from "./__generated_types__/WhoAmI";
 import { Layer } from "./components/layer/layer";
-import {Button} from "./components/button/button";
+import { Button } from "./components/button/button";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { About } from "./containers/about";
 
 function App() {
   const { data, loading, error } = useQuery<WhoAmI>(gql`
@@ -23,22 +25,35 @@ function App() {
   `);
   const [openLayer, setOpenLayer] = useState<boolean>(false);
   return (
-    <Page>
-      <main>
-        <p>hello my love, this is a construction zone</p>
-        {loading && <p>loading</p>}
-        {error && <p>{error?.message}</p>}
-        <div>
-          {data?.whoami?.name} {data?.whoami?.id} {data?.whoami?.role}
-        </div>
-        <Playlists />
-        {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id} />}
-        <div>{/*<img style={{ width: "100%" }} src={img1} />*/}</div>
-        <p> ( ( ( ❤ ) ) ) ️</p>
-        <Button onClick={() => setOpenLayer(true)}>open layer</Button>
-        {openLayer && <Layer onBackgroundClick={() => setOpenLayer(false)}>HELLO</Layer>}
-      </main>
-    </Page>
+    <Router>
+      <Page>
+        <main>
+          {loading && <p>loading</p>}
+          {error && <p>{error?.message}</p>}
+          <div>
+            {data?.whoami?.name} {data?.whoami?.id} {data?.whoami?.role}
+          </div>
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/playlist/:id">
+              <div>what playlist</div>
+            </Route>
+            <Route path="/">
+              <Playlists />
+            </Route>
+          </Switch>
+          {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id} />}
+          <div>{/*<img style={{ width: "100%" }} src={img1} />*/}</div>
+          <p> ( ( ( ❤ ) ) ) ️</p>
+          <Button onClick={() => setOpenLayer(true)}>open layer</Button>
+          {openLayer && (
+            <Layer onBackgroundClick={() => setOpenLayer(false)}>HELLO</Layer>
+          )}
+        </main>
+      </Page>
+    </Router>
   );
 }
 
