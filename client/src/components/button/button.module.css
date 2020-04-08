@@ -20,9 +20,16 @@
 
     /* Corrects inability to style clickable `input` types in iOS */
     -webkit-appearance: none;
+    cursor: pointer;
+
+    outline: none;
 }
 
-.baseButton {
+.disabled {
+    cursor: not-allowed;
+}
+
+.basicButton {
     padding: 0.9rem 0.6rem;
     margin: 1rem 0;
     border: black solid thin;
@@ -34,14 +41,27 @@
     text-align: center;
 }
 
-.disabled {
+.basicButton.disabled {
     background: white;
     color: grey;
     border: grey solid thin;
 }
 
-.baseButton:not(.disabled):hover {
+.basicButton:not(.disabled):hover {
     background: white;
     color: black;
-    cursor: pointer;
+}
+
+.iconButton {
+    padding: 0.5rem;
+    color: black;
+}
+
+.iconButton.disabled {
+    color: grey;
+}
+
+
+.iconButton:not(.disabled):hover {
+    color: grey;
 }
