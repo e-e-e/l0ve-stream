@@ -3,7 +3,7 @@ import classNames from "classnames";
 import styles from "./button.module.css";
 
 type CommonProps = {
-  variant?: "basic" | "icon";
+  variant?: "basic" | "icon" | "list";
   onClick?: ReactEventHandler;
   disabled?: boolean;
   children?: React.ReactNode;
@@ -24,6 +24,7 @@ const UnstyledButtonOrLink = (props: ButtonOrLinkProps) => {
     [styles.disabled]: props.disabled,
     [styles.basicButton]: props.variant === "basic",
     [styles.iconButton]: props.variant === "icon",
+    [styles.listButton]: props.variant === "list",
   });
   if (props.type === "link") {
     // need to prevent navigation if disabled
@@ -56,6 +57,7 @@ export const Button = (props: ButtonProps) => (
     variant="basic"
   />
 );
+
 export const IconButton = (props: ButtonProps) => (
   <UnstyledButtonOrLink
     {...props}
@@ -64,9 +66,18 @@ export const IconButton = (props: ButtonProps) => (
   />
 );
 
+export const ListButton = (props: ButtonProps) => (
+  <UnstyledButtonOrLink
+    {...props}
+    type={props.type || "button"}
+    variant="list"
+  />
+);
+
 export const Link = (props: LinkProps) => (
   <UnstyledButtonOrLink {...props} type="link" variant="basic" />
 );
+
 export const IconLink = (props: LinkProps) => (
   <UnstyledButtonOrLink {...props} type="link" variant="icon" />
 );

@@ -65,3 +65,22 @@
 .iconButton:not(.disabled):hover {
     color: grey;
 }
+
+.listButton {
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 0.9rem 0.6rem;
+    background: white;
+    color: black;
+}
+
+.listButton.disabled {
+    color: grey;
+    text-decoration: line-through;
+}
+
+.listButton:not(.disabled):hover {
+    color: black;
+    background: lightgrey;
+}

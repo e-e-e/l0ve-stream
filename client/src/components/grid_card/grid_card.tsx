@@ -3,6 +3,7 @@ import styles from "./grid_card.module.css";
 import classNames from "classnames";
 
 type GridProps = {
+  onClick?: () => void;
   topLeft?: React.ReactNode;
   bottomLeft?: React.ReactNode;
   bottomRight?: React.ReactNode;
@@ -12,9 +13,9 @@ type GridProps = {
   };
 };
 export const GridCard = (props: GridProps) => {
-  const { topLeft, bottomLeft, bottomRight, info } = props;
+  const { topLeft, bottomLeft, bottomRight, info, onClick } = props;
   return (
-    <div className={styles.gridContainer}>
+    <div className={styles.gridContainer} onClick={onClick}>
       <div className={styles.gridTop}>
         <div className={classNames(styles.gridLeft, styles.item)}>
           {topLeft}

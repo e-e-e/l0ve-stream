@@ -2,11 +2,10 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { GridCard } from "../components/grid_card/grid_card";
-import { PlayIcon, PointIcon } from "../components/icons/icons";
+import { PlayIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
-import { TrackItem } from "../components/track_item/track_item";
-import { Section } from "../components/section/section";
 import { FetchPlaylists } from "./__generated_types__/FetchPlaylists";
+import { playlistUrl, useNavigationHandler } from "../routes/routes";
 
 const FETCH_PLAYLISTS = gql`
   query FetchPlaylists {
@@ -34,12 +33,21 @@ const List = ({ children }: { children: React.ReactNode[] }) => (
   <ul>{children}</ul>
 );
 
-const PlaylistItem = ({ data }: { data: any }) => {
+type PlaylistCardProps = {
+  title: string;
+  owner: string;
+  description?: string | null;
+  id: string;
+};
+
+const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
+  const openPlaylist = useNavigationHandler(playlistUrl(id));
   return (
     <div>
       <GridCard
-        topLeft={<Typography variant="h2">{data.title}</Typography>}
-        bottomLeft={<Typography>{data.owner.name}</Typography>}
+        onClick={openPlaylist}
+        topLeft={<Typography variant="h2">{title}</Typography>}
+        bottomLeft={<Typography>{owner}</Typography>}
         bottomRight={
           <div style={{ textAlign: "center" }}>
             <PlayIcon />
@@ -47,19 +55,7 @@ const PlaylistItem = ({ data }: { data: any }) => {
         }
         info={{ top: "2", bottom: "14m" }}
       />
-      <p>{data.description}</p>
-      <Section>
-        {data.tracks?.map((track: any, i: number) => {
-          return (
-            <TrackItem
-              index={i}
-              title={track.title}
-              artist={track.artist}
-              album={track.album}
-            />
-          );
-        })}
-      </Section>
+      <p>{description}</p>
     </div>
   );
 };
@@ -72,11 +68,18 @@ function Playlists() {
       <Typography variant="h1">Playlists</Typography>
       {loading && <div>loading</div>}
       {error && <div>{error?.message}</div>}
-      {data &&
-        data.playlists &&
-        data.playlists.map((v: any) => {
-          return <PlaylistItem data={v} />;
-        })}
+      {data?.playlists?.map((v, i) => {
+        if (!v || !v.id || !v.title || !v.owner?.name) return;
+        return (
+          <PlaylistCard
+            key={`${i}-${v?.id}`}
+            title={v?.title}
+            owner={v?.owner?.name}
+            id={v.id}
+            description={v.description}
+          />
+        );
+      })}
     </section>
   );
 }

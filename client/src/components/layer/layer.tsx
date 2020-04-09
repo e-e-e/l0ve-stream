@@ -12,7 +12,6 @@ class Layers {
       this.root = document.createElement("div");
       document.body.style.overflow = "hidden";
       document.body.append(this.root);
-
     }
     this.layers.push(element);
     this.root.append(element);
@@ -41,9 +40,9 @@ const LayerInternal = ({
 }: PropsWithChildren<LayerProps>) => {
   const onClick = React.useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
-      if(!e.isDefaultPrevented()) {
+      if (!e.isDefaultPrevented()) {
         onBackgroundClick?.(e);
-        console.log('clicked')
+        console.log("clicked");
       }
       e.preventDefault();
     },
@@ -51,7 +50,7 @@ const LayerInternal = ({
   );
   return (
     <div className={style.layer} onClick={onClick}>
-      {children}
+      <div className={style.layerContainer}>{children}</div>
     </div>
   );
 };

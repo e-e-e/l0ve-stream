@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
-import img1 from "./1.jpeg";
-import img2 from "./2.jpeg";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Playlists from "./containers/playlists";
@@ -12,6 +9,7 @@ import { Layer } from "./components/layer/layer";
 import { Button } from "./components/button/button";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { About } from "./containers/about";
+import { PlaylistView } from "./containers/playlist";
 
 function App() {
   const { data, loading, error } = useQuery<WhoAmI>(gql`
@@ -23,7 +21,6 @@ function App() {
       }
     }
   `);
-  const [openLayer, setOpenLayer] = useState<boolean>(false);
   return (
     <Router>
       <Page>
@@ -38,19 +35,14 @@ function App() {
               <About />
             </Route>
             <Route path="/playlist/:id">
-              <div>what playlist</div>
+              <PlaylistView/>
             </Route>
             <Route path="/">
               <Playlists />
             </Route>
           </Switch>
           {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id} />}
-          <div>{/*<img style={{ width: "100%" }} src={img1} />*/}</div>
           <p> ( ( ( ❤ ) ) ) ️</p>
-          <Button onClick={() => setOpenLayer(true)}>open layer</Button>
-          {openLayer && (
-            <Layer onBackgroundClick={() => setOpenLayer(false)}>HELLO</Layer>
-          )}
         </main>
       </Page>
     </Router>

@@ -1,11 +1,21 @@
 .header {
+    position: sticky;
+    top:0;
+    background: white;
     text-align: center;
     border-bottom: black thin solid;
     padding: 0.7rem 0 0.5rem;
+    z-index: 100;
 }
 
 .nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.list {
+    background: white;
+    max-width: 100%;
+    border: black solid thin;
 }

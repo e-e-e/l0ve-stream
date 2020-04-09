@@ -1,15 +1,40 @@
 import React from "react";
 import styles from "./header.module.css";
 import { AddIcon, MenuIcon, SearchIcon } from "../icons/icons";
-import { IconButton } from "../button/button";
+import { IconButton, Button, ListButton } from "../button/button";
 import { Layer } from "../layer/layer";
+import {
+  createPlaylistUrl,
+  feedUrl,
+  logOutUrl,
+  myPlaylistsUrl,
+  useNavigationHandler,
+} from "../../routes/routes";
+
+function MainMenu({ close }: { close?(): void }) {
+  const goToFeed = useNavigationHandler(feedUrl(), close);
+  const goToCreatePlaylist = useNavigationHandler(createPlaylistUrl(), close);
+  const goToMyPlaylists = useNavigationHandler(myPlaylistsUrl(), close);
+  const goToLogOut = useNavigationHandler(logOutUrl(), close);
+  return (
+    <div>
+      <div className={styles.list}>
+        <ListButton onClick={goToFeed}>Profile</ListButton>
+        <ListButton onClick={goToFeed}>Feed</ListButton>
+        <ListButton onClick={goToCreatePlaylist}>Add playlist</ListButton>
+        <ListButton onClick={goToMyPlaylists}>My playlists</ListButton>
+      </div>
+      <Button onClick={goToLogOut}>Log out</Button>
+    </div>
+  );
+}
 
 function LayerButton({
   children,
   Content,
 }: {
   children: React.ReactNode;
-  Content: React.ComponentType<{}>;
+  Content: React.ComponentType<{ close?(): void }>;
 }) {
   const [open, setOpen] = React.useState(false);
   const hide = React.useCallback(() => setOpen(false), [setOpen]);
@@ -17,7 +42,11 @@ function LayerButton({
   return (
     <span>
       <IconButton onClick={show}>{children}</IconButton>
-      {open && <Layer onBackgroundClick={hide}><Content/></Layer>}
+      {open && (
+        <Layer onBackgroundClick={hide}>
+          <Content close={hide} />
+        </Layer>
+      )}
     </span>
   );
 }
@@ -29,7 +58,7 @@ function Header() {
         <LayerButton Content={() => <div>Search</div>}>
           <SearchIcon />
         </LayerButton>
-        <LayerButton Content={() => <div>Menu</div>}>
+        <LayerButton Content={MainMenu}>
           <MenuIcon />
         </LayerButton>
         <LayerButton Content={() => <div>Add</div>}>

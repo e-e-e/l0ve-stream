@@ -55,6 +55,12 @@ const resolverMap: IResolvers = {
         args.after
       );
     },
+    playlist: async (parent, args, context) => {
+      const data = await context.dataSources.playlists.getPlaylist(
+        args.playlist
+      );
+      return data;
+    },
   },
   User: {
     playlists: (parent, args, context) => {
