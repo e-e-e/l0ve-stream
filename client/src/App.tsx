@@ -57,17 +57,21 @@ function App() {
   };
 
   const searchMenuOptions = {
-    Content: () => <div>Search</div>
-  }
+    Content: () => <div>Search</div>,
+  };
 
   const plusMenuOptions = {
-    Content: () => <div>Plus</div>
-  }
+    Content: () => <div>Plus</div>,
+  };
 
   return (
     <Router>
       <Page>
-        <Header searchOptions={searchMenuOptions} plusOptions={plusMenuOptions} mainMenuOptions={mainMenuOptions} />
+        <Header
+          searchOptions={searchMenuOptions}
+          plusOptions={plusMenuOptions}
+          mainMenuOptions={mainMenuOptions}
+        />
         <main>
           {loading && <p>loading</p>}
           {error && <p>{error?.message}</p>}
@@ -79,7 +83,7 @@ function App() {
               <About />
             </Route>
             <Route exact path="/playlist/new">
-              <CreatePlaylist/>
+              <CreatePlaylist />
             </Route>
             <Route path="/playlist/:id">
               <PlaylistView />
