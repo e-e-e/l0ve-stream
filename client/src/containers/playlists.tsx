@@ -6,6 +6,7 @@ import { PlayIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
 import { FetchPlaylists } from "./__generated_types__/FetchPlaylists";
 import { playlistUrl, useNavigationHandler } from "../routes/routes";
+import { DropArea } from "../components/drop_area/drop_area";
 
 const FETCH_PLAYLISTS = gql`
   query FetchPlaylists {

@@ -16,7 +16,7 @@ const client = new ApolloClient({
 });
 
 installWebsocketClient({ url: "ws://localhost:8000" });
-installDnD({ url: "/convert/itunes", apolloClient: client });
+// installDnD({ url: "/convert/itunes", apolloClient: client });
 
 ReactDOM.render(
   <React.StrictMode>
