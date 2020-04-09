@@ -1,4 +1,5 @@
 import { ApolloClient, gql } from "apollo-boost";
+import * as musicMetadata from "music-metadata-browser";
 
 const CREATE_PLAYLIST = gql`
   mutation createPlaylist($data: PlaylistInput) {
@@ -25,6 +26,14 @@ export function install({
   url: string;
   apolloClient: ApolloClient<unknown>;
 }) {
+  const readMetadata = (file: File) => {
+    musicMetadata
+      .parseBlob(file)
+      .then((metadata) => {
+        console.log(metadata);
+      })
+      .catch(console.log);
+  };
   const fileUpload = (file: File) => {
     const formData = new FormData();
     formData.append("name", file.name);
@@ -77,7 +86,8 @@ export function install({
     console.log(e.dataTransfer?.files);
     const files = e.dataTransfer?.files ?? [];
     for (let i = 0; i < files.length; i++) {
-      fileUpload(files[i]);
+      //fileUpload(files[i]);
+      readMetadata(files[i]);
     }
   });
 }
