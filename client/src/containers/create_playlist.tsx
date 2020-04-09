@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { Input } from "../components/input/input";
-import {Button} from "../components/button/button";
-import {CreatePlaylist as CreatePlaylistType, CreatePlaylistVariables} from "./__generated_types__/CreatePlaylist";
+import { Button } from "../components/button/button";
+import {
+  CreatePlaylist as CreatePlaylistType,
+  CreatePlaylistVariables,
+} from "./__generated_types__/CreatePlaylist";
+import { useHistory } from "react-router-dom";
+import { playlistUrl } from "../routes/routes";
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -23,12 +28,13 @@ const CREATE_PLAYLIST = gql`
   }
 `;
 
-export function CreatePlaylist({ userId }: { userId: string }) {
+export function CreatePlaylist() {
   const [create, { data, loading, error }] = useMutation<
     CreatePlaylistType,
     CreatePlaylistVariables
   >(CREATE_PLAYLIST);
-  const onSubmit = React.useCallback((event: React.FormEvent) => {
+  const history = useHistory();
+  const onSubmit = React.useCallback(async (event: React.FormEvent) => {
     event.preventDefault();
     console.log("submitted", event.target);
     // construct a FormData object, which fires the formdata event
@@ -38,14 +44,20 @@ export function CreatePlaylist({ userId }: { userId: string }) {
       title: formdata.get("title") as string,
       description: formdata.get("description") as string,
     };
-    create({ variables: data });
+    await create({ variables: data });
   }, []);
+  React.useEffect(() => {
+    const id = data?.createPlaylist?.playlist?.id;
+    id && history.push(playlistUrl(id));
+  }, [data]);
   return (
     <form onSubmit={onSubmit}>
       <Input name="title" placeholder="Playlist name" />
       <Input name="description" type="text" placeholder="Description" />
-      <Button type="submit">Create</Button>
-      <Button type="submit" disabled={true}>Disabled</Button>
+      <Button type="submit" disabled={loading}>
+        Create
+      </Button>
+      {error && <div>{error}</div>}
     </form>
   );
 }

@@ -10,6 +10,15 @@ import { Button } from "./components/button/button";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { About } from "./containers/about";
 import { PlaylistView } from "./containers/playlist";
+import Header from "./components/header/header";
+import {
+  createPlaylistUrl,
+  feedUrl,
+  homeUrl,
+  logOutUrl,
+  myPlaylistsUrl,
+  profileUrl,
+} from "./routes/routes";
 
 function App() {
   const { data, loading, error } = useQuery<WhoAmI>(gql`
@@ -21,9 +30,44 @@ function App() {
       }
     }
   `);
+
+  const mainMenuOptions = {
+    primaryAction: {
+      label: "Log out",
+      url: logOutUrl(),
+    },
+    menuItems: [
+      {
+        label: "Profile",
+        url: profileUrl(),
+      },
+      {
+        label: "Feed",
+        url: feedUrl(),
+      },
+      {
+        label: "My playlists",
+        url: myPlaylistsUrl(),
+      },
+      {
+        label: "Add playlist",
+        url: createPlaylistUrl(),
+      },
+    ],
+  };
+
+  const searchMenuOptions = {
+    Content: () => <div>Search</div>
+  }
+
+  const plusMenuOptions = {
+    Content: () => <div>Plus</div>
+  }
+
   return (
     <Router>
       <Page>
+        <Header searchOptions={searchMenuOptions} plusOptions={plusMenuOptions} mainMenuOptions={mainMenuOptions} />
         <main>
           {loading && <p>loading</p>}
           {error && <p>{error?.message}</p>}
@@ -34,14 +78,16 @@ function App() {
             <Route path="/about">
               <About />
             </Route>
+            <Route exact path="/playlist/new">
+              <CreatePlaylist/>
+            </Route>
             <Route path="/playlist/:id">
-              <PlaylistView/>
+              <PlaylistView />
             </Route>
             <Route path="/">
               <Playlists />
             </Route>
           </Switch>
-          {data?.whoami?.id && <CreatePlaylist userId={data.whoami.id} />}
           <p> ( ( ( ❤ ) ) ) ️</p>
         </main>
       </Page>

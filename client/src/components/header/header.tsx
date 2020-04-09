@@ -1,30 +1,46 @@
-import React from "react";
+import React, { ComponentType, useCallback } from "react";
 import styles from "./header.module.css";
 import { AddIcon, MenuIcon, SearchIcon } from "../icons/icons";
 import { IconButton, Button, ListButton } from "../button/button";
 import { Layer } from "../layer/layer";
 import {
-  createPlaylistUrl,
-  feedUrl,
-  logOutUrl,
-  myPlaylistsUrl,
   useNavigationHandler,
 } from "../../routes/routes";
 
-function MainMenu({ close }: { close?(): void }) {
-  const goToFeed = useNavigationHandler(feedUrl(), close);
-  const goToCreatePlaylist = useNavigationHandler(createPlaylistUrl(), close);
-  const goToMyPlaylists = useNavigationHandler(myPlaylistsUrl(), close);
-  const goToLogOut = useNavigationHandler(logOutUrl(), close);
+type HeaderLayerProps = { close?(): void };
+type HeaderLayerContent = ComponentType<HeaderLayerProps>;
+
+type MenuItem = { label: string; url: string };
+
+type HeaderProps = {
+  mainMenuOptions: MainMenuOptions;
+  searchOptions?: { Content: HeaderLayerContent };
+  plusOptions?: { Content: HeaderLayerContent };
+};
+
+type MainMenuOptions = { menuItems: MenuItem[]; primaryAction: MenuItem };
+
+type MainMenuProps = HeaderLayerProps & MainMenuOptions;
+
+function MenuItem({ url, label, close }: MenuItem & { close?: () => void }) {
+  const onClick = useNavigationHandler(url, close);
+  return <ListButton onClick={onClick}>{label}</ListButton>;
+}
+
+function MainMenu({ menuItems, primaryAction, close }: MainMenuProps) {
+  const primaryNavigationHandler = useNavigationHandler(
+    primaryAction.url,
+    close
+  );
+
   return (
     <div>
       <div className={styles.list}>
-        <ListButton onClick={goToFeed}>Profile</ListButton>
-        <ListButton onClick={goToFeed}>Feed</ListButton>
-        <ListButton onClick={goToCreatePlaylist}>Add playlist</ListButton>
-        <ListButton onClick={goToMyPlaylists}>My playlists</ListButton>
+        {menuItems.map(({ label, url }) => (
+          <MenuItem key={label} url={url} label={label} close={close} />
+        ))}
       </div>
-      <Button onClick={goToLogOut}>Log out</Button>
+      <Button onClick={primaryNavigationHandler}>{primaryAction.label}</Button>
     </div>
   );
 }
@@ -51,19 +67,37 @@ function LayerButton({
   );
 }
 
-function Header() {
+function Header({ mainMenuOptions, plusOptions, searchOptions }: HeaderProps) {
+  const MainMenuWithItems = React.useCallback((props: HeaderLayerProps) => {
+    if (!mainMenuOptions) throw new Error("Should have menu options");
+    return (
+      <MainMenu
+        menuItems={mainMenuOptions?.menuItems}
+        primaryAction={mainMenuOptions?.primaryAction}
+        close={props.close}
+      />
+    );
+  }, []);
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <LayerButton Content={() => <div>Search</div>}>
-          <SearchIcon />
-        </LayerButton>
-        <LayerButton Content={MainMenu}>
+        {searchOptions ? (
+          <LayerButton Content={searchOptions?.Content}>
+            <SearchIcon />
+          </LayerButton>
+        ) : (
+          <span />
+        )}
+        <LayerButton Content={MainMenuWithItems}>
           <MenuIcon />
         </LayerButton>
-        <LayerButton Content={() => <div>Add</div>}>
-          <AddIcon />
-        </LayerButton>
+        {plusOptions ? (
+          <LayerButton Content={plusOptions?.Content}>
+            <AddIcon />
+          </LayerButton>
+        ) : (
+          <span />
+        )}
       </nav>
     </header>
   );

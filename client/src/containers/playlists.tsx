@@ -29,10 +29,6 @@ const FETCH_PLAYLISTS = gql`
   }
 `;
 
-const List = ({ children }: { children: React.ReactNode[] }) => (
-  <ul>{children}</ul>
-);
-
 type PlaylistCardProps = {
   title: string;
   owner: string;
