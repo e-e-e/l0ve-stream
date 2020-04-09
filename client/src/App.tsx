@@ -19,17 +19,11 @@ import {
   myPlaylistsUrl,
   profileUrl,
 } from "./routes/routes";
+import {ProfileView} from "./containers/profile";
+import {Typography} from "./components/typography/typography";
 
 function App() {
-  const { data, loading, error } = useQuery<WhoAmI>(gql`
-    query WhoAmI {
-      whoami {
-        id
-        name
-        role
-      }
-    }
-  `);
+
 
   const mainMenuOptions = {
     primaryAction: {
@@ -73,12 +67,10 @@ function App() {
           mainMenuOptions={mainMenuOptions}
         />
         <main>
-          {loading && <p>loading</p>}
-          {error && <p>{error?.message}</p>}
-          <div>
-            {data?.whoami?.name} {data?.whoami?.id} {data?.whoami?.role}
-          </div>
           <Switch>
+            <Route path="/me">
+              <ProfileView/>
+            </Route>
             <Route path="/about">
               <About />
             </Route>
@@ -92,7 +84,7 @@ function App() {
               <Playlists />
             </Route>
           </Switch>
-          <p> ( ( ( ❤ ) ) ) ️</p>
+          <Typography align="center"> ( ( ( ❤ ) ) ) ️</Typography>
         </main>
       </Page>
     </Router>

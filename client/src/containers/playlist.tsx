@@ -11,6 +11,9 @@ import {
   FetchPlaylistVariables,
 } from "./__generated_types__/FetchPlaylist";
 import { useParams } from "react-router-dom";
+import { Button } from "../components/button/button";
+import { AddTrackView } from "./add_track";
+import { LayerButton } from "../components/layer_button/layer_button";
 
 const FETCH_PLAYLIST = gql`
   query FetchPlaylist($id: ID) {
@@ -39,6 +42,12 @@ export const PlaylistView = () => {
     FetchPlaylist,
     FetchPlaylistVariables
   >(FETCH_PLAYLIST, { variables: { id } });
+  const AddTrack = React.useCallback(
+    ({ close }: { close?(): void }) => (
+      <AddTrackView close={close} playlistId={id} />
+    ),
+    [id]
+  );
   if (!data || !data.playlist) {
     return <>Not found</>;
   }
@@ -59,9 +68,12 @@ export const PlaylistView = () => {
       />
       <p>{playlist.description}</p>
       <Section>
-        {playlist.tracks?.map((track: any, i: number) => {
+        {playlist.tracks?.map((track, i) => {
+          if (!track?.id || !track.title || !track.artist || !track.album)
+            return;
           return (
             <TrackItem
+              key={track.id}
               index={i}
               title={track.title}
               artist={track.artist}
@@ -69,6 +81,7 @@ export const PlaylistView = () => {
             />
           );
         })}
+        <LayerButton Content={AddTrack}>Add new track</LayerButton>
       </Section>
     </div>
   );

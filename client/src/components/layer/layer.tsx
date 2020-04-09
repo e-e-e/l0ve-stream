@@ -1,5 +1,5 @@
 import style from "./layer.module.css";
-import React, { MouseEvent, PropsWithChildren } from "react";
+import React, {MouseEvent, PropsWithChildren, useCallback} from "react";
 import ReactDOM from "react-dom";
 
 class Layers {
@@ -48,9 +48,10 @@ const LayerInternal = ({
     },
     [onBackgroundClick]
   );
+  const preventDefault = useCallback((e: MouseEvent<HTMLDivElement>) => e.preventDefault(), []);
   return (
     <div className={style.layer} onClick={onClick}>
-      <div className={style.layerContainer}>{children}</div>
+      <div className={style.layerContainer} onClick={preventDefault}>{children}</div>
     </div>
   );
 };

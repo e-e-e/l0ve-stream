@@ -9,6 +9,7 @@ import {
 } from "./__generated_types__/CreatePlaylist";
 import { useHistory } from "react-router-dom";
 import { playlistUrl } from "../routes/routes";
+import {Typography} from "../components/typography/typography";
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -52,6 +53,7 @@ export function CreatePlaylist() {
   }, [data]);
   return (
     <form onSubmit={onSubmit}>
+      <Typography variant="h1">Create a playlist</Typography>
       <Input name="title" placeholder="Playlist name" />
       <Input name="description" type="text" placeholder="Description" />
       <Button type="submit" disabled={loading}>

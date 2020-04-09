@@ -41,7 +41,7 @@ export const Typography = (props: React.PropsWithChildren<TypographyProps>) => {
     <Component
       className={classNames(
         styles.typography,
-        styles[align || "left"],
+        styles[align || variant === "h1" ? "center" : "left"],
         styles[color || variant === "subtitle" ? "grey" : "black"],
         {
           [styles.noWrap]: wrap === false,

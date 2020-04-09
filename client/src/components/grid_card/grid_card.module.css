@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
     border: black thin solid;
+    margin: 1rem 0;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 .item {

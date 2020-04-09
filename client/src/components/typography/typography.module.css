@@ -1,4 +1,6 @@
 h1.typography {
+    font-size: 1.7rem;
+    font-weight: normal;
     text-transform: uppercase;
 }
 p.typography {

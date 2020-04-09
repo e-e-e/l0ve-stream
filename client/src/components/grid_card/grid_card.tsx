@@ -15,7 +15,7 @@ type GridProps = {
 export const GridCard = (props: GridProps) => {
   const { topLeft, bottomLeft, bottomRight, info, onClick } = props;
   return (
-    <div className={styles.gridContainer} onClick={onClick}>
+    <div className={classNames(styles.gridContainer, { [styles.clickable]: !!onClick })} onClick={onClick}>
       <div className={styles.gridTop}>
         <div className={classNames(styles.gridLeft, styles.item)}>
           {topLeft}

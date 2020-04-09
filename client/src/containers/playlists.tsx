@@ -43,7 +43,12 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
     <div>
       <GridCard
         onClick={openPlaylist}
-        topLeft={<Typography variant="h2">{title}</Typography>}
+        topLeft={
+          <div>
+            <Typography variant="h2">{title}</Typography>
+            <Typography variant="subtitle">{description}</Typography>
+          </div>
+        }
         bottomLeft={<Typography>{owner}</Typography>}
         bottomRight={
           <div style={{ textAlign: "center" }}>
@@ -52,7 +57,6 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
         }
         info={{ top: "2", bottom: "14m" }}
       />
-      <p>{description}</p>
     </div>
   );
 };

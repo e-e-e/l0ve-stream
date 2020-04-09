@@ -3,9 +3,8 @@ import styles from "./header.module.css";
 import { AddIcon, MenuIcon, SearchIcon } from "../icons/icons";
 import { IconButton, Button, ListButton } from "../button/button";
 import { Layer } from "../layer/layer";
-import {
-  useNavigationHandler,
-} from "../../routes/routes";
+import { useNavigationHandler } from "../../routes/routes";
+import { LayerIconButton } from "../layer_button/layer_button";
 
 type HeaderLayerProps = { close?(): void };
 type HeaderLayerContent = ComponentType<HeaderLayerProps>;
@@ -45,28 +44,6 @@ function MainMenu({ menuItems, primaryAction, close }: MainMenuProps) {
   );
 }
 
-function LayerButton({
-  children,
-  Content,
-}: {
-  children: React.ReactNode;
-  Content: React.ComponentType<{ close?(): void }>;
-}) {
-  const [open, setOpen] = React.useState(false);
-  const hide = React.useCallback(() => setOpen(false), [setOpen]);
-  const show = React.useCallback(() => setOpen(true), [setOpen]);
-  return (
-    <span>
-      <IconButton onClick={show}>{children}</IconButton>
-      {open && (
-        <Layer onBackgroundClick={hide}>
-          <Content close={hide} />
-        </Layer>
-      )}
-    </span>
-  );
-}
-
 function Header({ mainMenuOptions, plusOptions, searchOptions }: HeaderProps) {
   const MainMenuWithItems = React.useCallback((props: HeaderLayerProps) => {
     if (!mainMenuOptions) throw new Error("Should have menu options");
@@ -82,19 +59,19 @@ function Header({ mainMenuOptions, plusOptions, searchOptions }: HeaderProps) {
     <header className={styles.header}>
       <nav className={styles.nav}>
         {searchOptions ? (
-          <LayerButton Content={searchOptions?.Content}>
+          <LayerIconButton Content={searchOptions?.Content}>
             <SearchIcon />
-          </LayerButton>
+          </LayerIconButton>
         ) : (
           <span />
         )}
-        <LayerButton Content={MainMenuWithItems}>
+        <LayerIconButton Content={MainMenuWithItems}>
           <MenuIcon />
-        </LayerButton>
+        </LayerIconButton>
         {plusOptions ? (
-          <LayerButton Content={plusOptions?.Content}>
+          <LayerIconButton Content={plusOptions?.Content}>
             <AddIcon />
-          </LayerButton>
+          </LayerIconButton>
         ) : (
           <span />
         )}
