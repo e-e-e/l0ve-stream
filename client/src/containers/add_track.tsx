@@ -28,18 +28,14 @@ const CREATE_TRACK = gql`
 `;
 
 export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
-  const [createTrack, { data, error }] = useMutation<
+  const [createTrack, { data, error, loading }] = useMutation<
     CreateTrack,
     CreateTrackVariables
   >(CREATE_TRACK);
-  console.log(data);
-  console.log(error);
   const submit = React.useCallback(
     async (event: React.FormEvent) => {
-      console.log("submit");
       event.preventDefault();
-      console.log(event);
-      if(!(event.target instanceof HTMLFormElement)) return
+      if (!(event.target instanceof HTMLFormElement)) return;
       const formdata = new FormData(event.target);
       const data = {
         title: formdata.get("title") as string,
@@ -53,13 +49,16 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
     },
     [playlistId]
   );
+
   return (
     <DropArea onFileDrop={() => {}} overlayText="Drop a music file here.">
-      <form onSubmit={submit} onClick={() => {}}>
+      <form onSubmit={submit}>
         <Input name="title" placeholder="title" />
         <Input name="artist" placeholder="artist/s" />
         <Input name="album" placeholder="album" />
-        <Button type="submit">Add new track</Button>
+        <Button type="submit" disabled={loading}>
+          Add new track
+        </Button>
         <Typography>
           Or drag and drop a music file to automatically populate.
         </Typography>
