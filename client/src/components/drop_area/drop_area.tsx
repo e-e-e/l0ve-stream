@@ -1,13 +1,16 @@
 import React, { PropsWithChildren, useState } from "react";
 import styles from "./drop_area.module.css";
 import classNames from "classnames";
+import { CloudIcon, Spinner } from "../icons/icons";
 
 type DropAreaProps = {
   onFileDrop?(file: Blob): Promise<void> | void;
+  overlayText?: string;
 };
 
 export const DropArea = ({
   onFileDrop,
+  overlayText,
   children,
 }: PropsWithChildren<DropAreaProps>) => {
   const [over, setOver] = React.useState<boolean>(false);
@@ -47,7 +50,6 @@ export const DropArea = ({
     },
     [setProcessing, setOver, processing]
   );
-  console.log('processing', processing);
   return (
     <div
       onDragOver={onEnter}
@@ -55,10 +57,17 @@ export const DropArea = ({
       onDragEnd={onLeave}
       onDragLeave={onLeave}
       onDrop={onDropHandler}
-      className={classNames(styles.container, { [styles.over]: over, [styles.processing]: processing})}
+      className={classNames(styles.container, {
+        [styles.over]: over || processing,
+      })}
     >
       {children}
-      <div className={styles.overlay}></div>
+      <div className={styles.overlay}>
+        <div className={styles.overlayContent}>
+          <div>{!processing ? <CloudIcon /> : <Spinner />}</div>
+          {overlayText && <div>{!processing ? overlayText : ""}</div>}
+        </div>
+      </div>
     </div>
   );
 };

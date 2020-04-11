@@ -90,7 +90,7 @@ type UserMutationResponse {
 type Mutation {
     createPlaylist(data: PlaylistInput): PlaylistMutationResponse
     deletePlaylist(id: ID): PlainMutationResponse
-    createTrack(id: ID, data: TrackInput): TrackMutationResponse
+    createTrack(id: ID, data: TrackInput, order: Int): TrackMutationResponse
     deleteTrack(id: ID): PlainMutationResponse
     createUser(data: UserInput): UserMutationResponse
 }

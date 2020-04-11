@@ -128,7 +128,12 @@ const resolverMap: IResolvers = {
       return {};
     }),
     createTrack: handleMutationError(async (parent, args, context) => {
-      const track = context.dataSources.playlists.createTrack(args.data);
+      // get number of tracks and add
+      const track = context.dataSources.playlists.addTrack(
+        args.id,
+        args.data,
+        args.order
+      );
       return { track };
     }),
     deleteTrack: handleMutationError(async (parent, args, context) => {

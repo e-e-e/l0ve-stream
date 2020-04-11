@@ -40,18 +40,15 @@ const LayerInternal = ({
 }: PropsWithChildren<LayerProps>) => {
   const onClick = React.useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
-      if (!e.isDefaultPrevented()) {
+      if (e.target === e.currentTarget) {
         onBackgroundClick?.(e);
-        console.log("clicked");
       }
-      e.preventDefault();
     },
     [onBackgroundClick]
   );
-  const preventDefault = useCallback((e: MouseEvent<HTMLDivElement>) => e.preventDefault(), []);
   return (
     <div className={style.layer} onClick={onClick}>
-      <div className={style.layerContainer} onClick={preventDefault}>{children}</div>
+      <div className={style.layerContainer}>{children}</div>
     </div>
   );
 };

@@ -7,14 +7,23 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255,255,255,0);
+    background: rgba(255,255,255, 0.8);
     pointer-events: none;
     z-index: 100;
+    transition: opacity  ease-in 200ms;
+    opacity: 0;
 }
 .over .overlay {
-    background: rgba(0,255,0,1);
+    background: rgba(255,255,255, 0.9);
+    /*backdrop-filter: blur(10px);*/
+    opacity: 1;
 }
 
-.processing .overlay {
-    background: rgba(0, 0, 255, 1);
+.overlayContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
