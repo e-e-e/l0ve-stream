@@ -1,9 +1,10 @@
-import {
-  PlaylistActions,
-} from "../actions/playlists_actions";
+import { PlaylistActions } from "../actions/playlists_actions";
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import { groupByIds, LoadingState } from "./helpers";
 import {
+  FETCH_PLAYLIST,
+  FETCH_PLAYLIST_ERROR,
+  FETCH_PLAYLIST_SUCCESS,
   FETCH_PLAYLISTS,
   FETCH_PLAYLISTS_ERROR,
   FETCH_PLAYLISTS_SUCCESS,
@@ -54,6 +55,36 @@ export function playlistReducer(
       state: LoadingState.ERROR,
       byId: {},
       allIds: [],
+      errorMessage: action.payload.errorMessage,
+    };
+  }
+  if (action.type === FETCH_PLAYLIST) {
+    return {
+      ...state,
+      state: LoadingState.LOADING,
+    };
+  }
+  if (action.type === FETCH_PLAYLIST_SUCCESS) {
+    const playlist = action.payload.playlist;
+    if (playlist === null) {
+      return state;
+    }
+    return {
+      ...state,
+      state: LoadingState.LOADED,
+      byId: {
+        ...state.byId,
+        [playlist.id]: playlist,
+      },
+      allIds: state.allIds.includes(playlist.id)
+        ? state.allIds
+        : [...state.allIds, playlist.id],
+    };
+  }
+  if (action.type === FETCH_PLAYLIST_ERROR) {
+    return {
+      ...state,
+      state: LoadingState.ERROR,
       errorMessage: action.payload.errorMessage,
     };
   }

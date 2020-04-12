@@ -56,7 +56,6 @@ function App() {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(fetchPlaylists());
     dispatch(fetchWhoAmI());
   }, [dispatch]);
   return (

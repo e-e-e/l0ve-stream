@@ -3,58 +3,48 @@ import { Typography } from "../components/typography/typography";
 import { PlayIcon } from "../components/icons/icons";
 import { Section } from "../components/section/section";
 import { TrackItem } from "../components/track_item/track_item";
-import React, { useCallback, useEffect } from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-import {
-  FetchPlaylist,
-  FetchPlaylistVariables,
-} from "./__generated_types__/FetchPlaylist";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { AddTrackView } from "./add_track";
 import { LayerButton } from "../components/layer_button/layer_button";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/reducers/reducers";
+import { fetchPlaylist } from "../redux/actions/playlists_actions";
+import { LoadingState } from "../redux/reducers/helpers";
 
-const FETCH_PLAYLIST = gql`
-  query FetchPlaylist($id: ID) {
-    playlist(playlist: $id) {
-      id
-      title
-      description
-      tracks {
-        id
-        title
-        album
-        artist
-        year
-        genre
-      }
-      owner {
-        id
-        name
-      }
-    }
-  }
-`;
+const selectPlaylist = (id: string) => (state: RootState) =>
+  state.entities.playlists.byId[id];
+const selectError = (state: RootState) =>
+  state.entities.playlists.state === LoadingState.ERROR &&
+  state.entities.playlists.errorMessage;
+const selectIsLoading = (state: RootState) =>
+  state.entities.playlists.state === LoadingState.LOADING;
+
 export const PlaylistView = () => {
   const { id } = useParams<{ id: string }>();
-  const { loading, error, data } = useQuery<
-    FetchPlaylist,
-    FetchPlaylistVariables
-  >(FETCH_PLAYLIST, { variables: { id } });
+  const dispatch = useDispatch();
+  const data = useSelector(selectPlaylist(id));
+  const error = useSelector(selectError);
+  const loading = useSelector(selectIsLoading);
+  React.useEffect(() => {
+    if (!data && id) {
+      dispatch(fetchPlaylist({ id }));
+    }
+  }, [id, data]);
   const AddTrack = React.useCallback(
     ({ close }: { close?(): void }) => (
       <AddTrackView close={close} playlistId={id} />
     ),
     [id]
   );
-  if (!data || !data.playlist) {
+  if (error) return <div>{error}</div>;
+  if (loading) return <div>{loading}</div>;
+  if (!data) {
     return <>Not found</>;
   }
-  const playlist = data.playlist;
+  const playlist = data;
   return (
     <div>
-      <div>{error}</div>
-      <div>{loading}</div>
       <GridCard
         topLeft={<Typography variant="h2">{playlist.title}</Typography>}
         bottomLeft={<Typography>{playlist.owner?.name}</Typography>}
