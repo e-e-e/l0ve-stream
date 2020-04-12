@@ -10,7 +10,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext ts --ext tsx",
     "lint:fix": "eslint ./src --ext ts --ext tsx --fix",
-    "generate:types": "apollo codegen:generate --localSchemaFile=\"../server/src/schema/schema.graphql\" --target=typescript --includes=\"src/**/*.tsx\" --tagName=gql --addTypename __generated_types__"
+    "generate:types": "apollo codegen:generate --localSchemaFile=\"../server/src/schema/schema.graphql\" --target=typescript --includes=\"src/**/*.{ts,tsx}\" --tagName=gql --addTypename __generated_types__"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
@@ -22,6 +22,8 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.7",
+    "@types/redux": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "apollo-boost": "^0.4.7",
@@ -36,8 +38,12 @@
     "react": "^16.13.1",
     "react-apollo": "^3.1.3",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "redux-actions": "^2.6.5",
+    "redux-saga": "^1.1.3",
     "typescript": "~3.7.2"
   },
   "eslintConfig": {
@@ -58,7 +64,10 @@
   "devDependencies": {
     "@types/graphql": "^14.5.0",
     "@types/react-router-dom": "^5.1.3",
+    "@types/redux-actions": "^2.6.1",
+    "@types/redux-devtools-extension": "^2.13.2",
     "apollo": "^2.26.0",
-    "eslint-plugin-prettier": "^3.1.2"
+    "eslint-plugin-prettier": "^3.1.2",
+    "redux-devtools-extension": "^2.13.8"
   }
 }

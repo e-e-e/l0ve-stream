@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: FetchPlaylist
+// GraphQL query operation: FetchPlaylists2
 // ====================================================
 
-export interface FetchPlaylist_playlist_tracks {
+export interface FetchPlaylists2_playlists_tracks {
   __typename: "Track";
   id: string | null;
   title: string | null;
@@ -17,25 +17,21 @@ export interface FetchPlaylist_playlist_tracks {
   genre: string | null;
 }
 
-export interface FetchPlaylist_playlist_owner {
+export interface FetchPlaylists2_playlists_owner {
   __typename: "User";
   id: string | null;
   name: string | null;
 }
 
-export interface FetchPlaylist_playlist {
+export interface FetchPlaylists2_playlists {
   __typename: "Playlist";
   id: string;
   title: string | null;
   description: string | null;
-  tracks: (FetchPlaylist_playlist_tracks | null)[] | null;
-  owner: FetchPlaylist_playlist_owner | null;
+  tracks: (FetchPlaylists2_playlists_tracks | null)[] | null;
+  owner: FetchPlaylists2_playlists_owner | null;
 }
 
-export interface FetchPlaylist {
-  playlist: FetchPlaylist_playlist | null;
-}
-
-export interface FetchPlaylistVariables {
-  id?: string | null;
+export interface FetchPlaylists2 {
+  playlists: FetchPlaylists2_playlists[] | null;
 }

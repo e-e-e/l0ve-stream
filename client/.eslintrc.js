@@ -7,7 +7,8 @@ module.exports = {
   ],
   rules: {
     "@typescript-eslint/explicit-function-return-type": 0,
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react/display-name": 0
   },
   extends: [
     "prettier",

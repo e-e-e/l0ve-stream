@@ -11,7 +11,7 @@ import { TrackInput } from "./../../../__generated_types__/globalTypes";
 
 export interface CreatePlaylist_createPlaylist_playlist {
   __typename: "Playlist";
-  id: string | null;
+  id: string;
 }
 
 export interface CreatePlaylist_createPlaylist {

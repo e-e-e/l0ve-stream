@@ -6,7 +6,7 @@ import { Typography } from "../components/typography/typography";
 
 export const ProfileView = () => {
   const { data, loading, error } = useQuery<WhoAmI>(gql`
-    query WhoAmI {
+    query WhoAmI2 {
       whoami {
         id
         name

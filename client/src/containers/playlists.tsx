@@ -9,7 +9,7 @@ import { playlistUrl, useNavigationHandler } from "../routes/routes";
 import { DropArea } from "../components/drop_area/drop_area";
 
 const FETCH_PLAYLISTS = gql`
-  query FetchPlaylists {
+  query FetchPlaylists2 {
     playlists {
       id
       title

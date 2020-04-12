@@ -19,12 +19,12 @@ import {
   myPlaylistsUrl,
   profileUrl,
 } from "./routes/routes";
-import {ProfileView} from "./containers/profile";
-import {Typography} from "./components/typography/typography";
+import { ProfileView } from "./containers/profile";
+import { Typography } from "./components/typography/typography";
+import { useDispatch } from "react-redux";
+import { FETCH_PLAYLISTS } from "./redux/actions/actions";
 
 function App() {
-
-
   const mainMenuOptions = {
     primaryAction: {
       label: "Log out",
@@ -58,6 +58,11 @@ function App() {
     Content: () => <div>Plus</div>,
   };
 
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    console.log('displatch')
+    dispatch({ type: FETCH_PLAYLISTS });
+  }, [dispatch]);
   return (
     <Router>
       <Page>
@@ -69,7 +74,7 @@ function App() {
         <main>
           <Switch>
             <Route path="/me">
-              <ProfileView/>
+              <ProfileView />
             </Route>
             <Route path="/about">
               <About />

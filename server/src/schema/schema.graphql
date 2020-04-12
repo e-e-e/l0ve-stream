@@ -6,7 +6,7 @@ type User {
 }
 
 type Playlist {
-    id: ID
+    id: ID!
     title: String
     description: String
     owner: User
@@ -38,7 +38,7 @@ type Links {
 type Query {
     whoami: User,
     playlist(playlist: ID): Playlist
-    playlists(id: ID, pageSize: Int, after: String): [Playlist]
+    playlists(id: ID, pageSize: Int, after: String): [Playlist!]
     user(id: ID): User
     users(pageSize: Int, after: String): [User]
     track(id: ID): Track

@@ -3,24 +3,21 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { installWebsocketClient } from "./websocket_client";
-import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-
-const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_URI || "http://localhost:3000/graphql",
-  credentials: "include",
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-  },
-});
+import { installRedux } from "./redux/install";
+import { installGraphQL } from "./services/graphql/install";
 
 installWebsocketClient({ url: "ws://localhost:8000" });
+const { client, queries } = installGraphQL();
+const { ReduxProvider } = installRedux({ services: { queries } });
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <ReduxProvider>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
