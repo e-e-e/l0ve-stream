@@ -10,7 +10,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext ts --ext tsx",
     "lint:fix": "eslint ./src --ext ts --ext tsx --fix",
-    "generate:types": "apollo codegen:generate --localSchemaFile=\"../server/src/schema/schema.graphql\" --target=typescript --includes=\"src/**/*.{ts,tsx}\" --tagName=gql --addTypename __generated_types__"
+    "generate:types": "apollo codegen:generate --localSchemaFile=\"../server/src/schema/schema.graphql\" --target=typescript --includes=\"src/**/*.{ts,tsx}\" --tagName=gql --addTypename __generated_types__",
+    "generate:clean": "find . -type d -name __generated_types__ -exec rm -rf {} \\;\n"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
