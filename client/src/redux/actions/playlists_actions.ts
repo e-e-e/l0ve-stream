@@ -1,14 +1,12 @@
 import { Action } from "redux";
 import { createAction } from "redux-actions";
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
-
-export const FETCH_PLAYLISTS = "FETCH_PLAYLISTS";
-export const FETCH_PLAYLISTS_SUCCESS = "PLAYLISTS_FETCH_SUCCESS";
-export const FETCH_PLAYLISTS_ERROR = "PLAYLISTS_FETCH_ERROR";
-
-type ActionWithPayload<T extends string, P = never> = [P] extends [never]
-  ? Action<T>
-  : Action<T> & { payload: P };
+import {
+  FETCH_PLAYLISTS,
+  FETCH_PLAYLISTS_ERROR,
+  FETCH_PLAYLISTS_SUCCESS,
+} from "./action_types";
+import { ActionWithPayload } from "./types";
 
 export const fetchPlaylists = createAction(FETCH_PLAYLISTS);
 export const fetchPlaylistsSuccess = createAction<FetchPlaylists>(
@@ -30,7 +28,7 @@ export type ActionPlaylistsFetchError = ActionWithPayload<
   { errorMessage: string }
 >;
 
-export type AppActions =
+export type PlaylistActions =
   | ActionPlaylistsFetch
   | ActionPlaylistsFetchSuccess
   | ActionPlaylistsFetchError;
