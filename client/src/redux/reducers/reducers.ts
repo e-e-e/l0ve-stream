@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import { playlistReducer } from "./playlists";
-import { userReducer } from "./user";
+import {playlistReducer, PlaylistsState} from "./playlists";
+import { userReducer, UserState } from "./user";
 
 export const reducer = combineReducers({
   user: userReducer,
@@ -9,3 +9,12 @@ export const reducer = combineReducers({
   }),
   // ui: ,
 });
+
+export type RootState = ReturnType<typeof reducer>;
+
+// {
+//   user: UserState;
+//   entities: {
+//     playlists: PlaylistsState;
+//   };
+// };

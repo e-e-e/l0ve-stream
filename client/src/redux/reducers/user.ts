@@ -7,7 +7,7 @@ import { LoadingState } from "./helpers";
 import { WhoAmI } from "../../services/graphql/__generated_types__/WhoAmI";
 import { UserActions } from "../actions/user_actions";
 
-type State = {
+export type UserState = {
   state: LoadingState;
   whoami: WhoAmI["whoami"];
   errorMessage: string | null;
@@ -20,9 +20,9 @@ const initialState = {
 };
 
 export function userReducer(
-  state: State = initialState,
+  state: UserState = initialState,
   action: UserActions
-): State {
+): UserState {
   if (action.type === FETCH_WHOAMI) {
     return {
       ...state,

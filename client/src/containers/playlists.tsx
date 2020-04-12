@@ -4,9 +4,12 @@ import { useQuery } from "@apollo/react-hooks";
 import { GridCard } from "../components/grid_card/grid_card";
 import { PlayIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
-import { FetchPlaylists } from "./__generated_types__/FetchPlaylists";
 import { playlistUrl, useNavigationHandler } from "../routes/routes";
-import { DropArea } from "../components/drop_area/drop_area";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPlaylists } from "../redux/actions/playlists_actions";
+import { RootState } from "../redux/reducers/reducers";
+import { UserState } from "../redux/reducers/user";
+import {LoadingState} from "../redux/reducers/helpers";
 
 const FETCH_PLAYLISTS = gql`
   query FetchPlaylists2 {
@@ -61,15 +64,27 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
   );
 };
 
-function Playlists() {
-  const { data, loading, error } = useQuery<FetchPlaylists>(FETCH_PLAYLISTS);
+const selectPlaylists = (state: RootState) => {
+  const { allIds, byId } = state.entities.playlists;
+  return allIds.map((id) => byId[id]);
+};
 
+const isLoading = (state: RootState) => state.entities.playlists.state === LoadingState.LOADING;
+const error = (state: RootState) => state.entities.playlists.state === LoadingState.ERROR && state.entities.playlists.errorMessage;
+function Playlists() {
+  const data = useSelector(selectPlaylists);
+  const loading = useSelector(isLoading);
+  const errorMessage = useSelector(error);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchPlaylists());
+  }, []);
   return (
     <section>
       <Typography variant="h1">Playlists</Typography>
       {loading && <div>loading</div>}
-      {error && <div>{error?.message}</div>}
-      {data?.playlists?.map((v, i) => {
+      {errorMessage && <div>{errorMessage}</div>}
+      {data.map((v, i) => {
         if (!v || !v.id || !v.title || !v.owner?.name) return;
         return (
           <PlaylistCard

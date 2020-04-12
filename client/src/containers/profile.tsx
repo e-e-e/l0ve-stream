@@ -1,33 +1,24 @@
 import React, { useCallback } from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-import { WhoAmI } from "../__generated_types__/WhoAmI";
 import { Typography } from "../components/typography/typography";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../redux/reducers/reducers";
 
+const selectWhoami = (state: RootState) => state.user.whoami;
 export const ProfileView = () => {
-  const { data, loading, error } = useQuery<WhoAmI>(gql`
-    query WhoAmI2 {
-      whoami {
-        id
-        name
-        role
-      }
-    }
-  `);
-  if (!data) {
+  const whoami = useSelector(selectWhoami);
+  if (!whoami) {
     return (
       <div>
-        {loading && <div>loading</div>}
-        {error && <div>{error}</div>}
+        Do not know who you are. Something went really wrong.
       </div>
     );
   }
   return (
     <div>
       <Typography variant="h1">Profile</Typography>
-      <Typography>Hello {data?.whoami?.name}</Typography>
-      <Typography>Your id is {data?.whoami?.id}</Typography>
-      <Typography>And your role is {data?.whoami?.role}</Typography>
+      <Typography>Hello {whoami.name}</Typography>
+      <Typography>Your id is {whoami.id}</Typography>
+      <Typography>And your role is {whoami.role}</Typography>
     </div>
   );
 };

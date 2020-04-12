@@ -1,8 +1,6 @@
 import { gql, ApolloClient } from "apollo-boost";
-import { FetchPlaylist } from "../../containers/__generated_types__/FetchPlaylist";
 import { FetchPlaylists } from "./__generated_types__/FetchPlaylists";
-import { WhoAmI_whoami } from "./__generated_types__/WhoAmI";
-import { WhoAmI } from "../../__generated_types__/WhoAmI";
+import { WhoAmI } from "./__generated_types__/WhoAmI";
 
 const WHO_AM_I = gql`
   query WhoAmI {

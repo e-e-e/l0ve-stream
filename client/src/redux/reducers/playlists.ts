@@ -11,7 +11,7 @@ import {
 
 type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
 type PlaylistsDict = { [Key: string]: Playlist };
-type PlaylistsState = {
+export type PlaylistsState = {
   state: LoadingState;
   byId: PlaylistsDict;
   allIds: string[];
