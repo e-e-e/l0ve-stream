@@ -1,34 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { GridCard } from "../components/grid_card/grid_card";
-import { PlayIcon } from "../components/icons/icons";
+import { PlayIcon, TrashIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
 import { playlistUrl, useNavigationHandler } from "../routes/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlaylists } from "../redux/actions/playlists_actions";
 import { RootState } from "../redux/reducers/reducers";
-import { UserState } from "../redux/reducers/user";
-import {LoadingState} from "../redux/reducers/helpers";
+import { LoadingState } from "../redux/reducers/helpers";
+import { IconButton } from "../components/button/button";
 
-const FETCH_PLAYLISTS = gql`
-  query FetchPlaylists2 {
-    playlists {
-      id
-      title
-      description
-      tracks {
-        id
-        title
-        album
-        artist
-        year
-        genre
-      }
-      owner {
-        id
-        name
-      }
+const DELETE_PLAYLIST = gql`
+  mutation DeletePlaylist($id: ID) {
+    deletePlaylist(id: $id) {
+      message
+      success
     }
   }
 `;
@@ -42,6 +29,19 @@ type PlaylistCardProps = {
 
 const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
   const openPlaylist = useNavigationHandler(playlistUrl(id));
+  const [
+    deletePlaylistWithId,
+    { data, error, loading },
+  ] = useMutation(DELETE_PLAYLIST, { variables: { id } });
+  // replace with dispatch
+  const deletePlaylist = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      await deletePlaylistWithId();
+    },
+    [deletePlaylistWithId]
+  );
+  console.log(error, data);
   return (
     <div>
       <GridCard
@@ -55,6 +55,9 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
         bottomLeft={<Typography>{owner}</Typography>}
         bottomRight={
           <div style={{ textAlign: "center" }}>
+            <IconButton onClick={deletePlaylist}>
+              <TrashIcon />
+            </IconButton>
             <PlayIcon />
           </div>
         }
@@ -69,8 +72,11 @@ const selectPlaylists = (state: RootState) => {
   return allIds.map((id) => byId[id]);
 };
 
-const isLoading = (state: RootState) => state.entities.playlists.state === LoadingState.LOADING;
-const error = (state: RootState) => state.entities.playlists.state === LoadingState.ERROR && state.entities.playlists.errorMessage;
+const isLoading = (state: RootState) =>
+  state.entities.playlists.state === LoadingState.LOADING;
+const error = (state: RootState) =>
+  state.entities.playlists.state === LoadingState.ERROR &&
+  state.entities.playlists.errorMessage;
 function Playlists() {
   const data = useSelector(selectPlaylists);
   const loading = useSelector(isLoading);

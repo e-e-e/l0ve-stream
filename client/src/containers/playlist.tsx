@@ -63,7 +63,7 @@ export const PlaylistView = () => {
       />
       <p>{data.description}</p>
       <Section>
-        <DraggableList onDrop={() => console.log("dddd")}>
+        <DraggableList onDrop={updateTrackOrder}>
           {data.tracks?.map((track, i) => {
             if (!track?.id || !track.title || !track.artist || !track.album)
               return;

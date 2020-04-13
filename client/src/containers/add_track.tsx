@@ -18,7 +18,7 @@ type AddTrackProps = {
 
 const CREATE_TRACK = gql`
   mutation CreateTrack($playlist: ID!, $data: TrackInput!, $order: Int) {
-    createTrack(id: $playlist, data: $data, order: $order) {
+    createTrack(playlistId: $playlist, data: $data, order: $order) {
       message
       success
       track {

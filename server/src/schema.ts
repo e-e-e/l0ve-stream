@@ -124,20 +124,28 @@ const resolverMap: IResolvers = {
       };
     }),
     deletePlaylist: handleMutationError(async (parent, args, context) => {
+      // TODO: Only allow if the user is an owner
       await context.dataSources.playlists.deletePlaylist(args.id);
+      return {};
+    }),
+    updatePlaylist: handleMutationError(async (parent, args, context) => {
+      // TODO: Only allow if the user is an owner
       return {};
     }),
     createTrack: handleMutationError(async (parent, args, context) => {
       // get number of tracks and add
       const track = context.dataSources.playlists.addTrack(
-        args.id,
+        args.playlistId,
         args.data,
         args.order
       );
       return { track };
     }),
     deleteTrack: handleMutationError(async (parent, args, context) => {
-      await context.dataSources.playlists.deleteTrack(args.id);
+      await context.dataSources.playlists.deleteTrack(
+        args.playlistId,
+        args.trackId
+      );
       return {};
     }),
     createUser: handleMutationError(async (parent, args, context) => {

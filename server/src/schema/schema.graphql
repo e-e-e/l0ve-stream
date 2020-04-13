@@ -11,6 +11,8 @@ type Playlist {
     description: String
     owner: User
     tracks: [Track]
+    created: String,
+    updated: String,
 }
 
 type Track {
@@ -20,19 +22,25 @@ type Track {
     album: String
     genre: String
     year: Int
-    files: [Files]
-    links: [Links]
+    files: [File]
+    links: [Link]
+    created: String,
+    updated: String,
 }
 
-type Files {
+type File {
     id: ID
     filename: String
+    created: String,
+    updated: String,
 }
 
-type Links {
+type Link {
     id: ID
     uri: String
     type: String
+    created: String,
+    updated: String,
 }
 
 type Query {
@@ -90,7 +98,8 @@ type UserMutationResponse {
 type Mutation {
     createPlaylist(data: PlaylistInput): PlaylistMutationResponse
     deletePlaylist(id: ID): PlainMutationResponse
-    createTrack(id: ID, data: TrackInput, order: Int): TrackMutationResponse
-    deleteTrack(id: ID): PlainMutationResponse
+    updatePlaylist(data: PlaylistInput): PlaylistMutationResponse
+    createTrack(playlistId: ID, data: TrackInput, order: Int): TrackMutationResponse
+    deleteTrack(playlistId: ID, trackId: ID): PlainMutationResponse
     createUser(data: UserInput): UserMutationResponse
 }

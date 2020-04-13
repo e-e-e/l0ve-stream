@@ -61,6 +61,14 @@ export class PlaylistsDataSource extends DataSource {
     return trackWithId[0];
   }
 
+  async deleteTrack(playlistId: string, trackId: string) {
+    await this.database.delete().from("tracks").where({ id: trackId });
+    await this.database
+      .delete()
+      .from("playlists_tracks")
+      .where({ track_id: trackId, playlist_id: playlistId });
+  }
+
   async createPlaylist(playlist: Playlist): Promise<PlaylistWithId> {
     return this.database
       .insert(playlist)
@@ -70,6 +78,6 @@ export class PlaylistsDataSource extends DataSource {
   }
 
   async deletePlaylist(playlist: string) {
-    this.database.delete().from("playlist").where({ id: playlist });
+    return this.database.delete().from("playlists").where({ id: playlist });
   }
 }
