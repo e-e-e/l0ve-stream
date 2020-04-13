@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/reducers/reducers";
 import { fetchPlaylist } from "../redux/actions/playlists_actions";
 import { LoadingState } from "../redux/reducers/helpers";
+import {DragDropContext, Droppable, DropResult} from "react-beautiful-dnd";
+import { DraggableList } from "../components/draggable_list/draggable_list";
 
 const selectPlaylist = (id: string) => (state: RootState) =>
   state.entities.playlists.byId[id];
@@ -37,17 +39,21 @@ export const PlaylistView = () => {
     ),
     [id]
   );
+  const updateTrackOrder = React.useCallback((result: DropResult) => {
+    // update track list
+    // result.destination?.index
+    // reorder track listing
+  }, []);
   if (error) return <div>{error}</div>;
   if (loading) return <div>{loading}</div>;
   if (!data) {
     return <>Not found</>;
   }
-  const playlist = data;
   return (
     <div>
       <GridCard
-        topLeft={<Typography variant="h2">{playlist.title}</Typography>}
-        bottomLeft={<Typography>{playlist.owner?.name}</Typography>}
+        topLeft={<Typography variant="h2">{data.title}</Typography>}
+        bottomLeft={<Typography>{data.owner?.name}</Typography>}
         bottomRight={
           <div style={{ textAlign: "center" }}>
             <PlayIcon />
@@ -55,21 +61,24 @@ export const PlaylistView = () => {
         }
         info={{ top: "2", bottom: "14m" }}
       />
-      <p>{playlist.description}</p>
+      <p>{data.description}</p>
       <Section>
-        {playlist.tracks?.map((track, i) => {
-          if (!track?.id || !track.title || !track.artist || !track.album)
-            return;
-          return (
-            <TrackItem
-              key={track.id}
-              index={i}
-              title={track.title}
-              artist={track.artist}
-              album={track.album}
-            />
-          );
-        })}
+        <DraggableList onDrop={() => console.log("dddd")}>
+          {data.tracks?.map((track, i) => {
+            if (!track?.id || !track.title || !track.artist || !track.album)
+              return;
+            return (
+              <TrackItem
+                key={track.id}
+                id={track.id}
+                index={i}
+                title={track.title}
+                artist={track.artist}
+                album={track.album}
+              />
+            );
+          })}
+        </DraggableList>
         <LayerButton Content={AddTrack}>Add new track</LayerButton>
       </Section>
     </div>

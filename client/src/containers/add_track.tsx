@@ -9,6 +9,7 @@ import {
   CreateTrack,
   CreateTrackVariables,
 } from "./__generated_types__/CreateTrack";
+import {TrackInput} from "../../__generated_types__/globalTypes";
 
 type AddTrackProps = {
   playlistId: string;
@@ -50,10 +51,14 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
     [playlistId]
   );
 
+  const [ trackData, setTrackData ] = React.useState<Partial<TrackInput>>({});
+  const onTitleChange = React.useCallback((value: string) => {
+    setTrackData(state => ({ ...state, title: value }));
+  }, [setTrackData]);
   return (
     <DropArea onFileDrop={() => {}} overlayText="Drop a music file here.">
       <form onSubmit={submit}>
-        <Input name="title" placeholder="title" />
+        <Input name="title" placeholder="title" onChange={onTitleChange} value={trackData.title || ''}/>
         <Input name="artist" placeholder="artist/s" />
         <Input name="album" placeholder="album" />
         <Button type="submit" disabled={loading}>
