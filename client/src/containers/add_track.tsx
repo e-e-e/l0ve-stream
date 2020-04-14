@@ -46,7 +46,8 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
       await createTrack({
         variables: { playlist: playlistId, data, order: 0 },
       });
-      // close?.();
+      // update and close
+      close?.();
     },
     [playlistId]
   );

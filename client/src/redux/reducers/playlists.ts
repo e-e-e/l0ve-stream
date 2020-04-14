@@ -8,6 +8,7 @@ import {
   FETCH_PLAYLISTS,
   FETCH_PLAYLISTS_ERROR,
   FETCH_PLAYLISTS_SUCCESS,
+  UPDATE_PLAYLIST_TRACK_ORDER,
 } from "../actions/action_types";
 
 type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
@@ -25,6 +26,12 @@ const initialState = {
   allIds: [],
   errorMessage: "",
 };
+
+function move<T>(array: ReadonlyArray<T>, from: number, to: number): T[] {
+  const a = [...array.slice(0, from), ...array.slice(from + 1)];
+  a.splice(to, 0, array[from]);
+  return a;
+}
 
 export function playlistReducer(
   state: PlaylistsState = initialState,
@@ -86,6 +93,18 @@ export function playlistReducer(
       ...state,
       state: LoadingState.ERROR,
       errorMessage: action.payload.errorMessage,
+    };
+  }
+  if (action.type === UPDATE_PLAYLIST_TRACK_ORDER) {
+    const { playlistId, from, to } = action.payload;
+    const playlist = state.byId[playlistId];
+    if (!playlist.tracks) return state;
+    return {
+      ...state,
+      byId: {
+        ...state.byId,
+        [playlist.id]: { ...playlist, tracks: move(playlist.tracks, from, to) },
+      },
     };
   }
   return state;

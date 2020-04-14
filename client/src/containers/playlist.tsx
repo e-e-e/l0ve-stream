@@ -9,9 +9,12 @@ import { AddTrackView } from "./add_track";
 import { LayerButton } from "../components/layer_button/layer_button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/reducers/reducers";
-import { fetchPlaylist } from "../redux/actions/playlists_actions";
+import {
+  fetchPlaylist,
+  updatePlaylistTrackOrder,
+} from "../redux/actions/playlists_actions";
 import { LoadingState } from "../redux/reducers/helpers";
-import {DragDropContext, Droppable, DropResult} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { DraggableList } from "../components/draggable_list/draggable_list";
 
 const selectPlaylist = (id: string) => (state: RootState) =>
@@ -39,11 +42,23 @@ export const PlaylistView = () => {
     ),
     [id]
   );
-  const updateTrackOrder = React.useCallback((result: DropResult) => {
-    // update track list
-    // result.destination?.index
-    // reorder track listing
-  }, []);
+  const updateTrackOrder = React.useCallback(
+    (result: DropResult) => {
+      console.log(result);
+      if(result.source.index == undefined || result.destination?.index == undefined) return
+      dispatch(
+        updatePlaylistTrackOrder({
+          from: result.source.index,
+          to: result.destination?.index,
+          playlistId: id,
+        })
+      );
+      // update track list
+      // result.destination?.index
+      // reorder track listing
+    },
+    [id, dispatch]
+  );
   if (error) return <div>{error}</div>;
   if (loading) return <div>{loading}</div>;
   if (!data) {
