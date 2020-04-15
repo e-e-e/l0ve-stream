@@ -45,14 +45,12 @@ const server = new ApolloServer({
   introspection: true,
 });
 
-// if (process.env.NODE_ENV === 'production') {
 app.use(
   basicAuth({
     users: getBasicAuthUsers(process.env.BASIC_USERS || "admin:supersecret"),
     challenge: true,
   })
 );
-// }
 
 app.use(helmet());
 

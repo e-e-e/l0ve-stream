@@ -61,10 +61,26 @@ input TrackInput {
     year: Int,
 }
 
+input TrackInputWithOptionalId {
+    id: ID!
+    title: String
+    artist: String
+    album: String
+    genre: String
+    year: Int
+}
+
 input PlaylistInput {
     title: String!
     description: String
     tracks: [TrackInput]
+}
+
+input PlaylistInputWithId {
+    id: ID!
+    title: String
+    description: String
+    tracks: [TrackInputWithOptionalId]
 }
 
 input UserInput {
@@ -98,7 +114,7 @@ type UserMutationResponse {
 type Mutation {
     createPlaylist(data: PlaylistInput): PlaylistMutationResponse
     deletePlaylist(id: ID): PlainMutationResponse
-    updatePlaylist(data: PlaylistInput): PlaylistMutationResponse
+    updatePlaylist(data: PlaylistInputWithId): PlaylistMutationResponse
     createTrack(playlistId: ID, data: TrackInput, order: Int): TrackMutationResponse
     deleteTrack(playlistId: ID, trackId: ID): PlainMutationResponse
     createUser(data: UserInput): UserMutationResponse
