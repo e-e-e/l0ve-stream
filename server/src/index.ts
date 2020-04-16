@@ -46,10 +46,11 @@ const server = new ApolloServer({
 });
 
 app.use(helmet());
-const filename = path.resolve(__dirname, "../logo512.png");
+const filename = path.resolve(__dirname, "../2.jpeg");
 app.get("/image", (req, res) => {
-  res.sendStatus(503);
-  // res.sendFile(filename);
+  // res.sendStatus(503);
+  res.set("Cache-Control", "no-cache");
+  res.sendFile(filename);
 });
 
 app.use(
