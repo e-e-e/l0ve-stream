@@ -6,16 +6,18 @@ import { Provider } from "react-redux";
 import React, { PropsWithChildren } from "react";
 import { GraphQueriesService } from "../services/graphql/queries";
 import { composeWithDevTools } from "redux-devtools-extension";
+import {GraphMutationsService} from "../services/graphql/mutations";
 
 export function installRedux({
   services,
 }: {
   services: {
     queries: GraphQueriesService;
+    mutations: GraphMutationsService;
   };
 }) {
   const sagaMiddleware = createSagaMiddleware({
-    context: { queries: services.queries },
+    context: { queries: services.queries, mutations: services.mutations},
   });
 
   const middleware = applyMiddleware(sagaMiddleware);

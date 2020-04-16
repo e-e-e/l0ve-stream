@@ -1,5 +1,6 @@
 import ApolloClient from "apollo-boost";
 import { GraphQueriesClient } from "./queries";
+import {GraphMutationsClient} from "./mutations";
 
 export function installGraphQL() {
   const client = new ApolloClient({
@@ -13,5 +14,6 @@ export function installGraphQL() {
   return {
     client,
     queries: new GraphQueriesClient(client),
+    mutations: new GraphMutationsClient(client),
   }
 }

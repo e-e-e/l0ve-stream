@@ -5,6 +5,7 @@ import {
   fork,
   all,
   getContext,
+  select,
 } from "redux-saga/effects";
 import {
   ActionPlaylistFetch,
@@ -14,7 +15,13 @@ import {
   fetchPlaylistSuccess,
 } from "../actions/playlists_actions";
 import { GraphQueriesService } from "../../services/graphql/queries";
-import { FETCH_PLAYLIST, FETCH_PLAYLISTS } from "../actions/action_types";
+import {
+  FETCH_PLAYLIST,
+  FETCH_PLAYLISTS,
+  UPDATE_PLAYLIST_TRACK_ORDER,
+} from "../actions/action_types";
+import { GraphMutationsService } from "../../services/graphql/mutations";
+import { RootState } from "../reducers/reducers";
 
 type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
   ? U
@@ -47,6 +54,24 @@ function* fetchPlaylist(action: ActionPlaylistFetch) {
   }
 }
 
+const selectPlaylist = (id: string) => (state: RootState) =>
+  state.entities.playlists.byId[id];
+
+function* updatePlaylist(action: any) {
+  const playlist = yield select(selectPlaylist(action.payload.playlistId));
+  const mutations: GraphMutationsService = yield getContext("mutations");
+
+  try {
+    const data: PromisedReturnType<
+      GraphMutationsService["updatePlaylist"]
+    > = yield call(() => mutations.updatePlaylist(playlist));
+    console.log("updated", data);
+    // yield put(fetchPlaylistSuccess(data));
+  } catch (e) {
+    console.log("throw throw", e);
+  }
+}
+
 function* watchPlaylistsFetch() {
   yield takeLatest(FETCH_PLAYLISTS, fetchPlaylists);
 }
@@ -55,6 +80,14 @@ function* watchPlaylistFetch() {
   yield takeLatest(FETCH_PLAYLIST, fetchPlaylist);
 }
 
+function* watchUpdatePlaylist() {
+  yield takeLatest(UPDATE_PLAYLIST_TRACK_ORDER, updatePlaylist);
+}
+
 export const playlistSagas = function* playlistSagas() {
-  yield all([fork(watchPlaylistsFetch), fork(watchPlaylistFetch)]);
+  yield all([
+    fork(watchPlaylistsFetch),
+    fork(watchPlaylistFetch),
+    fork(watchUpdatePlaylist),
+  ]);
 };

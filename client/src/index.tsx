@@ -8,8 +8,8 @@ import { installRedux } from "./redux/install";
 import { installGraphQL } from "./services/graphql/install";
 
 installWebsocketClient({ url: "ws://localhost:8000" });
-const { client, queries } = installGraphQL();
-const { ReduxProvider } = installRedux({ services: { queries } });
+const { client, queries, mutations } = installGraphQL();
+const { ReduxProvider } = installRedux({ services: { queries, mutations } });
 
 ReactDOM.render(
   <React.StrictMode>
