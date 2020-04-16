@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Typography } from "../components/typography/typography";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../redux/reducers/reducers";
 
 const selectWhoami = (state: RootState) => state.user.whoami;

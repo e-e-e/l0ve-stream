@@ -1,8 +1,7 @@
-import React, { ComponentType, useCallback } from "react";
+import React, { ComponentType } from "react";
 import styles from "./header.module.css";
 import { AddIcon, MenuIcon, SearchIcon } from "../icons/icons";
-import { IconButton, Button, ListButton } from "../button/button";
-import { Layer } from "../layer/layer";
+import { Button, ListButton } from "../button/button";
 import { useNavigationHandler } from "../../routes/routes";
 import { LayerIconButton } from "../layer_button/layer_button";
 
@@ -45,16 +44,19 @@ function MainMenu({ menuItems, primaryAction, close }: MainMenuProps) {
 }
 
 function Header({ mainMenuOptions, plusOptions, searchOptions }: HeaderProps) {
-  const MainMenuWithItems = React.useCallback((props: HeaderLayerProps) => {
-    if (!mainMenuOptions) throw new Error("Should have menu options");
-    return (
-      <MainMenu
-        menuItems={mainMenuOptions?.menuItems}
-        primaryAction={mainMenuOptions?.primaryAction}
-        close={props.close}
-      />
-    );
-  }, []);
+  const MainMenuWithItems = React.useCallback(
+    (props: HeaderLayerProps) => {
+      if (!mainMenuOptions) throw new Error("Should have menu options");
+      return (
+        <MainMenu
+          menuItems={mainMenuOptions?.menuItems}
+          primaryAction={mainMenuOptions?.primaryAction}
+          close={props.close}
+        />
+      );
+    },
+    [mainMenuOptions]
+  );
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>

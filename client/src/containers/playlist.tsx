@@ -14,8 +14,9 @@ import {
   updatePlaylistTrackOrder,
 } from "../redux/actions/playlists_actions";
 import { LoadingState } from "../redux/reducers/helpers";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
 import { DraggableList } from "../components/draggable_list/draggable_list";
+import { DropArea } from "../components/drop_area/drop_area";
 
 const selectPlaylist = (id: string) => (state: RootState) =>
   state.entities.playlists.byId[id];
@@ -35,7 +36,7 @@ export const PlaylistView = () => {
     if (!data && id) {
       dispatch(fetchPlaylist({ id }));
     }
-  }, [id, data]);
+  }, [id, dispatch, data]);
   const AddTrack = React.useCallback(
     ({ close }: { close?(): void }) => (
       <AddTrackView close={close} playlistId={id} />
@@ -45,7 +46,11 @@ export const PlaylistView = () => {
   const updateTrackOrder = React.useCallback(
     (result: DropResult) => {
       console.log(result);
-      if(result.source.index == undefined || result.destination?.index == undefined) return
+      if (
+        result.source.index == null ||
+        result.destination?.index == null
+      )
+        return;
       dispatch(
         updatePlaylistTrackOrder({
           from: result.source.index,
@@ -65,7 +70,11 @@ export const PlaylistView = () => {
     return <>Not found</>;
   }
   return (
-    <div>
+    <DropArea
+      onFileDrop={(file) => {
+        // process file and open add dialog prefilled
+      }}
+    >
       <GridCard
         topLeft={<Typography variant="h2">{data.title}</Typography>}
         bottomLeft={<Typography>{data.owner?.name}</Typography>}
@@ -96,6 +105,6 @@ export const PlaylistView = () => {
         </DraggableList>
         <LayerButton Content={AddTrack}>Add new track</LayerButton>
       </Section>
-    </div>
+    </DropArea>
   );
 };

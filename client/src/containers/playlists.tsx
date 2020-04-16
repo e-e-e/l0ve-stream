@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { gql } from "apollo-boost";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { GridCard } from "../components/grid_card/grid_card";
 import { PlayIcon, TrashIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
@@ -31,7 +31,7 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
   const openPlaylist = useNavigationHandler(playlistUrl(id));
   const [
     deletePlaylistWithId,
-    { data, error, loading },
+    { data, error },
   ] = useMutation(DELETE_PLAYLIST, { variables: { id } });
   // replace with dispatch
   const deletePlaylist = useCallback(
@@ -84,14 +84,14 @@ function Playlists() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(fetchPlaylists());
-  }, []);
+  }, [dispatch]);
   return (
     <section>
       <Typography variant="h1">Playlists</Typography>
       {loading && <div>loading</div>}
       {errorMessage && <div>{errorMessage}</div>}
       {data.map((v, i) => {
-        if (!v || !v.id || !v.title || !v.owner?.name) return;
+        if (!v || !v.id || !v.title || !v.owner?.name) return undefined;
         return (
           <PlaylistCard
             key={`${i}-${v?.id}`}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { Input } from "../components/input/input";
@@ -40,17 +40,20 @@ export function CreatePlaylist() {
   >(CREATE_PLAYLIST);
   const [mutationError, setMutationError] = useState<string | null>(null);
   const history = useHistory();
-  const onSubmit = React.useCallback(async (event: React.FormEvent) => {
-    event.preventDefault();
-    // construct a FormData object, which fires the formdata event
-    if (!(event.target instanceof HTMLFormElement)) return;
-    const formdata = new FormData(event.target);
-    const data = {
-      title: formdata.get("title") as string,
-      description: formdata.get("description") as string,
-    };
-    await create({ variables: data });
-  }, []);
+  const onSubmit = React.useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      // construct a FormData object, which fires the formdata event
+      if (!(event.target instanceof HTMLFormElement)) return;
+      const formdata = new FormData(event.target);
+      const data = {
+        title: formdata.get("title") as string,
+        description: formdata.get("description") as string,
+      };
+      await create({ variables: data });
+    },
+    [create]
+  );
   const onFileDrop = React.useCallback(
     async (file: File) => {
       const data = await convertPlaylist.fromITunesXML(file);

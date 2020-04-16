@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren } from "react";
 import styles from "./drop_area.module.css";
 import classNames from "classnames";
 import { CloudIcon, Spinner } from "../icons/icons";
@@ -48,7 +48,7 @@ export const DropArea = ({
         setProcessing(false);
       }
     },
-    [setProcessing, setOver, processing]
+    [onFileDrop, setProcessing, setOver, processing]
   );
   return (
     <div

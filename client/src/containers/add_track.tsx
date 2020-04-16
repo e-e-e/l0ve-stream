@@ -9,7 +9,7 @@ import {
   CreateTrack,
   CreateTrackVariables,
 } from "./__generated_types__/CreateTrack";
-import {TrackInput} from "../../__generated_types__/globalTypes";
+import { TrackInput } from "../../__generated_types__/globalTypes";
 
 type AddTrackProps = {
   playlistId: string;
@@ -29,7 +29,7 @@ const CREATE_TRACK = gql`
 `;
 
 export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
-  const [createTrack, { data, error, loading }] = useMutation<
+  const [createTrack, { loading }] = useMutation<
     CreateTrack,
     CreateTrackVariables
   >(CREATE_TRACK);
@@ -49,17 +49,25 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
       // update and close
       close?.();
     },
-    [playlistId]
+    [close, createTrack, playlistId]
   );
 
-  const [ trackData, setTrackData ] = React.useState<Partial<TrackInput>>({});
-  const onTitleChange = React.useCallback((value: string) => {
-    setTrackData(state => ({ ...state, title: value }));
-  }, [setTrackData]);
+  const [trackData, setTrackData] = React.useState<Partial<TrackInput>>({});
+  const onTitleChange = React.useCallback(
+    (value: string) => {
+      setTrackData((state) => ({ ...state, title: value }));
+    },
+    [setTrackData]
+  );
   return (
     <DropArea onFileDrop={() => {}} overlayText="Drop a music file here.">
       <form onSubmit={submit}>
-        <Input name="title" placeholder="title" onChange={onTitleChange} value={trackData.title || ''}/>
+        <Input
+          name="title"
+          placeholder="title"
+          onChange={onTitleChange}
+          value={trackData.title || ""}
+        />
         <Input name="artist" placeholder="artist/s" />
         <Input name="album" placeholder="album" />
         <Button type="submit" disabled={loading}>

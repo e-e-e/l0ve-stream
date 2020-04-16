@@ -1,4 +1,3 @@
-import { Action } from "redux";
 import { createAction } from "redux-actions";
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import {

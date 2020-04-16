@@ -1,5 +1,5 @@
 import style from "./layer.module.css";
-import React, {MouseEvent, PropsWithChildren, useCallback} from "react";
+import React, { MouseEvent, PropsWithChildren } from "react";
 import ReactDOM from "react-dom";
 
 class Layers {

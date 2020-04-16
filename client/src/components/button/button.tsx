@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactEventHandler } from "react";
+import React, { ReactEventHandler } from "react";
 import classNames from "classnames";
 import styles from "./button.module.css";
 
