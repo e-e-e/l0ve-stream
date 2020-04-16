@@ -45,14 +45,19 @@ const server = new ApolloServer({
   introspection: true,
 });
 
+app.use(helmet());
+const filename = path.resolve(__dirname, "../logo512.png");
+app.get("/image", (req, res) => {
+  res.sendStatus(503);
+  // res.sendFile(filename);
+});
+
 app.use(
   basicAuth({
     users: getBasicAuthUsers(process.env.BASIC_USERS || "admin:supersecret"),
     challenge: true,
   })
 );
-
-app.use(helmet());
 
 server.applyMiddleware({ app });
 
