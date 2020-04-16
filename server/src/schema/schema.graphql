@@ -73,14 +73,14 @@ input TrackInputWithOptionalId {
 input PlaylistInput {
     title: String!
     description: String
-    tracks: [TrackInput]
+    tracks: [TrackInput!]
 }
 
 input PlaylistInputWithId {
     id: ID!
     title: String
     description: String
-    tracks: [TrackInputWithOptionalId]
+    tracks: [TrackInputWithOptionalId!]
 }
 
 input UserInput {

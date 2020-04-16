@@ -11,7 +11,7 @@ export interface PlaylistInputWithId {
   id: string;
   title?: string | null;
   description?: string | null;
-  tracks?: (TrackInputWithOptionalId | null)[] | null;
+  tracks?: TrackInputWithOptionalId[] | null;
 }
 
 export interface TrackInput {

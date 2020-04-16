@@ -42,7 +42,8 @@ export class PlaylistsDataSource extends DataSource {
     if (playlist.tracks) {
       for (let i = 0; i < playlist.tracks.length; i++) {
         const trackInput = playlist.tracks[i];
-        const track = await this.addTrack(inserted.id, trackInput, i);
+        const index = i;
+        const track = await this.addTrack(inserted.id, trackInput, index);
         tracks.push(track);
       }
     }
@@ -71,10 +72,11 @@ export class PlaylistsDataSource extends DataSource {
     const tracks: TrackWithId[] = [];
     if (playlist.tracks) {
       for (let i = 0; i < playlist.tracks.length; i++) {
-        const trackData = playlist.tracks[i]
+        const trackData = playlist.tracks[i];
+        const index = i;
         const track = trackData.id
-          ? await this.updateTrack(playlist.id, trackData as TrackWithId, i)
-          : await this.addTrack(playlist.id, playlist.tracks[i], i);
+          ? await this.updateTrack(playlist.id, trackData as TrackWithId, index)
+          : await this.addTrack(playlist.id, trackData, index);
         tracks.push(track);
       }
     }
@@ -140,7 +142,10 @@ export class PlaylistsDataSource extends DataSource {
       year: track.year,
     };
     const trackWithId = (
-      await this.database("tracks").update(trackData).returning("*")
+      await this.database("tracks")
+        .update(trackData)
+        .where({ id: track.id })
+        .returning("*")
     )[0];
     await this.database("playlists_tracks")
       .update({ order })

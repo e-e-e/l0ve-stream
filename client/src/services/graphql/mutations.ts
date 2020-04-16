@@ -3,7 +3,10 @@ import {
   UpdatePlaylist,
   UpdatePlaylistVariables,
 } from "./__generated_types__/UpdatePlaylist";
-import { PlaylistInputWithId } from "../../../__generated_types__/globalTypes";
+import {
+  PlaylistInputWithId,
+  TrackInputWithOptionalId,
+} from "../../../__generated_types__/globalTypes";
 
 const UPDATE_PLAYLIST = gql`
   mutation UpdatePlaylist($playlist: PlaylistInputWithId) {
@@ -36,23 +39,42 @@ export interface GraphMutationsService {
   ): Promise<UpdatePlaylist["updatePlaylist"]>;
   // deletePlaylist(): void;
 }
-//
-// function sanitize<T extends Record<string, any>>(obj: T): T {
-//
-// }
+
+function sanitizeTrackInputWithOptionalId(
+  track: TrackInputWithOptionalId
+): TrackInputWithOptionalId {
+  return {
+    id: track.id,
+    title: track.title,
+    artist: track.artist,
+    album: track.album,
+    year: track.year,
+    genre: track.genre,
+  };
+}
+
+function sanitizePlaylistInputWithId(
+  playlist: PlaylistInputWithId
+): PlaylistInputWithId {
+  return {
+    id: playlist.id,
+    title: playlist.title,
+    description: playlist.description,
+    tracks: playlist.tracks?.map(sanitizeTrackInputWithOptionalId) ?? [],
+  };
+}
 
 export class GraphMutationsClient implements GraphMutationsService {
   constructor(private readonly client: ApolloClient<unknown>) {}
 
   async updatePlaylist(playlist: PlaylistInputWithId) {
-    console.log(playlist);
     const { data, errors } = await this.client.mutate<
       UpdatePlaylist,
       UpdatePlaylistVariables
     >({
       mutation: UPDATE_PLAYLIST,
       variables: {
-        playlist,
+        playlist: sanitizePlaylistInputWithId(playlist),
       },
     });
     if (!data?.updatePlaylist?.success || !data?.updatePlaylist.playlist) {

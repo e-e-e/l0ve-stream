@@ -17,7 +17,7 @@ const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
     $title: String!
     $description: String!
-    $tracks: [TrackInput]
+    $tracks: [TrackInput!]
   ) {
     createPlaylist(
       data: { title: $title, description: $description, tracks: $tracks }

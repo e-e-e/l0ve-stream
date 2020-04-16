@@ -100,7 +100,18 @@ const resolverMap: IResolvers = {
     }),
     updatePlaylist: handleMutationError(async (parent, args, context) => {
       // TODO: Only allow if the user is an owner
-      return {};
+      const user = await context.dataSources.users.getUserByName(context.user);
+      const playlistData = {
+        id: args.data.id,
+        title: args.data.title,
+        description: args.data.description,
+        owner_id: user.id,
+        tracks: args.data.tracks,
+      };
+      const playlist = await context.dataSources.playlists.updatePlaylist(
+        playlistData
+      );
+      return { playlist };
     }),
     deletePlaylist: handleMutationError(async (parent, args, context) => {
       // TODO: Only allow if the user is an owner

@@ -28,5 +28,5 @@ export interface CreatePlaylist {
 export interface CreatePlaylistVariables {
   title: string;
   description: string;
-  tracks?: (TrackInput | null)[] | null;
+  tracks?: TrackInput[] | null;
 }
