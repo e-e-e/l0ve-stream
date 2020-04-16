@@ -46,12 +46,6 @@ const server = new ApolloServer({
 });
 
 app.use(helmet());
-const filename = path.resolve(__dirname, "../hedgehog.jpg");
-app.get("/image", (req, res) => {
-  // res.sendStatus(503);
-  res.set("Cache-Control", "no-cache");
-  res.sendFile(filename);
-});
 
 app.use(
   basicAuth({
