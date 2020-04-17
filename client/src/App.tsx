@@ -2,7 +2,7 @@ import React from "react";
 import Playlists from "./containers/playlists";
 import Page from "./components/page/page";
 import { CreatePlaylist } from "./containers/create_playlist";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { About } from "./containers/about";
 import { PlaylistView } from "./containers/playlist";
 import Header from "./components/header/header";
@@ -57,7 +57,6 @@ function App() {
     dispatch(fetchWhoAmI());
   }, [dispatch]);
   return (
-    <Router>
       <Page>
         <Header
           searchOptions={searchMenuOptions}
@@ -85,7 +84,6 @@ function App() {
           <Typography align="center"> ( ( ( ❤ ) ) ) ️</Typography>
         </main>
       </Page>
-    </Router>
   );
 }
 

@@ -29,10 +29,9 @@ type PlaylistCardProps = {
 
 const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
   const openPlaylist = useNavigationHandler(playlistUrl(id));
-  const [
-    deletePlaylistWithId,
-    { data, error },
-  ] = useMutation(DELETE_PLAYLIST, { variables: { id } });
+  const [deletePlaylistWithId, { data, error }] = useMutation(DELETE_PLAYLIST, {
+    variables: { id },
+  });
   // replace with dispatch
   const deletePlaylist = useCallback(
     async (e: React.MouseEvent) => {

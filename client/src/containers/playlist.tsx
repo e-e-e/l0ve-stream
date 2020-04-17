@@ -44,16 +44,16 @@ export const PlaylistView = () => {
     ),
     [id]
   );
-  const deleteTrack = React.useCallback((trackId: string) => {
-    dispatch(deletePlaylistTrack({ playlistId: id, trackId }))
-  }, [])
+  const deleteTrack = React.useCallback(
+    (trackId: string) => {
+      dispatch(deletePlaylistTrack({ playlistId: id, trackId }));
+    },
+    [dispatch, id]
+  );
   const updateTrackOrder = React.useCallback(
     (result: DropResult) => {
       console.log(result);
-      if (
-        result.source.index == null ||
-        result.destination?.index == null
-      )
+      if (result.source.index == null || result.destination?.index == null)
         return;
       dispatch(
         updatePlaylistTrackOrder({
