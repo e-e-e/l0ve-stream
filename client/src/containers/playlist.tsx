@@ -10,6 +10,7 @@ import { LayerButton } from "../components/layer_button/layer_button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/reducers/reducers";
 import {
+  deletePlaylistTrack,
   fetchPlaylist,
   updatePlaylistTrackOrder,
 } from "../redux/actions/playlists_actions";
@@ -37,12 +38,15 @@ export const PlaylistView = () => {
       dispatch(fetchPlaylist({ id }));
     }
   }, [id, dispatch, data]);
-  const AddTrack = React.useCallback(
+  const addTrack = React.useCallback(
     ({ close }: { close?(): void }) => (
       <AddTrackView close={close} playlistId={id} />
     ),
     [id]
   );
+  const deleteTrack = React.useCallback((trackId: string) => {
+    dispatch(deletePlaylistTrack({ playlistId: id, trackId }))
+  }, [])
   const updateTrackOrder = React.useCallback(
     (result: DropResult) => {
       console.log(result);
@@ -99,11 +103,13 @@ export const PlaylistView = () => {
                 title={track.title}
                 artist={track.artist}
                 album={track.album}
+                isDraggable={true}
+                onDelete={deleteTrack}
               />
             );
           })}
         </DraggableList>
-        <LayerButton Content={AddTrack}>Add new track</LayerButton>
+        <LayerButton Content={addTrack}>Add new track</LayerButton>
       </Section>
     </DropArea>
   );

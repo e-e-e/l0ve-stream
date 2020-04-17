@@ -10,7 +10,7 @@ type Playlist {
     title: String
     description: String
     owner: User
-    tracks: [Track]
+    tracks: [Track!]
     created: String,
     updated: String,
 }
@@ -50,7 +50,7 @@ type Query {
     user(id: ID): User
     users(pageSize: Int, after: String): [User]
     track(id: ID): Track
-    tracks(playlist: ID): [Track]
+    tracks(playlist: ID): [Track!]
 }
 
 input TrackInput {

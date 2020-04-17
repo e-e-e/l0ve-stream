@@ -30,7 +30,7 @@ export interface UpdatePlaylist_updatePlaylist_playlist {
   id: string;
   title: string | null;
   description: string | null;
-  tracks: (UpdatePlaylist_updatePlaylist_playlist_tracks | null)[] | null;
+  tracks: UpdatePlaylist_updatePlaylist_playlist_tracks[] | null;
   owner: UpdatePlaylist_updatePlaylist_playlist_owner | null;
 }
 

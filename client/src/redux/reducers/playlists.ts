@@ -2,6 +2,7 @@ import { PlaylistActions } from "../actions/playlists_actions";
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import { groupByIds, LoadingState } from "./helpers";
 import {
+  DELETE_PLAYLIST_TRACK,
   FETCH_PLAYLIST,
   FETCH_PLAYLIST_ERROR,
   FETCH_PLAYLIST_SUCCESS,
@@ -104,6 +105,21 @@ export function playlistReducer(
       byId: {
         ...state.byId,
         [playlist.id]: { ...playlist, tracks: move(playlist.tracks, from, to) },
+      },
+    };
+  }
+  if (action.type === DELETE_PLAYLIST_TRACK) {
+    const { playlistId, trackId } = action.payload;
+    const playlist = state.byId[playlistId];
+    if (!playlist.tracks) return state;
+    return {
+      ...state,
+      byId: {
+        ...state.byId,
+        [playlist.id]: {
+          ...playlist,
+          tracks: playlist.tracks.filter((t) => t.id !== trackId),
+        },
       },
     };
   }

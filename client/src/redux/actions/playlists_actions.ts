@@ -8,6 +8,7 @@ import {
   FETCH_PLAYLISTS_ERROR,
   FETCH_PLAYLISTS_SUCCESS,
   UPDATE_PLAYLIST_TRACK_ORDER,
+  DELETE_PLAYLIST_TRACK,
 } from "./action_types";
 import { ActionWithPayload } from "./types";
 import { FetchPlaylist } from "../../services/graphql/__generated_types__/FetchPlaylist";
@@ -68,10 +69,24 @@ type UpdatePlaylsitTrackOrderPayload = {
 export const updatePlaylistTrackOrder = createAction<
   UpdatePlaylsitTrackOrderPayload
 >(UPDATE_PLAYLIST_TRACK_ORDER);
-
 export type ActionUpdatePlaylistTrackOrder = ActionWithPayload<
   typeof UPDATE_PLAYLIST_TRACK_ORDER,
   UpdatePlaylsitTrackOrderPayload
+>;
+
+/**
+ * DELETE TRACK FROM PLAYLIST
+ */
+type DeletePlaylistTrackPayload = {
+  playlistId: string;
+  trackId: string;
+};
+export const deletePlaylistTrack = createAction<DeletePlaylistTrackPayload>(
+  DELETE_PLAYLIST_TRACK
+);
+export type ActionDeletePlaylistTrack = ActionWithPayload<
+  typeof DELETE_PLAYLIST_TRACK,
+  DeletePlaylistTrackPayload
 >;
 
 /*
@@ -84,4 +99,5 @@ export type PlaylistActions =
   | ActionPlaylistFetch
   | ActionPlaylistFetchSuccess
   | ActionPlaylistFetchError
-  | ActionUpdatePlaylistTrackOrder;
+  | ActionUpdatePlaylistTrackOrder
+  | ActionDeletePlaylistTrack;

@@ -28,7 +28,7 @@ export interface FetchPlaylists_playlists {
   id: string;
   title: string | null;
   description: string | null;
-  tracks: (FetchPlaylists_playlists_tracks | null)[] | null;
+  tracks: FetchPlaylists_playlists_tracks[] | null;
   owner: FetchPlaylists_playlists_owner | null;
 }
 

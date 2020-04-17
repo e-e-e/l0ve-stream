@@ -1,8 +1,9 @@
 import { Typography } from "../typography/typography";
-import { PointIcon } from "../icons/icons";
+import { PointIcon, TrashIcon } from "../icons/icons";
 import React from "react";
 import styles from "./track_item.module.css";
 import { Draggable } from "react-beautiful-dnd";
+import { IconButton } from "../button/button";
 
 export const TrackItem = ({
   id,
@@ -11,6 +12,8 @@ export const TrackItem = ({
   artist,
   album,
   year,
+  isDraggable,
+  onDelete,
 }: {
   id: string;
   index: number;
@@ -18,9 +21,11 @@ export const TrackItem = ({
   artist: string;
   album: string;
   year?: number;
+  isDraggable?: boolean;
+  onDelete?: (id: string) => void;
 }) => {
   return (
-    <Draggable draggableId={id} index={index}>
+    <Draggable draggableId={id} index={index} isDragDisabled={!isDraggable}>
       {(provided, snapshot) => {
         return (
           <div
@@ -28,12 +33,17 @@ export const TrackItem = ({
             ref={provided.innerRef}
             {...provided.draggableProps}
           >
-            <div {...provided.dragHandleProps}>::</div>
+            {isDraggable && <div {...provided.dragHandleProps}>::</div>}
             <div className={styles.info}>
               <Typography>{title}</Typography>
               <Typography variant="subtitle">{artist}</Typography>
             </div>
             <div className={styles.controls}>
+              {onDelete && (
+                <IconButton onClick={() => onDelete(id)}>
+                  <TrashIcon />
+                </IconButton>
+              )}
               <PointIcon />
             </div>
           </div>
