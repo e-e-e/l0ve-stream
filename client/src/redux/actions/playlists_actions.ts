@@ -9,6 +9,7 @@ import {
   FETCH_PLAYLISTS_SUCCESS,
   UPDATE_PLAYLIST_TRACK_ORDER,
   DELETE_PLAYLIST_TRACK,
+  DELETE_PLAYLIST,
 } from "./action_types";
 import { ActionWithPayload } from "./types";
 import { FetchPlaylist } from "../../services/graphql/__generated_types__/FetchPlaylist";
@@ -89,6 +90,20 @@ export type ActionDeletePlaylistTrack = ActionWithPayload<
   DeletePlaylistTrackPayload
 >;
 
+/**
+ * DELETE PLAYLIST
+ */
+type DeletePlaylistPayload = {
+  playlistId: string;
+};
+export const deletePlaylist = createAction<DeletePlaylistPayload>(
+  DELETE_PLAYLIST
+);
+export type ActionDeletePlaylist = ActionWithPayload<
+  typeof DELETE_PLAYLIST,
+  DeletePlaylistPayload
+>;
+
 /*
  *  ALL VALID REDUCER ACTIONS
  */
@@ -100,4 +115,5 @@ export type PlaylistActions =
   | ActionPlaylistFetchSuccess
   | ActionPlaylistFetchError
   | ActionUpdatePlaylistTrackOrder
-  | ActionDeletePlaylistTrack;
+  | ActionDeletePlaylistTrack
+  | ActionDeletePlaylist;

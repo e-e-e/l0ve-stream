@@ -1,7 +1,8 @@
-import { PlaylistActions } from "../actions/playlists_actions";
-import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
-import { groupByIds, LoadingState } from "./helpers";
+import {PlaylistActions} from "../actions/playlists_actions";
+import {FetchPlaylists} from "../../services/graphql/__generated_types__/FetchPlaylists";
+import {groupByIds, LoadingState} from "./helpers";
 import {
+  DELETE_PLAYLIST,
   DELETE_PLAYLIST_TRACK,
   FETCH_PLAYLIST,
   FETCH_PLAYLIST_ERROR,
@@ -121,6 +122,17 @@ export function playlistReducer(
           tracks: playlist.tracks.filter((t) => t.id !== trackId),
         },
       },
+    };
+  }
+  if (action.type === DELETE_PLAYLIST) {
+    const { playlistId } = action.payload;
+    return {
+      ...state,
+      byId: Object.keys(state.byId).reduce<PlaylistsDict>((p, c) => {
+        if (c !== playlistId) p[c] = state.byId[c];
+        return p;
+      }, {}),
+      allIds: state.allIds.filter(f => f !== playlistId),
     };
   }
   return state;

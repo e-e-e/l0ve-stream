@@ -8,6 +8,7 @@ import {
   select,
 } from "redux-saga/effects";
 import {
+  ActionDeletePlaylist,
   ActionDeletePlaylistTrack,
   ActionPlaylistFetch,
   ActionUpdatePlaylistTrackOrder,
@@ -18,6 +19,7 @@ import {
 } from "../actions/playlists_actions";
 import { GraphQueriesService } from "../../services/graphql/queries";
 import {
+  DELETE_PLAYLIST,
   DELETE_PLAYLIST_TRACK,
   FETCH_PLAYLIST,
   FETCH_PLAYLISTS,
@@ -76,6 +78,18 @@ function* updatePlaylist(
   }
 }
 
+function* deletePlaylist(action: ActionDeletePlaylist) {
+  const mutations: GraphMutationsService = yield getContext("mutations");
+  try {
+    const data: PromisedReturnType<
+      GraphMutationsService["deletePlaylist"]
+    > = yield call(() => mutations.deletePlaylist(action.payload.playlistId));
+    console.log("deleted", data);
+  } catch (e) {
+    console.log("throw throw", e);
+  }
+}
+
 function* watchPlaylistsFetch() {
   yield takeLatest(FETCH_PLAYLISTS, fetchPlaylists);
 }
@@ -92,11 +106,15 @@ function* watchUpdatePlaylist() {
   yield takeLatest(UPDATE_PLAYLIST_TRACK_ORDER, updatePlaylist);
 }
 
+function* watchDeletePlaylist() {
+  yield takeLatest(DELETE_PLAYLIST, deletePlaylist);
+}
 export const playlistSagas = function* playlistSagas() {
   yield all([
     fork(watchPlaylistsFetch),
     fork(watchPlaylistFetch),
     fork(watchUpdatePlaylist),
     fork(watchDeletePlaylistTrack),
+    fork(watchDeletePlaylist),
   ]);
 };

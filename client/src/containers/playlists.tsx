@@ -1,24 +1,16 @@
 import React, { useCallback } from "react";
-import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
 import { GridCard } from "../components/grid_card/grid_card";
 import { PlayIcon, TrashIcon } from "../components/icons/icons";
 import { Typography } from "../components/typography/typography";
 import { playlistUrl, useNavigationHandler } from "../routes/routes";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPlaylists } from "../redux/actions/playlists_actions";
+import {
+  deletePlaylist,
+  fetchPlaylists,
+} from "../redux/actions/playlists_actions";
 import { RootState } from "../redux/reducers/reducers";
 import { LoadingState } from "../redux/reducers/helpers";
 import { IconButton } from "../components/button/button";
-
-const DELETE_PLAYLIST = gql`
-  mutation DeletePlaylist($id: ID) {
-    deletePlaylist(id: $id) {
-      message
-      success
-    }
-  }
-`;
 
 type PlaylistCardProps = {
   title: string;
@@ -29,18 +21,15 @@ type PlaylistCardProps = {
 
 const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
   const openPlaylist = useNavigationHandler(playlistUrl(id));
-  const [deletePlaylistWithId, { data, error }] = useMutation(DELETE_PLAYLIST, {
-    variables: { id },
-  });
+  const dispatch = useDispatch();
   // replace with dispatch
-  const deletePlaylist = useCallback(
+  const deleteItem = useCallback(
     async (e: React.MouseEvent) => {
       e.stopPropagation();
-      await deletePlaylistWithId();
+      dispatch(deletePlaylist({ playlistId: id }));
     },
-    [deletePlaylistWithId]
+    [dispatch, id]
   );
-  console.log(error, data);
   return (
     <div>
       <GridCard
@@ -54,7 +43,7 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
         bottomLeft={<Typography>{owner}</Typography>}
         bottomRight={
           <div style={{ textAlign: "center" }}>
-            <IconButton onClick={deletePlaylist}>
+            <IconButton onClick={deleteItem}>
               <TrashIcon />
             </IconButton>
             <PlayIcon />

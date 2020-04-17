@@ -7,6 +7,10 @@ import {
   PlaylistInputWithId,
   TrackInputWithOptionalId,
 } from "../../../__generated_types__/globalTypes";
+import {
+  DeletePlaylist,
+  DeletePlaylistVariables,
+} from "./__generated_types__/DeletePlaylist";
 
 const UPDATE_PLAYLIST = gql`
   mutation UpdatePlaylist($playlist: PlaylistInputWithId) {
@@ -33,11 +37,21 @@ const UPDATE_PLAYLIST = gql`
     }
   }
 `;
+
+const DELETE_PLAYLIST = gql`
+  mutation DeletePlaylist($id: ID) {
+    deletePlaylist(id: $id) {
+      message
+      success
+    }
+  }
+`;
+
 export interface GraphMutationsService {
   updatePlaylist(
     playlist: PlaylistInputWithId
   ): Promise<UpdatePlaylist["updatePlaylist"]>;
-  // deletePlaylist(): void;
+  deletePlaylist(playlistId: string): Promise<void>;
 }
 
 function sanitizeTrackInputWithOptionalId(
@@ -82,5 +96,22 @@ export class GraphMutationsClient implements GraphMutationsService {
       throw new Error("what!!!");
     }
     return data?.updatePlaylist;
+  }
+
+  async deletePlaylist(playlistId: string) {
+    const { data, errors } = await this.client.mutate<
+      DeletePlaylist,
+      DeletePlaylistVariables
+    >({
+      mutation: DELETE_PLAYLIST,
+      variables: {
+        id: playlistId,
+      },
+    });
+    if (!data?.deletePlaylist?.success) {
+      console.log(data, errors);
+      throw new Error("what!!!");
+    }
+    return;
   }
 }

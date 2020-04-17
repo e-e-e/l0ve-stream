@@ -12,6 +12,7 @@ import { playlistUrl } from "../routes/routes";
 import { Typography } from "../components/typography/typography";
 import { DropArea } from "../components/drop_area/drop_area";
 import { PlaylistConverter } from "../services/playlist_converter/playlist_converter";
+import {useDispatch} from "react-redux";
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -40,6 +41,7 @@ export function CreatePlaylist() {
   >(CREATE_PLAYLIST);
   const [mutationError, setMutationError] = useState<string | null>(null);
   const history = useHistory();
+  const dispatch = useDispatch();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent) => {
       event.preventDefault();
@@ -67,8 +69,10 @@ export function CreatePlaylist() {
       return;
     }
     const id = data?.createPlaylist?.playlist?.id;
-    id && history.push(playlistUrl(id));
-  }, [data, setMutationError, history]);
+    if (id) {
+      history.push(playlistUrl(id));
+    }
+  }, [data, setMutationError, history, dispatch]);
   return (
     <DropArea
       onFileDrop={onFileDrop}

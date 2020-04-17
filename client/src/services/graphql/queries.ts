@@ -75,6 +75,7 @@ export class GraphQueriesClient implements GraphQueriesService {
   async playlists() {
     const { data } = await this.client.query({
       query: FETCH_PLAYLISTS,
+      fetchPolicy: 'no-cache',
     });
     return data;
   }
@@ -82,6 +83,7 @@ export class GraphQueriesClient implements GraphQueriesService {
   async playlist(id: string) {
     const { data } = await this.client.query({
       query: FETCH_PLAYLIST,
+      fetchPolicy: 'no-cache',
       variables: {
         id,
       },
