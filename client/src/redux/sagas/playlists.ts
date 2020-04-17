@@ -9,7 +9,8 @@ import {
 } from "redux-saga/effects";
 import {
   ActionDeletePlaylistTrack,
-  ActionPlaylistFetch, ActionUpdatePlaylistTrackOrder,
+  ActionPlaylistFetch,
+  ActionUpdatePlaylistTrackOrder,
   fetchPlaylistError,
   fetchPlaylistsError,
   fetchPlaylistsSuccess,
@@ -59,7 +60,9 @@ function* fetchPlaylist(action: ActionPlaylistFetch) {
 const selectPlaylist = (id: string) => (state: RootState) =>
   state.entities.playlists.byId[id];
 
-function* updatePlaylist(action: ActionUpdatePlaylistTrackOrder | ActionDeletePlaylistTrack) {
+function* updatePlaylist(
+  action: ActionUpdatePlaylistTrackOrder | ActionDeletePlaylistTrack
+) {
   const playlist = yield select(selectPlaylist(action.payload.playlistId));
   const mutations: GraphMutationsService = yield getContext("mutations");
 
@@ -68,7 +71,6 @@ function* updatePlaylist(action: ActionUpdatePlaylistTrackOrder | ActionDeletePl
       GraphMutationsService["updatePlaylist"]
     > = yield call(() => mutations.updatePlaylist(playlist));
     console.log("updated", data);
-    // yield put(fetchPlaylistSuccess(data));
   } catch (e) {
     console.log("throw throw", e);
   }
