@@ -17,6 +17,7 @@ import { ProfileView } from "./containers/profile";
 import { Typography } from "./components/typography/typography";
 import { useDispatch } from "react-redux";
 import { fetchWhoAmI } from "./redux/actions/user_actions";
+import { AddTrackView } from "./containers/add_track";
 
 function App() {
   const mainMenuOptions = {
@@ -49,8 +50,11 @@ function App() {
   };
 
   const plusMenuOptions = {
-    Content: () => (
+    Content: ({ close }: { close?(): void }) => (
       <Switch>
+        <Route path="/playlist/:id">
+          <AddTrackView close={close} />
+        </Route>
         <Route path="/">
           <CreatePlaylist />
         </Route>

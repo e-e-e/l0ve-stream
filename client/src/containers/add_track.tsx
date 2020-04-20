@@ -6,13 +6,14 @@ import { Typography } from "../components/typography/typography";
 import { useDispatch } from "react-redux";
 import { insertPlaylistTrack } from "../redux/actions/playlists_actions";
 import {TrackInput} from "../../__generated_types__/globalTypes";
+import {useParams} from "react-router-dom";
 
 type AddTrackProps = {
-  playlistId: string;
   close?(): void;
 };
 
-export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
+export const AddTrackView = ({ close }: AddTrackProps) => {
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const submit = React.useCallback(
     async (event: React.FormEvent) => {
@@ -24,10 +25,10 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
         artist: formdata.get("artist") as string,
         album: formdata.get("album") as string,
       };
-      dispatch(insertPlaylistTrack({ playlistId, track: data }));
+      dispatch(insertPlaylistTrack({ playlistId: id, track: data }));
       close?.();
     },
-    [close, dispatch, playlistId]
+    [close, dispatch, id]
   );
 
   const [trackData, setTrackData] = React.useState<Partial<TrackInput>>({});

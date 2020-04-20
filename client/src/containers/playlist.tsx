@@ -40,9 +40,9 @@ export const PlaylistView = () => {
   }, [id, dispatch, data]);
   const addTrack = React.useCallback(
     ({ close }: { close?(): void }) => (
-      <AddTrackView close={close} playlistId={id} />
+      <AddTrackView close={close} />
     ),
-    [id]
+    []
   );
   const deleteTrack = React.useCallback(
     (trackId: string) => {
