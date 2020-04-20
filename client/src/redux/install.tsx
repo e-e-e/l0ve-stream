@@ -20,7 +20,11 @@ export function installRedux({
   history: History<unknown>;
 }) {
   const sagaMiddleware = createSagaMiddleware({
-    context: { queries: services.queries, mutations: services.mutations, history },
+    context: {
+      queries: services.queries,
+      mutations: services.mutations,
+      history,
+    },
   });
 
   const middleware = applyMiddleware(sagaMiddleware);

@@ -1,61 +1,66 @@
 import { createAction } from "redux-actions";
-import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
-import {
-  FETCH_PLAYLIST,
-  FETCH_PLAYLIST_ERROR,
-  FETCH_PLAYLIST_SUCCESS,
-  FETCH_PLAYLISTS,
-  FETCH_PLAYLISTS_ERROR,
-  FETCH_PLAYLISTS_SUCCESS,
-  UPDATE_PLAYLIST_TRACK_ORDER,
-  DELETE_PLAYLIST_TRACK,
-  DELETE_PLAYLIST,
-} from "./action_types";
 import { ActionWithPayload } from "./types";
+import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import { FetchPlaylist } from "../../services/graphql/__generated_types__/FetchPlaylist";
 
+export enum PlaylistActionTypes {
+  FETCH_PLAYLISTS = "FETCH_PLAYLISTS",
+  FETCH_PLAYLISTS_SUCCESS = "PLAYLISTS_FETCH_SUCCESS",
+  FETCH_PLAYLISTS_ERROR = "PLAYLISTS_FETCH_ERROR",
+  FETCH_PLAYLIST = "FETCH_PLAYLIST",
+  FETCH_PLAYLIST_SUCCESS = "FETCH_PLAYLIST_SUCCESS",
+  FETCH_PLAYLIST_ERROR = "FETCH_PLAYLIST_ERROR",
+  UPDATE_PLAYLIST_TRACK_ORDER = "UPDATE_PLAYLIST_TRACK_ORDER",
+  DELETE_PLAYLIST_TRACK = "DELETE_PLAYLIST_TRACK",
+  DELETE_PLAYLIST = "DELETE_PLAYLIST",
+  CREATE_PLAYLIST = "CREATE_PLALIST",
+}
 /*
  * FETCH PLAYLISTS ACTIONS
  */
-export const fetchPlaylists = createAction(FETCH_PLAYLISTS);
+export const fetchPlaylists = createAction(PlaylistActionTypes.FETCH_PLAYLISTS);
 export const fetchPlaylistsSuccess = createAction<FetchPlaylists>(
-  FETCH_PLAYLISTS_SUCCESS
+  PlaylistActionTypes.FETCH_PLAYLISTS_SUCCESS
 );
 export const fetchPlaylistsError = createAction<{ errorMessage: any }>(
-  FETCH_PLAYLISTS_ERROR
+  PlaylistActionTypes.FETCH_PLAYLISTS_ERROR
 );
 
-export type ActionPlaylistsFetch = ActionWithPayload<typeof FETCH_PLAYLISTS>;
+export type ActionPlaylistsFetch = ActionWithPayload<
+  PlaylistActionTypes.FETCH_PLAYLISTS
+>;
 export type ActionPlaylistsFetchSuccess = ActionWithPayload<
-  typeof FETCH_PLAYLISTS_SUCCESS,
+  PlaylistActionTypes.FETCH_PLAYLISTS_SUCCESS,
   FetchPlaylists
 >;
 export type ActionPlaylistsFetchError = ActionWithPayload<
-  typeof FETCH_PLAYLISTS_ERROR,
+  PlaylistActionTypes.FETCH_PLAYLISTS_ERROR,
   { errorMessage: string }
 >;
 
 /*
  * FETCH PLAYLIST ACTIONS
  */
-export const fetchPlaylist = createAction<{ id: string }>(FETCH_PLAYLIST);
+export const fetchPlaylist = createAction<{ id: string }>(
+  PlaylistActionTypes.FETCH_PLAYLIST
+);
 export const fetchPlaylistSuccess = createAction<FetchPlaylist>(
-  FETCH_PLAYLIST_SUCCESS
+  PlaylistActionTypes.FETCH_PLAYLIST_SUCCESS
 );
 export const fetchPlaylistError = createAction<{ errorMessage: any }>(
-  FETCH_PLAYLIST_ERROR
+  PlaylistActionTypes.FETCH_PLAYLIST_ERROR
 );
 
 export type ActionPlaylistFetch = ActionWithPayload<
-  typeof FETCH_PLAYLIST,
+  PlaylistActionTypes.FETCH_PLAYLIST,
   { id: string }
 >;
 export type ActionPlaylistFetchSuccess = ActionWithPayload<
-  typeof FETCH_PLAYLIST_SUCCESS,
+  PlaylistActionTypes.FETCH_PLAYLIST_SUCCESS,
   FetchPlaylist
 >;
 export type ActionPlaylistFetchError = ActionWithPayload<
-  typeof FETCH_PLAYLIST_ERROR,
+  PlaylistActionTypes.FETCH_PLAYLIST_ERROR,
   { errorMessage: string }
 >;
 
@@ -69,9 +74,9 @@ type UpdatePlaylsitTrackOrderPayload = {
 };
 export const updatePlaylistTrackOrder = createAction<
   UpdatePlaylsitTrackOrderPayload
->(UPDATE_PLAYLIST_TRACK_ORDER);
+>(PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_ORDER);
 export type ActionUpdatePlaylistTrackOrder = ActionWithPayload<
-  typeof UPDATE_PLAYLIST_TRACK_ORDER,
+  PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_ORDER,
   UpdatePlaylsitTrackOrderPayload
 >;
 
@@ -83,10 +88,10 @@ type DeletePlaylistTrackPayload = {
   trackId: string;
 };
 export const deletePlaylistTrack = createAction<DeletePlaylistTrackPayload>(
-  DELETE_PLAYLIST_TRACK
+  PlaylistActionTypes.DELETE_PLAYLIST_TRACK
 );
 export type ActionDeletePlaylistTrack = ActionWithPayload<
-  typeof DELETE_PLAYLIST_TRACK,
+  PlaylistActionTypes.DELETE_PLAYLIST_TRACK,
   DeletePlaylistTrackPayload
 >;
 
@@ -97,13 +102,27 @@ type DeletePlaylistPayload = {
   playlistId: string;
 };
 export const deletePlaylist = createAction<DeletePlaylistPayload>(
-  DELETE_PLAYLIST
+  PlaylistActionTypes.DELETE_PLAYLIST
 );
 export type ActionDeletePlaylist = ActionWithPayload<
-  typeof DELETE_PLAYLIST,
+  PlaylistActionTypes.DELETE_PLAYLIST,
   DeletePlaylistPayload
 >;
 
+/**
+ * CREATE PLAYLIST
+ */
+type CreatePlaylistPayload = {
+  title: string;
+  description: string;
+};
+export const createPlaylist = createAction<CreatePlaylistPayload>(
+  PlaylistActionTypes.CREATE_PLAYLIST
+);
+export type ActionCreatePlaylist = ActionWithPayload<
+  PlaylistActionTypes.CREATE_PLAYLIST,
+  CreatePlaylistPayload
+>;
 /*
  *  ALL VALID REDUCER ACTIONS
  */
@@ -116,4 +135,5 @@ export type PlaylistActions =
   | ActionPlaylistFetchError
   | ActionUpdatePlaylistTrackOrder
   | ActionDeletePlaylistTrack
-  | ActionDeletePlaylist;
+  | ActionDeletePlaylist
+  | ActionCreatePlaylist;

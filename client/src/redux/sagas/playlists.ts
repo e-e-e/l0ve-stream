@@ -8,6 +8,7 @@ import {
   select,
 } from "redux-saga/effects";
 import {
+  ActionCreatePlaylist,
   ActionDeletePlaylist,
   ActionDeletePlaylistTrack,
   ActionPlaylistFetch,
@@ -16,17 +17,13 @@ import {
   fetchPlaylistsError,
   fetchPlaylistsSuccess,
   fetchPlaylistSuccess,
+  PlaylistActionTypes,
 } from "../actions/playlists_actions";
 import { GraphQueriesService } from "../../services/graphql/queries";
-import {
-  DELETE_PLAYLIST,
-  DELETE_PLAYLIST_TRACK,
-  FETCH_PLAYLIST,
-  FETCH_PLAYLISTS,
-  UPDATE_PLAYLIST_TRACK_ORDER,
-} from "../actions/action_types";
 import { GraphMutationsService } from "../../services/graphql/mutations";
 import { RootState } from "../reducers/reducers";
+import { playlistUrl } from "../../routes/routes";
+import { History } from "history";
 
 type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
   ? U
@@ -90,25 +87,48 @@ function* deletePlaylist(action: ActionDeletePlaylist) {
   }
 }
 
+function* createPlaylist(action: ActionCreatePlaylist) {
+  const mutations: GraphMutationsService = yield getContext("mutations");
+  const history: History = yield getContext("history");
+  try {
+    const data: PromisedReturnType<
+      GraphMutationsService["createPlaylist"]
+    > = yield call(() => mutations.createPlaylist(action.payload));
+    if (data && data.playlist) {
+      history.push(playlistUrl(data.playlist.id));
+    }
+  } catch (e) {
+    console.log("throw throw", e);
+  }
+}
+
 function* watchPlaylistsFetch() {
-  yield takeLatest(FETCH_PLAYLISTS, fetchPlaylists);
+  yield takeLatest(PlaylistActionTypes.FETCH_PLAYLISTS, fetchPlaylists);
 }
 
 function* watchPlaylistFetch() {
-  yield takeLatest(FETCH_PLAYLIST, fetchPlaylist);
+  yield takeLatest(PlaylistActionTypes.FETCH_PLAYLIST, fetchPlaylist);
 }
 
 function* watchDeletePlaylistTrack() {
-  yield takeLatest(DELETE_PLAYLIST_TRACK, updatePlaylist);
+  yield takeLatest(PlaylistActionTypes.DELETE_PLAYLIST_TRACK, updatePlaylist);
 }
 
 function* watchUpdatePlaylist() {
-  yield takeLatest(UPDATE_PLAYLIST_TRACK_ORDER, updatePlaylist);
+  yield takeLatest(
+    PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_ORDER,
+    updatePlaylist
+  );
 }
 
 function* watchDeletePlaylist() {
-  yield takeLatest(DELETE_PLAYLIST, deletePlaylist);
+  yield takeLatest(PlaylistActionTypes.DELETE_PLAYLIST, deletePlaylist);
 }
+
+function* watchCreatePlaylist() {
+  yield takeLatest(PlaylistActionTypes.CREATE_PLAYLIST, createPlaylist);
+}
+
 export const playlistSagas = function* playlistSagas() {
   yield all([
     fork(watchPlaylistsFetch),
@@ -116,5 +136,6 @@ export const playlistSagas = function* playlistSagas() {
     fork(watchUpdatePlaylist),
     fork(watchDeletePlaylistTrack),
     fork(watchDeletePlaylist),
+    fork(watchCreatePlaylist),
   ]);
 };

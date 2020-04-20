@@ -11,6 +11,28 @@ import {
   DeletePlaylist,
   DeletePlaylistVariables,
 } from "./__generated_types__/DeletePlaylist";
+import {
+  CreatePlaylist,
+  CreatePlaylistVariables,
+} from "./__generated_types__/CreatePlaylist";
+
+const CREATE_PLAYLIST = gql`
+  mutation CreatePlaylist(
+    $title: String!
+    $description: String!
+    $tracks: [TrackInput!]
+  ) {
+    createPlaylist(
+      data: { title: $title, description: $description, tracks: $tracks }
+    ) {
+      message
+      success
+      playlist {
+        id
+      }
+    }
+  }
+`;
 
 const UPDATE_PLAYLIST = gql`
   mutation UpdatePlaylist($playlist: PlaylistInputWithId) {
@@ -48,6 +70,9 @@ const DELETE_PLAYLIST = gql`
 `;
 
 export interface GraphMutationsService {
+  createPlaylist(
+    playlist: CreatePlaylistVariables
+  ): Promise<CreatePlaylist["createPlaylist"]>;
   updatePlaylist(
     playlist: PlaylistInputWithId
   ): Promise<UpdatePlaylist["updatePlaylist"]>;
@@ -80,6 +105,21 @@ function sanitizePlaylistInputWithId(
 
 export class GraphMutationsClient implements GraphMutationsService {
   constructor(private readonly client: ApolloClient<unknown>) {}
+
+  async createPlaylist(playlist: CreatePlaylistVariables) {
+    const { data, errors } = await this.client.mutate<
+      CreatePlaylist,
+      CreatePlaylistVariables
+    >({
+      mutation: CREATE_PLAYLIST,
+      variables: playlist,
+    });
+    if (!data?.createPlaylist?.success) {
+      console.log(data, errors);
+      throw new Error("what!!!");
+    }
+    return data?.createPlaylist;
+  }
 
   async updatePlaylist(playlist: PlaylistInputWithId) {
     const { data, errors } = await this.client.mutate<
