@@ -32,7 +32,6 @@ export function CreatePlaylist() {
     },
     [dispatch]
   );
-  // history.push(playlistUrl(id));
   return (
     <DropArea
       onFileDrop={onFileDrop}

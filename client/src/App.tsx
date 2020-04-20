@@ -49,7 +49,13 @@ function App() {
   };
 
   const plusMenuOptions = {
-    Content: () => <div>Plus</div>,
+    Content: () => (
+      <Switch>
+        <Route path="/">
+          <CreatePlaylist />
+        </Route>
+      </Switch>
+    ),
   };
 
   const dispatch = useDispatch();
@@ -57,33 +63,33 @@ function App() {
     dispatch(fetchWhoAmI());
   }, [dispatch]);
   return (
-      <Page>
-        <Header
-          searchOptions={searchMenuOptions}
-          plusOptions={plusMenuOptions}
-          mainMenuOptions={mainMenuOptions}
-        />
-        <main>
-          <Switch>
-            <Route path="/me">
-              <ProfileView />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route exact path="/playlist/new">
-              <CreatePlaylist />
-            </Route>
-            <Route path="/playlist/:id">
-              <PlaylistView />
-            </Route>
-            <Route path="/">
-              <Playlists />
-            </Route>
-          </Switch>
-          <Typography align="center"> ( ( ( ❤ ) ) ) ️</Typography>
-        </main>
-      </Page>
+    <Page>
+      <Header
+        searchOptions={searchMenuOptions}
+        plusOptions={plusMenuOptions}
+        mainMenuOptions={mainMenuOptions}
+      />
+      <main>
+        <Switch>
+          <Route path="/me">
+            <ProfileView />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route exact path="/playlist/new">
+            <CreatePlaylist />
+          </Route>
+          <Route path="/playlist/:id">
+            <PlaylistView />
+          </Route>
+          <Route path="/">
+            <Playlists />
+          </Route>
+        </Switch>
+        <Typography align="center"> ( ( ( ❤ ) ) ) ️</Typography>
+      </main>
+    </Page>
   );
 }
 
