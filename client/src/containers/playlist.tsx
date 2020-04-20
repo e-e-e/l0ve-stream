@@ -62,9 +62,6 @@ export const PlaylistView = () => {
           playlistId: id,
         })
       );
-      // update track list
-      // result.destination?.index
-      // reorder track listing
     },
     [id, dispatch]
   );

@@ -11,13 +11,14 @@ import {
   ActionCreatePlaylist,
   ActionDeletePlaylist,
   ActionDeletePlaylistTrack,
+  ActionInsertPlaylistTrack,
   ActionPlaylistFetch,
   ActionUpdatePlaylistTrackOrder,
   fetchPlaylistError,
   fetchPlaylistsError,
   fetchPlaylistsSuccess,
   fetchPlaylistSuccess,
-  PlaylistActionTypes,
+  PlaylistActionTypes, syncPlaylist, syncPlaylistError, syncPlaylistSuccess,
 } from "../actions/playlists_actions";
 import { GraphQueriesService } from "../../services/graphql/queries";
 import { GraphMutationsService } from "../../services/graphql/mutations";
@@ -60,18 +61,27 @@ const selectPlaylist = (id: string) => (state: RootState) =>
   state.entities.playlists.byId[id];
 
 function* updatePlaylist(
-  action: ActionUpdatePlaylistTrackOrder | ActionDeletePlaylistTrack
+  action:
+    | ActionUpdatePlaylistTrackOrder
+    | ActionDeletePlaylistTrack
+    | ActionInsertPlaylistTrack
 ) {
   const playlist = yield select(selectPlaylist(action.payload.playlistId));
   const mutations: GraphMutationsService = yield getContext("mutations");
 
   try {
+    yield put(syncPlaylist());
     const data: PromisedReturnType<
       GraphMutationsService["updatePlaylist"]
     > = yield call(() => mutations.updatePlaylist(playlist));
     console.log("updated", data);
+    if (data === null || data.playlist === null) {
+      return;
+    }
+    yield put(syncPlaylistSuccess({ playlist: data.playlist }));
   } catch (e) {
     console.log("throw throw", e);
+    yield put(syncPlaylistError({ errorMessage: e.message }));
   }
 }
 
@@ -121,6 +131,10 @@ function* watchUpdatePlaylist() {
   );
 }
 
+function* watchInsertPlaylistTrack() {
+  yield takeLatest(PlaylistActionTypes.INSERT_PLAYLIST_TRACK, updatePlaylist);
+}
+
 function* watchDeletePlaylist() {
   yield takeLatest(PlaylistActionTypes.DELETE_PLAYLIST, deletePlaylist);
 }
@@ -134,6 +148,7 @@ export const playlistSagas = function* playlistSagas() {
     fork(watchPlaylistsFetch),
     fork(watchPlaylistFetch),
     fork(watchUpdatePlaylist),
+    fork(watchInsertPlaylistTrack),
     fork(watchDeletePlaylistTrack),
     fork(watchDeletePlaylist),
     fork(watchCreatePlaylist),

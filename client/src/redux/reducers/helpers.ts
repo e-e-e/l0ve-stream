@@ -15,6 +15,7 @@ export function groupByIds<T extends { id: string }>(data: T[]): GroupedById<T> 
 export enum LoadingState {
   INITIAL,
   LOADING,
+  SYNCING,
   LOADED,
   ERROR,
 }

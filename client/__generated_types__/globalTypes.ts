@@ -23,7 +23,7 @@ export interface TrackInput {
 }
 
 export interface TrackInputWithOptionalId {
-  id: string;
+  id?: string | null;
   title?: string | null;
   artist?: string | null;
   album?: string | null;

@@ -11,6 +11,16 @@ type MutationResponse = {
   message: string;
 };
 
+function success<T extends Record<string, I>, I>(
+  data: T
+): T & MutationResponse {
+  return {
+    ...data,
+    success: true,
+    message: "",
+  };
+}
+
 function handleMutationError<
   T extends MutationResponse,
   D extends Record<string, any>
@@ -19,21 +29,12 @@ function handleMutationError<
     try {
       return success(await fn(...args));
     } catch (e) {
+      console.log(e);
       return {
         success: false,
         message: e.message,
       };
     }
-  };
-}
-
-function success<T extends Record<string, I>, I>(
-  data: T
-): T & MutationResponse {
-  return {
-    ...data,
-    success: true,
-    message: "",
   };
 }
 

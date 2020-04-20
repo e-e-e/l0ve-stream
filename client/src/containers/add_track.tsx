@@ -3,36 +3,17 @@ import React from "react";
 import { Button } from "../components/button/button";
 import { DropArea } from "../components/drop_area/drop_area";
 import { Typography } from "../components/typography/typography";
-import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
-import {
-  CreateTrack,
-  CreateTrackVariables,
-} from "./__generated_types__/CreateTrack";
-import { TrackInput } from "../../__generated_types__/globalTypes";
+import { useDispatch } from "react-redux";
+import { insertPlaylistTrack } from "../redux/actions/playlists_actions";
+import {TrackInput} from "../../__generated_types__/globalTypes";
 
 type AddTrackProps = {
   playlistId: string;
   close?(): void;
 };
 
-const CREATE_TRACK = gql`
-  mutation CreateTrack($playlist: ID!, $data: TrackInput!, $order: Int) {
-    createTrack(playlistId: $playlist, data: $data, order: $order) {
-      message
-      success
-      track {
-        id
-      }
-    }
-  }
-`;
-
 export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
-  const [createTrack, { loading }] = useMutation<
-    CreateTrack,
-    CreateTrackVariables
-  >(CREATE_TRACK);
+  const dispatch = useDispatch();
   const submit = React.useCallback(
     async (event: React.FormEvent) => {
       event.preventDefault();
@@ -43,13 +24,10 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
         artist: formdata.get("artist") as string,
         album: formdata.get("album") as string,
       };
-      await createTrack({
-        variables: { playlist: playlistId, data, order: 0 },
-      });
-      // update and close
+      dispatch(insertPlaylistTrack({ playlistId, track: data }));
       close?.();
     },
-    [close, createTrack, playlistId]
+    [close, dispatch, playlistId]
   );
 
   const [trackData, setTrackData] = React.useState<Partial<TrackInput>>({});
@@ -70,7 +48,7 @@ export const AddTrackView = ({ close, playlistId }: AddTrackProps) => {
         />
         <Input name="artist" placeholder="artist/s" />
         <Input name="album" placeholder="album" />
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={false}>
           Add new track
         </Button>
         <Typography>

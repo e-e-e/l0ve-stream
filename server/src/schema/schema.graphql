@@ -62,7 +62,7 @@ input TrackInput {
 }
 
 input TrackInputWithOptionalId {
-    id: ID!
+    id: ID
     title: String
     artist: String
     album: String

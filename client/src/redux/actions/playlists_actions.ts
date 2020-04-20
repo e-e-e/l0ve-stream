@@ -2,8 +2,12 @@ import { createAction } from "redux-actions";
 import { ActionWithPayload } from "./types";
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import { FetchPlaylist } from "../../services/graphql/__generated_types__/FetchPlaylist";
+import { UpdatePlaylist } from "../../services/graphql/__generated_types__/UpdatePlaylist";
 
 export enum PlaylistActionTypes {
+  SYNC_PLAYLIST = "SYNC_PLAYLIST",
+  SYNC_PLAYLIST_SUCCESS = "SYNC_PLAYLIST_SUCCESS",
+  SYNC_PLAYLIST_ERROR = "SYNC_PLAYLIST_ERROR",
   FETCH_PLAYLISTS = "FETCH_PLAYLISTS",
   FETCH_PLAYLISTS_SUCCESS = "PLAYLISTS_FETCH_SUCCESS",
   FETCH_PLAYLISTS_ERROR = "PLAYLISTS_FETCH_ERROR",
@@ -11,10 +15,39 @@ export enum PlaylistActionTypes {
   FETCH_PLAYLIST_SUCCESS = "FETCH_PLAYLIST_SUCCESS",
   FETCH_PLAYLIST_ERROR = "FETCH_PLAYLIST_ERROR",
   UPDATE_PLAYLIST_TRACK_ORDER = "UPDATE_PLAYLIST_TRACK_ORDER",
+  INSERT_PLAYLIST_TRACK = "INSERT_PLAYLIST_TRACK",
   DELETE_PLAYLIST_TRACK = "DELETE_PLAYLIST_TRACK",
   DELETE_PLAYLIST = "DELETE_PLAYLIST",
   CREATE_PLAYLIST = "CREATE_PLAYLIST",
 }
+/*
+ * SYNC PLAYLIST ACTIONS
+ */
+type SyncPlaylist = {
+  playlist: Exclude<
+    Exclude<UpdatePlaylist["updatePlaylist"], null>["playlist"],
+    null
+  >;
+};
+export const syncPlaylist = createAction(PlaylistActionTypes.SYNC_PLAYLIST);
+export const syncPlaylistSuccess = createAction<SyncPlaylist>(
+  PlaylistActionTypes.SYNC_PLAYLIST_SUCCESS
+);
+export const syncPlaylistError = createAction<{ errorMessage: any }>(
+  PlaylistActionTypes.SYNC_PLAYLIST_ERROR
+);
+
+export type ActionPlaylistsSync = ActionWithPayload<
+  PlaylistActionTypes.SYNC_PLAYLIST
+>;
+export type ActionPlaylistsSyncSuccess = ActionWithPayload<
+  PlaylistActionTypes.SYNC_PLAYLIST_SUCCESS,
+  SyncPlaylist
+>;
+export type ActionPlaylistsSyncError = ActionWithPayload<
+  PlaylistActionTypes.SYNC_PLAYLIST_ERROR,
+  { errorMessage: string }
+>;
 /*
  * FETCH PLAYLISTS ACTIONS
  */
@@ -67,19 +100,37 @@ export type ActionPlaylistFetchError = ActionWithPayload<
 /**
  * UPDATE PLAYLIST TRACK ORDER
  */
-type UpdatePlaylsitTrackOrderPayload = {
+type UpdatePlaylistTrackOrderPayload = {
   playlistId: string;
   from: number;
   to: number;
 };
 export const updatePlaylistTrackOrder = createAction<
-  UpdatePlaylsitTrackOrderPayload
+  UpdatePlaylistTrackOrderPayload
 >(PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_ORDER);
 export type ActionUpdatePlaylistTrackOrder = ActionWithPayload<
   PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_ORDER,
-  UpdatePlaylsitTrackOrderPayload
+  UpdatePlaylistTrackOrderPayload
 >;
 
+/**
+ * INSERT NEW TRACK
+ */
+type InsertPlaylistTrackPayload = {
+  playlistId: string;
+  track: {
+    title: string;
+    album: string;
+    artist: string;
+  };
+};
+export const insertPlaylistTrack = createAction<InsertPlaylistTrackPayload>(
+  PlaylistActionTypes.INSERT_PLAYLIST_TRACK
+);
+export type ActionInsertPlaylistTrack = ActionWithPayload<
+  PlaylistActionTypes.INSERT_PLAYLIST_TRACK,
+  InsertPlaylistTrackPayload
+>;
 /**
  * DELETE TRACK FROM PLAYLIST
  */
@@ -127,6 +178,9 @@ export type ActionCreatePlaylist = ActionWithPayload<
  *  ALL VALID REDUCER ACTIONS
  */
 export type PlaylistActions =
+  | ActionPlaylistsSync
+  | ActionPlaylistsSyncSuccess
+  | ActionPlaylistsSyncError
   | ActionPlaylistsFetch
   | ActionPlaylistsFetchSuccess
   | ActionPlaylistsFetchError
@@ -134,6 +188,7 @@ export type PlaylistActions =
   | ActionPlaylistFetchSuccess
   | ActionPlaylistFetchError
   | ActionUpdatePlaylistTrackOrder
+  | ActionInsertPlaylistTrack
   | ActionDeletePlaylistTrack
   | ActionDeletePlaylist
   | ActionCreatePlaylist;

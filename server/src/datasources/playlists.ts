@@ -54,7 +54,9 @@ export class PlaylistsDataSource extends DataSource {
   }
 
   async updatePlaylist(
-    playlist: PlaylistWithId & { tracks?: TrackWithOptionalId[] }
+    playlist: Omit<PlaylistWithId, "tracks"> & {
+      tracks?: TrackWithOptionalId[];
+    }
   ): Promise<PlaylistWithId> {
     // first update playlist
     const playlistData = {
@@ -80,6 +82,10 @@ export class PlaylistsDataSource extends DataSource {
         tracks.push(track);
       }
     }
+    await this.database("playlists_tracks")
+      .delete()
+      .whereNotIn('track_id', tracks.map(t => t.id))
+      .andWhere({ playlist_id: playlist.id })
     return {
       ...updated,
       tracks,
@@ -126,7 +132,7 @@ export class PlaylistsDataSource extends DataSource {
     await this.database
       .insert({ track_id: trackWithId.id, playlist_id: id, order })
       .into("playlists_tracks");
-    return trackWithId[0];
+    return trackWithId;
   }
 
   async updateTrack(
@@ -150,7 +156,7 @@ export class PlaylistsDataSource extends DataSource {
     await this.database("playlists_tracks")
       .update({ order })
       .where({ track_id: track.id, playlist_id: id });
-    return trackWithId[0];
+    return trackWithId;
   }
 
   async deleteTrack(playlistId: string, trackId: string) {

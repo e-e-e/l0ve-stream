@@ -27,6 +27,16 @@ function move<T>(array: ReadonlyArray<T>, from: number, to: number): T[] {
   return a;
 }
 
+const defaultTrack = {
+  __typename: "Track" as const,
+  id: null,
+  title: null,
+  album: null,
+  artist: null,
+  year: null,
+  genre: null,
+};
+
 export function playlistReducer(
   state: PlaylistsState = initialState,
   action: PlaylistActions
@@ -58,11 +68,17 @@ export function playlistReducer(
         allIds: [],
         errorMessage: action.payload.errorMessage,
       };
+    case PlaylistActionTypes.SYNC_PLAYLIST:
+      return {
+        ...state,
+        state: LoadingState.SYNCING,
+      };
     case PlaylistActionTypes.FETCH_PLAYLIST:
       return {
         ...state,
         state: LoadingState.LOADING,
       };
+    case PlaylistActionTypes.SYNC_PLAYLIST_SUCCESS:
     case PlaylistActionTypes.FETCH_PLAYLIST_SUCCESS: {
       const playlist = action.payload.playlist;
       if (playlist === null) {
@@ -80,6 +96,7 @@ export function playlistReducer(
           : [...state.allIds, playlist.id],
       };
     }
+    case PlaylistActionTypes.SYNC_PLAYLIST_ERROR:
     case PlaylistActionTypes.FETCH_PLAYLIST_ERROR:
       return {
         ...state,
@@ -123,6 +140,26 @@ export function playlistReducer(
           [playlist.id]: {
             ...playlist,
             tracks: move(playlist.tracks, from, to),
+          },
+        },
+      };
+    }
+    case PlaylistActionTypes.INSERT_PLAYLIST_TRACK: {
+      const { playlistId, track } = action.payload;
+      const playlist = state.byId[playlistId];
+      const trackData = {
+        ...defaultTrack,
+        ...track,
+      };
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [playlist.id]: {
+            ...playlist,
+            tracks: playlist.tracks
+              ? [...playlist.tracks, trackData]
+              : [trackData],
           },
         },
       };
