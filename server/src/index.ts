@@ -15,6 +15,7 @@ import { installWebsockets } from "./websocket_server";
 import fileUpload from "express-fileupload";
 import S3 from "aws-sdk/clients/s3";
 import { installSns } from "./sns";
+import { installTrackUpload } from "./track_upload";
 
 config({ path: path.resolve(__dirname, "../.env") });
 // maybe throw error if env is not set correctly
@@ -54,6 +55,10 @@ const database = createDatabase(
   }
 );
 
+const { snsMessageHandler, presignedUrlHandler } = installTrackUpload({
+  database,
+  s3,
+});
 
 const server = new ApolloServer({
   ...createApolloServerConfig(database),
@@ -69,10 +74,7 @@ installSns(
     {
       topic: process.env.AWS_SNS_TRANSCODE!,
       path: `/sns/transcode`,
-      handler: (req, res) => {
-        console.log(req.body);
-        res.sendStatus(200);
-      },
+      handler: snsMessageHandler,
     },
   ],
   { awsCredentials, awsRegion, domain: snsDomain }
@@ -104,42 +106,7 @@ app.post("/convert/itunes", async (req, res) => {
   }
 });
 
-enum FileStatus {
-  UPLOAD_URL_SIGNED,
-  UPLOAD_COMPLETED,
-  TRANSCODING_STARTED,
-  TRANSCODING_COMPLETED,
-}
-
-app.get("/track/:id/upload", async (req, res) => {
-  const { id } = req.params;
-  const { filename, type } = req.query;
-  if (!filename) throw Error("requires filename");
-  if (!type) throw Error("requires type");
-
-  // confirm track exists
-  const track = (await database("tracks").select("id").where({ id }))[0];
-  if (!track) throw new Error("track with id does not exist");
-  // save intention of download into database
-  const fileId = (
-    await database("files")
-      .insert({
-        filename: "",
-        type,
-        size: 0,
-        status: FileStatus.UPLOAD_URL_SIGNED,
-      })
-      .returning("id")
-  )[0];
-  const key = `${id}/${fileId}.${type}`;
-  await database("tracks_files").insert({ track_id: id, file_id: fileId });
-  await database("files").update({ filename: key });
-  // generate link
-  const params = { Bucket: process.env.AWS_RAW_TRACK_BUCKET, Key: key };
-  const url = s3.getSignedUrl("putObject", params);
-  res.json({ url });
-  // return
-});
+app.get("/track/:id/upload", presignedUrlHandler);
 
 app.listen({ port: PORT }, () => {
   console.log(`listening on port ${PORT}`);
