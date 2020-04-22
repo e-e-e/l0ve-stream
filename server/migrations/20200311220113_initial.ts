@@ -30,9 +30,10 @@ export async function up(knex: Knex): Promise<any> {
     })
     .createTable('files', function (table) {
       table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1mc()'));
-      table.string('filename', 1000).notNullable().unique();
+      table.string('filename', 1000).notNullable();
       table.string('type').notNullable();
       table.integer('size').notNullable();
+      table.integer('status').notNullable();
       table.timestamps(true, true);
     })
     .createTable('links', function (table) {
