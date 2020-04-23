@@ -20,6 +20,7 @@ import {
   CreateTrack,
   CreateTrackVariables,
 } from "./__generated_types__/CreateTrack";
+import { PLAYLIST_INFO } from "./fragments";
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -45,25 +46,13 @@ const UPDATE_PLAYLIST = gql`
       message
       success
       playlist {
-        id
-        title
-        description
-        tracks {
-          id
-          title
-          album
-          artist
-          year
-          genre
-        }
-        owner {
-          id
-          name
-        }
+        ...PlaylistInfo
       }
     }
   }
+  ${PLAYLIST_INFO}
 `;
+
 const INSERT_TRACK = gql`
   mutation CreateTrack($playlistId: ID, $data: TrackInput, $order: Int) {
     createTrack(playlistId: $playlistId, data: $data, order: $order) {

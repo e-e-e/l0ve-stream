@@ -35,6 +35,7 @@ const defaultTrack = {
   artist: null,
   year: null,
   genre: null,
+  files: null,
 };
 
 export function playlistReducer(

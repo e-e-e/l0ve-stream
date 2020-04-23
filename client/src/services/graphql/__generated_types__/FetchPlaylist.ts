@@ -7,6 +7,13 @@
 // GraphQL query operation: FetchPlaylist
 // ====================================================
 
+export interface FetchPlaylist_playlist_tracks_files {
+  __typename: "File";
+  id: string | null;
+  filename: string | null;
+  status: string | null;
+}
+
 export interface FetchPlaylist_playlist_tracks {
   __typename: "Track";
   id: string | null;
@@ -15,6 +22,7 @@ export interface FetchPlaylist_playlist_tracks {
   artist: string | null;
   year: number | null;
   genre: string | null;
+  files: FetchPlaylist_playlist_tracks_files[] | null;
 }
 
 export interface FetchPlaylist_playlist_owner {

@@ -80,7 +80,9 @@ const resolverMap: IResolvers = {
     },
   },
   Track: {
-    files: () => {},
+    files: (parent, args, context) => {
+      return context.dataSources.tracks.getFiles(parent.id);
+    },
     links: () => {},
   },
   Mutation: {

@@ -7,6 +7,7 @@ export type Track = {
   album: string;
   genre?: string;
   year?: number;
+  notes?: string;
 };
 
 export type TrackWithId = Track & { id: string };
@@ -16,24 +17,11 @@ export class TracksDataSource extends DataSource {
     super();
   }
 
-  async getTrack(id: string): Promise<TrackWithId> {
-    console.log(id);
-    return this.database.select("*").from("tracks").where({ id }).first();
-  }
-
-  async getTracks(pageSize?: number, after?: string): Promise<TrackWithId[]> {
+  async getFiles(id: string) {
     return this.database
       .select("*")
-      .from("tracks")
-      .offset(after ? parseInt(after, 10) : 0)
-      .limit(pageSize || 20);
-  }
-
-  async createTrack(track: Track): Promise<TrackWithId> {
-    return this.database
-      .insert(track)
-      .into("tracks")
-      .returning("*")
-      .then((x) => x) as Promise<TrackWithId>;
+      .from("tracks_files")
+      .where({ track_id: id })
+      .join("files", "files.id", "=", "tracks_files.file_id");
   }
 }

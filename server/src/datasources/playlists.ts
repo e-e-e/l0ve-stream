@@ -84,8 +84,11 @@ export class PlaylistsDataSource extends DataSource {
     }
     await this.database("playlists_tracks")
       .delete()
-      .whereNotIn('track_id', tracks.map(t => t.id))
-      .andWhere({ playlist_id: playlist.id })
+      .whereNotIn(
+        "track_id",
+        tracks.map((t) => t.id)
+      )
+      .andWhere({ playlist_id: playlist.id });
     return {
       ...updated,
       tracks,

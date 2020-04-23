@@ -6,6 +6,7 @@ type Track = {
   album: string;
   year?: number;
   genre?: string;
+  notes?: string;
 };
 
 type Playlist = {

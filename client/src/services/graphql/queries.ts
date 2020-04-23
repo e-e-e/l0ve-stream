@@ -2,6 +2,7 @@ import { gql, ApolloClient } from "apollo-boost";
 import { FetchPlaylists } from "./__generated_types__/FetchPlaylists";
 import { FetchPlaylist } from "./__generated_types__/FetchPlaylist";
 import { WhoAmI } from "./__generated_types__/WhoAmI";
+import { PLAYLIST_INFO } from "./fragments";
 
 const WHO_AM_I = gql`
   query WhoAmI {
@@ -16,45 +17,19 @@ const WHO_AM_I = gql`
 const FETCH_PLAYLISTS = gql`
   query FetchPlaylists {
     playlists {
-      id
-      title
-      description
-      tracks {
-        id
-        title
-        album
-        artist
-        year
-        genre
-      }
-      owner {
-        id
-        name
-      }
+      ...PlaylistInfo
     }
   }
+  ${PLAYLIST_INFO}
 `;
 
 const FETCH_PLAYLIST = gql`
   query FetchPlaylist($id: ID) {
     playlist(playlist: $id) {
-      id
-      title
-      description
-      tracks {
-        id
-        title
-        album
-        artist
-        year
-        genre
-      }
-      owner {
-        id
-        name
-      }
+      ...PlaylistInfo
     }
   }
+  ${PLAYLIST_INFO}
 `;
 export interface GraphQueriesService {
   whoAmI(): Promise<WhoAmI>;
@@ -75,7 +50,7 @@ export class GraphQueriesClient implements GraphQueriesService {
   async playlists() {
     const { data } = await this.client.query({
       query: FETCH_PLAYLISTS,
-      fetchPolicy: 'no-cache',
+      fetchPolicy: "no-cache",
     });
     return data;
   }
@@ -83,7 +58,7 @@ export class GraphQueriesClient implements GraphQueriesService {
   async playlist(id: string) {
     const { data } = await this.client.query({
       query: FETCH_PLAYLIST,
-      fetchPolicy: 'no-cache',
+      fetchPolicy: "no-cache",
       variables: {
         id,
       },

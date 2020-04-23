@@ -9,6 +9,13 @@ import { PlaylistInputWithId } from "./../../../../__generated_types__/globalTyp
 // GraphQL mutation operation: UpdatePlaylist
 // ====================================================
 
+export interface UpdatePlaylist_updatePlaylist_playlist_tracks_files {
+  __typename: "File";
+  id: string | null;
+  filename: string | null;
+  status: string | null;
+}
+
 export interface UpdatePlaylist_updatePlaylist_playlist_tracks {
   __typename: "Track";
   id: string | null;
@@ -17,6 +24,7 @@ export interface UpdatePlaylist_updatePlaylist_playlist_tracks {
   artist: string | null;
   year: number | null;
   genre: string | null;
+  files: UpdatePlaylist_updatePlaylist_playlist_tracks_files[] | null;
 }
 
 export interface UpdatePlaylist_updatePlaylist_playlist_owner {
