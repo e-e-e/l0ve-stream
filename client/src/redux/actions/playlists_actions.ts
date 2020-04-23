@@ -15,6 +15,7 @@ export enum PlaylistActionTypes {
   FETCH_PLAYLIST_SUCCESS = "FETCH_PLAYLIST_SUCCESS",
   FETCH_PLAYLIST_ERROR = "FETCH_PLAYLIST_ERROR",
   UPDATE_PLAYLIST_TRACK_ORDER = "UPDATE_PLAYLIST_TRACK_ORDER",
+  CREATE_PLAYLIST_TRACK = "CREATE_PLAYLIST_TRACK",
   INSERT_PLAYLIST_TRACK = "INSERT_PLAYLIST_TRACK",
   DELETE_PLAYLIST_TRACK = "DELETE_PLAYLIST_TRACK",
   DELETE_PLAYLIST = "DELETE_PLAYLIST",
@@ -116,14 +117,32 @@ export type ActionUpdatePlaylistTrackOrder = ActionWithPayload<
 /**
  * INSERT NEW TRACK
  */
-type InsertPlaylistTrackPayload = {
+type Track = {
+  title: string;
+  album: string;
+  artist: string;
+};
+
+type CreatePlaylistTrackPayload = {
   playlistId: string;
-  track: {
-    title: string;
-    album: string;
-    artist: string;
+  track: Track & {
+    file?: File;
   };
 };
+
+export const createPlaylistTrack = createAction<CreatePlaylistTrackPayload>(
+  PlaylistActionTypes.CREATE_PLAYLIST_TRACK
+);
+export type ActionCreatePlaylistTrack = ActionWithPayload<
+  PlaylistActionTypes.CREATE_PLAYLIST_TRACK,
+  CreatePlaylistTrackPayload
+>;
+
+type InsertPlaylistTrackPayload = {
+  playlistId: string;
+  track: Track & { id: string };
+};
+
 export const insertPlaylistTrack = createAction<InsertPlaylistTrackPayload>(
   PlaylistActionTypes.INSERT_PLAYLIST_TRACK
 );
@@ -188,6 +207,7 @@ export type PlaylistActions =
   | ActionPlaylistFetchSuccess
   | ActionPlaylistFetchError
   | ActionUpdatePlaylistTrackOrder
+  | ActionCreatePlaylistTrack
   | ActionInsertPlaylistTrack
   | ActionDeletePlaylistTrack
   | ActionDeletePlaylist

@@ -5,6 +5,7 @@ import {
 } from "./__generated_types__/UpdatePlaylist";
 import {
   PlaylistInputWithId,
+  TrackInput,
   TrackInputWithOptionalId,
 } from "../../../__generated_types__/globalTypes";
 import {
@@ -15,6 +16,10 @@ import {
   CreatePlaylist,
   CreatePlaylistVariables,
 } from "./__generated_types__/CreatePlaylist";
+import {
+  CreateTrack,
+  CreateTrackVariables,
+} from "./__generated_types__/CreateTrack";
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -59,6 +64,17 @@ const UPDATE_PLAYLIST = gql`
     }
   }
 `;
+const INSERT_TRACK = gql`
+  mutation CreateTrack($playlistId: ID, $data: TrackInput, $order: Int) {
+    createTrack(playlistId: $playlistId, data: $data, order: $order) {
+      message
+      success
+      track {
+        id
+      }
+    }
+  }
+`;
 
 const DELETE_PLAYLIST = gql`
   mutation DeletePlaylist($id: ID) {
@@ -77,6 +93,11 @@ export interface GraphMutationsService {
     playlist: PlaylistInputWithId
   ): Promise<UpdatePlaylist["updatePlaylist"]>;
   deletePlaylist(playlistId: string): Promise<void>;
+  insertTrack(
+    playlistId: string,
+    track: TrackInput,
+    order: number
+  ): Promise<CreateTrack["createTrack"]>;
 }
 
 function sanitizeTrackInputWithOptionalId(
@@ -84,6 +105,16 @@ function sanitizeTrackInputWithOptionalId(
 ): TrackInputWithOptionalId {
   return {
     id: track.id,
+    title: track.title,
+    artist: track.artist,
+    album: track.album,
+    year: track.year,
+    genre: track.genre,
+  };
+}
+
+function sanitizeTrackInput(track: TrackInput): TrackInput {
+  return {
     title: track.title,
     artist: track.artist,
     album: track.album,
@@ -153,5 +184,24 @@ export class GraphMutationsClient implements GraphMutationsService {
       throw new Error("what!!!");
     }
     return;
+  }
+
+  async insertTrack(playlistId: string, track: TrackInput, order: number) {
+    const { data, errors } = await this.client.mutate<
+      CreateTrack,
+      CreateTrackVariables
+    >({
+      mutation: INSERT_TRACK,
+      variables: {
+        playlistId,
+        data: sanitizeTrackInput(track),
+        order,
+      },
+    });
+    if (!data?.createTrack?.success) {
+      console.log(data, errors);
+      throw new Error("what!!!");
+    }
+    return data?.createTrack;
   }
 }

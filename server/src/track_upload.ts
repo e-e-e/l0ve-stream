@@ -2,20 +2,48 @@ import Knex from "knex";
 import { Handler } from "express";
 import S3 from "aws-sdk/clients/s3";
 
-enum FileStatus {
+export enum FileStatus {
   UPLOAD_URL_SIGNED,
   TRANSCODING_STARTED,
   TRANSCODING_COMPLETED,
   TRANSCODING_ERRORED,
 }
 
-const validMimeTypes: Record<string, string> = {
-  mp3: "audio/mpeg",
-  m4a: "audio/m4a",
-  aif: "audio/x-aiff",
-  aifc: "audio/x-aiff",
-  aiff: "audio/x-aiff",
-  wav: "audio/vnd.wav",
+const validMimeTypes = [
+  "audio/mpeg", //mp3
+  "audio/m4a", //m4a
+  "audio/x-aiff", //aif aifc aiff
+  "audio/vnd.wav", //wav
+];
+
+const mimeTypetoExt = (type: string) => {
+  switch (type) {
+    case "audio/mpeg":
+      return "mp3";
+    case "audio/m4a":
+      return "m4a";
+    case "audio/x-aiff":
+      return "aiff";
+    case "audio/vnd.wav":
+      return "wav";
+    default:
+      throw new Error("Type invalid");
+  }
+};
+
+const extToMimeType = (ext: string) => {
+  switch (ext) {
+    case "mp3":
+      return "audio/mpeg";
+    case "m4a":
+      return "audio/m4a";
+    case "aiff":
+      return "audio/x-aiff";
+    case "wav":
+      return "audio/vnd.wav";
+    default:
+      throw new Error("ext invalid");
+  }
 };
 
 const encodeTrackKey = (data: {
@@ -23,7 +51,7 @@ const encodeTrackKey = (data: {
   fileId: string;
   type: string;
 }) => {
-  return `${data.trackId}/${data.fileId}.${data.type}`;
+  return `${data.trackId}/${data.fileId}.${mimeTypetoExt(data.type)}`;
 };
 const decodeTrackKey = (str: string) => {
   const match = str.match(/^([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)\.(\S+)$/);
@@ -31,16 +59,24 @@ const decodeTrackKey = (str: string) => {
   return {
     trackId: match[1],
     fileId: match[2],
-    type: match[3],
+    type: extToMimeType(match[3]),
   };
 };
 
 export function installTrackUpload({
   database,
   s3,
+  websocket,
 }: {
   database: Knex;
   s3: S3;
+  websocket: {
+    broadcastFileTranscodeStatus: (data: {
+      trackId: string;
+      fileId: string;
+      status: number;
+    }) => void;
+  };
 }) {
   const snsMessageHandler: Handler = async (req, res) => {
     const message = JSON.parse(req.body.Message);
@@ -55,30 +91,46 @@ export function installTrackUpload({
         ) {
           break;
         }
+        console.log("completed", fileId);
         await database("files")
           .update({ status: FileStatus.TRANSCODING_COMPLETED })
           .where({ id: fileId });
+        websocket.broadcastFileTranscodeStatus({
+          trackId,
+          fileId,
+          status: FileStatus.TRANSCODING_COMPLETED,
+        });
         break;
       case "PROGRESSING":
+        console.log("progressing", fileId);
         await database("files")
           .update({ status: FileStatus.TRANSCODING_STARTED })
           .where({ id: fileId });
+        websocket.broadcastFileTranscodeStatus({
+          trackId,
+          fileId,
+          status: FileStatus.TRANSCODING_STARTED,
+        });
         break;
       case "ERROR":
+        console.log("error", fileId);
         await database("files")
           .update({ status: FileStatus.TRANSCODING_ERRORED })
           .where({ id: fileId });
+        websocket.broadcastFileTranscodeStatus({
+          trackId,
+          fileId,
+          status: FileStatus.TRANSCODING_ERRORED,
+        });
         break;
     }
     res.sendStatus(200);
   };
   const presignedUrlHandler: Handler = async (req, res) => {
     const { id } = req.params;
-    const { filename, type } = req.query;
-    if (!filename) throw Error("requires filename");
+    const { type } = req.query;
     if (typeof type !== "string") throw Error("requires type");
-    const mimeType = validMimeTypes[type];
-    if (!mimeType) throw new Error("invalid file type");
+    if (!validMimeTypes.includes(type)) throw new Error("invalid file type");
     // confirm track exists
     const track = (await database("tracks").select("id").where({ id }))[0];
     if (!track) throw new Error("track with id does not exist");
@@ -100,11 +152,16 @@ export function installTrackUpload({
     const params = {
       Bucket: process.env.AWS_RAW_TRACK_BUCKET,
       Key: key,
-      ACL: "bucket-owner-full-control",
-      ContentType: mimeType,
+      // ACL: "bucket-owner-full-control",
+      ContentType: type,
     };
-    const url = s3.getSignedUrl("putObject", params);
-    res.json({ url });
+    s3.getSignedUrl("putObject", params, (err, url) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      res.json({ url, fileId });
+    });
   };
   return {
     presignedUrlHandler,

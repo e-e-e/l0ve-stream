@@ -5,26 +5,26 @@ import styles from "./input.module.css";
 type InputProps = {
   name?: string;
   error?: boolean;
-  type?: "text" | "password";
   placeholder?: string;
-  onChange?(value: string): void;
   value?: string;
-};
+} & (
+  | { type?: "text" | "password"; onChange?(value: string): void }
+  | { type: "file"; onChange?(value?: File): void }
+);
 
-export const Input = ({
-  type,
-  error,
-  name,
-  placeholder,
-  value,
-  onChange,
-}: InputProps) => {
+export const Input = (props: InputProps) => {
+  const { type, error, name, placeholder, value } = props;
   const change = React.useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
+      if (props.type === "file") {
+        const file = e.target.files?.[0];
+        props.onChange?.(file);
+        return;
+      }
       const value = e.currentTarget.value;
-      onChange?.(value);
+      props.onChange?.(value);
     },
-    [onChange]
+    [props.onChange, props.type]
   );
   return (
     <input

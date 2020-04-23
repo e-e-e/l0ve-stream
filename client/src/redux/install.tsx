@@ -8,22 +8,28 @@ import { GraphQueriesService } from "../services/graphql/queries";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { GraphMutationsService } from "../services/graphql/mutations";
 import { History } from "history";
+import { FileUploadService } from "../services/file_upload/install";
 
 export function installRedux({
   services,
   history,
+  subscribeToTranscodeUpdates,
 }: {
   services: {
     queries: GraphQueriesService;
     mutations: GraphMutationsService;
+    fileUpload: FileUploadService;
   };
   history: History<unknown>;
+  subscribeToTranscodeUpdates: (fileId: string) => void;
 }) {
   const sagaMiddleware = createSagaMiddleware({
     context: {
       queries: services.queries,
       mutations: services.mutations,
+      fileUpload: services.fileUpload,
       history,
+      subscribeToTranscodeUpdates,
     },
   });
 

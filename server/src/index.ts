@@ -30,7 +30,7 @@ const s3 = new S3({
   apiVersion: "2006-03-01",
 });
 
-const snsDomain = "http://8c9a93ab.ngrok.io"; // `${process.env.ROOT_DOMAIN}:${process.env.PORT}`
+const snsDomain = "http://c1675c36.ngrok.io"; // `${process.env.ROOT_DOMAIN}:${process.env.PORT}`
 
 function getBasicAuthUsers(usersData: string) {
   if (!usersData || usersData.indexOf(":") === -1) {
@@ -55,9 +55,11 @@ const database = createDatabase(
   }
 );
 
+const websocket = installWebsockets({ port: 8000 });
 const { snsMessageHandler, presignedUrlHandler } = installTrackUpload({
   database,
   s3,
+  websocket,
 });
 
 const server = new ApolloServer({
@@ -112,4 +114,3 @@ app.listen({ port: PORT }, () => {
   console.log(`listening on port ${PORT}`);
 });
 
-installWebsockets({ port: 8000 });
