@@ -1,7 +1,5 @@
 import "graphql-import-node";
 import express from "express";
-import * as xml2json from "xml2json";
-import { readFileSync } from "fs";
 import path from "path";
 import { itunesPlaylist } from "./importers/itunes_playlist";
 import { createApolloServerConfig } from "./schema";
@@ -56,7 +54,7 @@ const database = createDatabase(
 );
 
 const websocket = installWebsockets({ port: 8000 });
-const { snsMessageHandler, presignedUrlHandler } = installTrackUpload({
+const { snsMessageHandler, presignedPutUrlHandler, presignedGetTrackHandler } = installTrackUpload({
   database,
   s3,
   websocket,
@@ -108,7 +106,8 @@ app.post("/convert/itunes", async (req, res) => {
   }
 });
 
-app.get("/track/:id/upload", presignedUrlHandler);
+app.get("/track/:id/upload", presignedPutUrlHandler);
+app.get("/track/:id/get", presignedGetTrackHandler);
 
 app.listen({ port: PORT }, () => {
   console.log(`listening on port ${PORT}`);

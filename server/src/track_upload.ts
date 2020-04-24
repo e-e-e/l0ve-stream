@@ -16,6 +16,8 @@ const validMimeTypes = [
   "audio/vnd.wav", //wav
 ];
 
+const validQualites = ["original", "196", "320"];
+
 const mimeTypetoExt = (type: string) => {
   switch (type) {
     case "audio/mpeg":
@@ -50,8 +52,14 @@ const encodeTrackKey = (data: {
   trackId: string;
   fileId: string;
   type: string;
+  quality?: string;
 }) => {
-  return `${data.trackId}/${data.fileId}.${mimeTypetoExt(data.type)}`;
+  if (!data.quality) {
+    return `${data.trackId}/${data.fileId}.${mimeTypetoExt(data.type)}`;
+  }
+  return `${data.trackId}/${data.fileId}.${data.quality}.${mimeTypetoExt(
+    data.type
+  )}`;
 };
 const decodeTrackKey = (str: string) => {
   const match = str.match(/^([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)\.(\S+)$/);
@@ -126,7 +134,7 @@ export function installTrackUpload({
     }
     res.sendStatus(200);
   };
-  const presignedUrlHandler: Handler = async (req, res) => {
+  const presignedPutUrlHandler: Handler = async (req, res) => {
     const { id } = req.params;
     const { type } = req.query;
     if (typeof type !== "string") throw Error("requires type");
@@ -163,8 +171,48 @@ export function installTrackUpload({
       res.json({ url, fileId });
     });
   };
+  const presignedGetTrackHandler: Handler = async (req, res) => {
+    const { id } = req.params;
+    let { quality } = req.query;
+    if (quality && !validQualites.includes(quality)) {
+      throw new Error("Invalid quality option");
+    }
+    if (!quality) {
+      quality = "196";
+    }
+    const filedata = (await database.select().from("files").where({ id }))[0];
+    if (!filedata) {
+      return res.sendStatus(404);
+    }
+    if (
+      quality !== "original" &&
+      filedata.status !== FileStatus.TRANSCODING_COMPLETED
+    ) {
+      throw new Error("File not transcoded");
+    }
+    const { trackId, fileId, type } = decodeTrackKey(filedata.filename);
+    const params =
+      quality === "original"
+        ? {
+            Bucket: process.env.AWS_RAW_TRACK_BUCKET,
+            Key: filedata.filename,
+          }
+        : {
+            Bucket: process.env.AWS_TRANSCODED_TRACK_BUCKET,
+            Key: encodeTrackKey({ trackId, fileId, type, quality }),
+          };
+    s3.getSignedUrl("getObject", params, (err, url) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      res.json({ url, fileId });
+    });
+  };
+
   return {
-    presignedUrlHandler,
+    presignedPutUrlHandler,
+    presignedGetTrackHandler,
     snsMessageHandler,
   };
 }
