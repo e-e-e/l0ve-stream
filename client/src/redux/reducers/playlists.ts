@@ -7,6 +7,7 @@ import { groupByIds, LoadingState } from "./helpers";
 
 type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
 type PlaylistsDict = { [Key: string]: Playlist };
+
 export type PlaylistsState = {
   state: LoadingState;
   byId: PlaylistsDict;

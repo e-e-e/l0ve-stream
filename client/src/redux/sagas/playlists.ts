@@ -27,11 +27,11 @@ import {
 } from "../actions/playlists_actions";
 import { GraphQueriesService } from "../../services/graphql/queries";
 import { GraphMutationsService } from "../../services/graphql/mutations";
-import { RootState } from "../reducers/reducers";
 import { playlistUrl } from "../../routes/routes";
 import { History } from "history";
 import { FileUploadService } from "../../services/file_upload/install";
 import { uploadRequest } from "../actions/ui_actions";
+import { selectPlaylist } from "../selectors/playlists";
 
 type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
   ? U
@@ -63,9 +63,6 @@ function* fetchPlaylist(action: ActionPlaylistFetch) {
     yield put(fetchPlaylistError({ errorMessage: e.message }));
   }
 }
-
-const selectPlaylist = (id: string) => (state: RootState) =>
-  state.entities.playlists.byId[id];
 
 function* updatePlaylist(
   action:

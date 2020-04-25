@@ -1,9 +1,9 @@
 import { Typography } from "../typography/typography";
-import { PointIcon, TrashIcon } from "../icons/icons";
+import { PlayIcon, PointIcon, TrashIcon } from "../icons/icons";
 import React from "react";
 import styles from "./track_item.module.css";
 import { Draggable } from "react-beautiful-dnd";
-import {Button, IconButton} from "../button/button";
+import { Button, IconButton } from "../button/button";
 
 export const TrackItem = ({
   id,
@@ -14,6 +14,7 @@ export const TrackItem = ({
   year,
   isDraggable,
   onDelete,
+  onPlay,
 }: {
   id: string;
   index: number;
@@ -23,6 +24,7 @@ export const TrackItem = ({
   year?: number;
   isDraggable?: boolean;
   onDelete?: (id: string) => void;
+  onPlay?: (id: string) => void;
 }) => {
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!isDraggable}>
@@ -44,7 +46,13 @@ export const TrackItem = ({
                   <TrashIcon />
                 </IconButton>
               )}
-              <PointIcon />
+              {onPlay ? (
+                <IconButton onClick={() => onPlay(id)}>
+                  <PlayIcon />
+                </IconButton>
+              ) : (
+                <PointIcon />
+              )}
             </div>
           </div>
         );

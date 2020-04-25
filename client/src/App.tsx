@@ -18,6 +18,7 @@ import { Typography } from "./components/typography/typography";
 import { useDispatch } from "react-redux";
 import { fetchWhoAmI } from "./redux/actions/user_actions";
 import { AddTrackView } from "./containers/add_track";
+import { Player } from "./containers/player";
 
 function App() {
   const mainMenuOptions = {
@@ -92,6 +93,7 @@ function App() {
           </Route>
         </Switch>
         <Typography align="center"> ( ( ( ❤ ) ) ) ️</Typography>
+        <Player />
       </main>
     </Page>
   );

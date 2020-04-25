@@ -18,14 +18,11 @@ import { LoadingState } from "../redux/reducers/helpers";
 import { DropResult } from "react-beautiful-dnd";
 import { DraggableList } from "../components/draggable_list/draggable_list";
 import { DropArea } from "../components/drop_area/drop_area";
-
-const selectPlaylist = (id: string) => (state: RootState) =>
-  state.entities.playlists.byId[id];
-const selectError = (state: RootState) =>
-  state.entities.playlists.state === LoadingState.ERROR &&
-  state.entities.playlists.errorMessage;
-const selectIsLoading = (state: RootState) =>
-  state.entities.playlists.state === LoadingState.LOADING;
+import {
+  selectError,
+  selectIsLoading,
+  selectPlaylist,
+} from "../redux/selectors/playlists";
 
 export const PlaylistView = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,9 +36,7 @@ export const PlaylistView = () => {
     }
   }, [id, dispatch, data]);
   const addTrack = React.useCallback(
-    ({ close }: { close?(): void }) => (
-      <AddTrackView close={close} />
-    ),
+    ({ close }: { close?(): void }) => <AddTrackView close={close} />,
     []
   );
   const deleteTrack = React.useCallback(
@@ -65,6 +60,9 @@ export const PlaylistView = () => {
     },
     [id, dispatch]
   );
+  const playTrack = React.useCallback((trackId: string) => {
+    console.log("play", trackId);
+  }, []);
   if (error) return <div>{error}</div>;
   if (loading) return <div>{loading}</div>;
   if (!data) {
@@ -92,6 +90,8 @@ export const PlaylistView = () => {
           {data.tracks?.map((track, i) => {
             if (!track?.id || !track.title || !track.artist || !track.album)
               return;
+            const hasFiles =
+              track.files?.length && track.files[0]?.status === "2";
             return (
               <TrackItem
                 key={track.id}
@@ -102,6 +102,7 @@ export const PlaylistView = () => {
                 album={track.album}
                 isDraggable={true}
                 onDelete={deleteTrack}
+                onPlay={hasFiles ? playTrack : undefined}
               />
             );
           })}
