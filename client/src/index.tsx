@@ -9,6 +9,7 @@ import { installGraphQL } from "./services/graphql/install";
 import { createBrowserHistory } from "history";
 import { Router } from "react-router-dom";
 import { installFileUpload } from "./services/file_upload/install";
+import { createMediaPlayer } from "./media_player";
 
 const { subscribeToTranscodeUpdates } = installWebsocketClient({
   url: "ws://localhost:8000",
@@ -16,11 +17,13 @@ const { subscribeToTranscodeUpdates } = installWebsocketClient({
 const history = createBrowserHistory();
 const { client, queries, mutations } = installGraphQL();
 const fileUpload = installFileUpload();
+const player = createMediaPlayer();
 
 const { ReduxProvider } = installRedux({
   services: { queries, mutations, fileUpload },
   subscribeToTranscodeUpdates,
   history,
+  mediaPlayer: player,
 });
 
 ReactDOM.render(

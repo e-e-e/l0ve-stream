@@ -9,11 +9,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { GraphMutationsService } from "../services/graphql/mutations";
 import { History } from "history";
 import { FileUploadService } from "../services/file_upload/install";
+import { MediaPlayer } from "../media_player";
+import { setCurrentTrack } from "./actions/media_player";
 
 export function installRedux({
   services,
   history,
   subscribeToTranscodeUpdates,
+  mediaPlayer,
 }: {
   services: {
     queries: GraphQueriesService;
@@ -22,6 +25,7 @@ export function installRedux({
   };
   history: History<unknown>;
   subscribeToTranscodeUpdates: (fileId: string) => void;
+  mediaPlayer: MediaPlayer;
 }) {
   const sagaMiddleware = createSagaMiddleware({
     context: {
@@ -30,12 +34,18 @@ export function installRedux({
       fileUpload: services.fileUpload,
       history,
       subscribeToTranscodeUpdates,
+      mediaPlayer,
     },
   });
 
   const middleware = applyMiddleware(sagaMiddleware);
   const store = createStore(reducer, {}, composeWithDevTools(middleware));
   sagaMiddleware.run(rootSaga);
+
+  mediaPlayer.on("playing", (id) => {
+    store.dispatch(setCurrentTrack({ track: id }));
+  });
+
   return {
     ReduxProvider: ({ children }: PropsWithChildren<{}>) => (
       <Provider store={store}>{children}</Provider>

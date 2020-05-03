@@ -5,7 +5,7 @@ import {
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import { groupByIds, LoadingState } from "./helpers";
 
-type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
+export type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
 type PlaylistsDict = { [Key: string]: Playlist };
 
 export type PlaylistsState = {

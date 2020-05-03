@@ -1,5 +1,6 @@
 import { Howl } from "howler";
 import { type } from "os";
+import { hashmap } from "aws-sdk/clients/glacier";
 
 type TrackState = "uninitialized" | "loading" | "loaded" | "error-loading";
 
@@ -10,13 +11,14 @@ class Track {
 
   constructor(
     readonly id: string,
-    private readonly onEnd: (id: string) => void
+    private readonly onEnd: (id: string) => void,
+    private readonly fetchUrl: (id: string) => Promise<string>
   ) {}
 
   async load() {
     if (this.state !== "uninitialized") return;
     this.state = "loading";
-    const url = await Promise.resolve(this.id);
+    const url = await this.fetchUrl(this.id);
     this.sound = new Howl({
       src: [url],
       autoplay: false,
@@ -27,7 +29,6 @@ class Track {
       },
       onload: () => {
         this.state = "loaded";
-        console.log("looolllooo");
         if (this.playWhenReady) {
           this.play();
           console.log("loaded and playing", this.id);
@@ -52,7 +53,7 @@ class Track {
       return;
     }
     console.log("--play", this.id, !!this.sound);
-    if(this.sound?.playing()) return;
+    if (this.sound?.playing()) return;
     this.sound?.play();
   }
 
@@ -75,10 +76,18 @@ class Track {
 
   elapsed(): number | undefined {
     const pos = this.sound?.seek();
-    console.log(pos);
-    if (typeof pos !== "number" && pos !== undefined)
-      throw new Error("This should not be possible");
+    // console.log(pos);
+    if (typeof pos !== "number" && pos !== undefined) {
+      // console.log(pos);
+      return undefined;
+      // throw new Error("This should not be possible");
+    }
     return pos;
+  }
+
+  duration(): number {
+    const d = this.sound?.duration();
+    return d ? d : 0;
   }
 
   unload() {
@@ -87,12 +96,20 @@ class Track {
   }
 }
 
-class MediaPlayer {
+type MediaPlayerEventHandlers = {
+  // progress?: (v: number) => void;
+  playing?: (id: string) => void;
+  ready?: () => void;
+};
+
+export class MediaPlayer {
   private currentTrackIndex?: number;
   private queue: string[] = [];
   private tracks: Record<string, Track> = {};
+  // dirty quick solution for event emitting
+  private eventHandlers: MediaPlayerEventHandlers = {};
 
-  constructor() {
+  constructor(private readonly fetchUrl: (id: string) => Promise<string>) {
     // include getTrackUrl info
   }
 
@@ -101,19 +118,19 @@ class MediaPlayer {
     this.clear();
     this.queue = tracks;
     this.tracks = tracks.reduce<Record<string, Track>>((acc, track) => {
-      acc[track] = new Track(track, this.onTrackEnd);
+      acc[track] = new Track(track, this.onTrackEnd, this.fetchUrl);
       return acc;
     }, {});
 
     console.log("loaded", tracks);
   }
 
-  onTrackEnd = (id: string) => {
+  private onTrackEnd = (id: string) => {
     console.log("ended", id);
     this.next();
   };
 
-  preload(id: string) {
+  private preload(id: string) {
     const track = this.tracks[id];
     if (!track) {
       console.log("track does not exist", id);
@@ -143,6 +160,13 @@ class MediaPlayer {
     ];
   }
 
+  on(event: "playing", handler: MediaPlayerEventHandlers["playing"]): void;
+  on(event: "ready", handler: MediaPlayerEventHandlers["ready"]): void;
+  // on(event: "progress", handler: MediaPlayerEventHandlers["progress"]): void;
+  on(event: keyof MediaPlayerEventHandlers, handler: () => {}): void {
+    this.eventHandlers[event] = handler;
+  }
+
   play(id?: string) {
     const { tracks, queue } = this;
     // play item in queue
@@ -150,7 +174,7 @@ class MediaPlayer {
     const trackId = id || this.queue[this.currentTrackIndex || 0];
     this.currentTrackIndex = queue.indexOf(trackId);
     const track = tracks[trackId];
-    console.log('play', track);
+    console.log("play", track);
     if (!track) return;
     if (!track.ready()) {
       track
@@ -164,6 +188,7 @@ class MediaPlayer {
       console.log("loaded", track.id);
     }
     track.play();
+    this.eventHandlers.playing?.(track.id);
   }
 
   next() {
@@ -178,7 +203,7 @@ class MediaPlayer {
   prev() {
     // skip to start of current track or if withing a threshold the prev track
     const currentTrack = this.currentTrack();
-    const elapsed = (currentTrack && currentTrack.elapsed()) || 0
+    const elapsed = (currentTrack && currentTrack.elapsed()) || 0;
     console.log(elapsed);
     if (elapsed < 0.5) {
       this.stop();
@@ -204,6 +229,16 @@ class MediaPlayer {
     this.tracks[trackId].pause();
   }
 
+  progress(): number {
+    const trackId = this.queue[this.currentTrackIndex || 0];
+    if (!trackId) return 0;
+    const elapsed = this.tracks[trackId].elapsed();
+    const duration = this.tracks[trackId].duration();
+    if (!duration || !elapsed) return 0;
+    // console.log(elapsed, duration);
+    return (elapsed / duration);
+  }
+
   clear() {
     // stop playing and unload all items
     for (const key in this.tracks) {
@@ -216,5 +251,5 @@ class MediaPlayer {
 }
 
 export function createMediaPlayer() {
-  return new MediaPlayer();
+  return new MediaPlayer((a) => Promise.resolve(a));
 }

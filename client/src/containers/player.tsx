@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { IconButton } from "../components/button/button";
 import { PlayIcon } from "../components/icons/icons";
-import { createMediaPlayer } from "../media_player";
-
-const player = createMediaPlayer();
+import { useDispatch } from "react-redux";
+import {
+  loadPlaylist,
+  next,
+  pause,
+  playTrack,
+  prev,
+  stop,
+} from "../redux/actions/media_player";
 
 export const Player = () => {
-  const load = () =>
-    player.init([
-      "/samples/1.mp3",
-      "/samples/2.mp3",
-      "/samples/3.mp3",
-      "/samples/4.mp3",
-    ]);
+  const dispatch = useDispatch();
+  const play = useCallback(() => dispatch(playTrack({})), [dispatch]);
+  const stopTrack = useCallback(() => dispatch(stop()), [dispatch]);
+  const nextTrack = useCallback(() => dispatch(next()), [dispatch]);
+  const prevTrack = useCallback(() => dispatch(prev()), [dispatch]);
+  const pauseTrack = useCallback(() => dispatch(pause()), [dispatch]);
+  const load = () => dispatch(loadPlaylist({ playlist: "test" }));
   return (
     <div
       style={{
@@ -26,14 +32,14 @@ export const Player = () => {
       }}
     >
       <IconButton onClick={load}>Load</IconButton>
-      <IconButton onClick={() => player.prev()}>{"<<"}</IconButton>
-      <IconButton onClick={() => player.play()}>
+      <IconButton onClick={prevTrack}>{"<<"}</IconButton>
+      <IconButton onClick={play}>
         <PlayIcon />
       </IconButton>
-      <IconButton onClick={() => player.next()}>{">>"}</IconButton>
-      <IconButton onClick={() => player.stop()}>stop</IconButton>
-      <IconButton onClick={() => player.pause()}>pause</IconButton>
-      <IconButton onClick={() => player.clear()}>clear</IconButton>
+      <IconButton onClick={nextTrack}>{">>"}</IconButton>
+      <IconButton onClick={stopTrack}>stop</IconButton>
+      <IconButton onClick={pauseTrack}>pause</IconButton>
+      {/*<IconButton onClick={() => player.clear()}>clear</IconButton>*/}
     </div>
   );
 };
