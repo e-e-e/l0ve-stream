@@ -56,14 +56,20 @@
     padding: 0.5rem;
     color: black;
 }
+.iconButton.invert {
+    color: white;
+}
 
-.iconButton.disabled {
+.iconButton.disabled, .iconButton.invert.disabled {
     color: grey;
 }
 
 
 .iconButton:not(.disabled):hover {
     color: grey;
+}
+.iconButton.invert:not(.disabled):hover {
+    color: rgba(255,255,255, 0.5);
 }
 
 .listButton {

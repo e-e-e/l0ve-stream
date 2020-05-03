@@ -3,15 +3,15 @@ import { PlayIcon, PointIcon, TrashIcon } from "../icons/icons";
 import React from "react";
 import styles from "./track_item.module.css";
 import { Draggable } from "react-beautiful-dnd";
-import { Button, IconButton } from "../button/button";
+import { IconButton } from "../button/button";
 
 export const TrackItem = ({
   id,
   index,
   title,
   artist,
-  album,
-  year,
+  // album,
+  // year,
   isDraggable,
   onDelete,
   onPlay,

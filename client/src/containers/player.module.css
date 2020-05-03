@@ -1,0 +1,32 @@
+.player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+    color: white;
+    border-top: thin black solid;
+    text-align: center;
+    z-index: 100;
+}
+
+.background {
+    position: relative;
+    z-index: 1;
+}
+
+.progress {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /*transform: scaleX(0);*/
+    transform-origin: left;
+    background: linear-gradient(90deg, #FF7E21 0%, #E101E6 51.57%, #6900EE 100%);
+    z-index: 1;
+
+}
+.controls {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+}

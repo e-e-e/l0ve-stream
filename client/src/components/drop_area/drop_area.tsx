@@ -42,6 +42,7 @@ export const DropArea = ({
       try {
         const files = e.dataTransfer?.files ?? [];
         for (let i = 0; i < files.length; i++) {
+          console.log(files[i].name)
           await onFileDrop(files[i]);
         }
       } finally {

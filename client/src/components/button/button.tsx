@@ -4,6 +4,7 @@ import styles from "./button.module.css";
 
 type CommonProps = {
   variant?: "basic" | "icon" | "list";
+  invert?: boolean;
   onClick?: ReactEventHandler;
   disabled?: boolean;
   children?: React.ReactNode;
@@ -25,6 +26,7 @@ const UnstyledButtonOrLink = (props: ButtonOrLinkProps) => {
     [styles.basicButton]: props.variant === "basic",
     [styles.iconButton]: props.variant === "icon",
     [styles.listButton]: props.variant === "list",
+    [styles.invert]: props.invert,
   });
   if (props.type === "link") {
     // need to prevent navigation if disabled

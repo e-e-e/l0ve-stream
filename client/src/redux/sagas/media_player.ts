@@ -37,7 +37,8 @@ function* watchProgress() {
     yield take(MediaPlayerActionTypes.PLAY);
     yield race([
       call(progressWorker),
-      take(MediaPlayerActionTypes.STOP)
+      take(MediaPlayerActionTypes.STOP),
+      take(MediaPlayerActionTypes.PAUSE),
     ]);
   }
 }
