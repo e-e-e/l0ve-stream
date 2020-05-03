@@ -1,5 +1,5 @@
 import { Typography } from "../typography/typography";
-import { PlayIcon, PointIcon, TrashIcon } from "../icons/icons";
+import {PlayIcon, PointIcon, RearrangeIcon, TrashIcon} from "../icons/icons";
 import React from "react";
 import styles from "./track_item.module.css";
 import { Draggable } from "react-beautiful-dnd";
@@ -35,7 +35,7 @@ export const TrackItem = ({
             ref={provided.innerRef}
             {...provided.draggableProps}
           >
-            {isDraggable && <div {...provided.dragHandleProps}>::</div>}
+            {isDraggable && <div className={styles.dragControl} {...provided.dragHandleProps}><RearrangeIcon/></div>}
             <div className={styles.info}>
               <Typography>{title}</Typography>
               <Typography variant="subtitle">{artist}</Typography>

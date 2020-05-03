@@ -10,6 +10,7 @@ import { ReactComponent as CheckIconSvg } from "./icon-check.svg";
 import { ReactComponent as SearchIconSvg } from "./icon-search.svg";
 import { ReactComponent as CloudIconSvg } from "./icon-cloud.svg";
 import { ReactComponent as RefreshIconSvg } from "./icon-refresh.svg";
+import { ReactComponent as RearrangeIconSvg } from "./icon-rearrange.svg";
 
 export const PlayIcon = () => <PlayIconSvg />;
 export const PointIcon = () => <PointIconSvg />;
@@ -19,6 +20,7 @@ export const AddIcon = () => <AddIconSvg />;
 export const CheckIcon = () => <CheckIconSvg />;
 export const SearchIcon = () => <SearchIconSvg />;
 export const RefreshIcon = () => <RefreshIconSvg />;
+export const RearrangeIcon = () => <RearrangeIconSvg />;
 export const CloudIcon = () => <CloudIconSvg />;
 export const Spinner = () => (
   <div className={style.spinner}>
