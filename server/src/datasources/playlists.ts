@@ -114,7 +114,8 @@ export class PlaylistsDataSource extends DataSource {
       .select("*")
       .from("playlists_tracks")
       .where({ playlist_id: id })
-      .join("tracks", "tracks.id", "=", "playlists_tracks.track_id");
+      .join("tracks", "tracks.id", "=", "playlists_tracks.track_id")
+      .orderBy("playlists_tracks.order");
   }
 
   async addTrack(
