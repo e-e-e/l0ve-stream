@@ -1,10 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@font-face {
+  font-family: "FontSans";
+  src: url("/fonts/font.woff2") format("woff2"),
+  url("/fonts/font.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/NotoSans-Regular.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/NotoSans-Italic.ttf") format("ttf");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/NotoSans-Bold.ttf") format("ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/NotoSans-BoldItalic.ttf") format("ttf");
+  font-weight: 700;
+}
 
 body {
   margin: 0;
-  font-size: 16px;
-  font-family: "Noto Sans", 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-family: "FontSans", "Noto Sans", 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2, h3, h4, h5, h6, p, a, div, span {
+  font-weight: normal;
+  letter-spacing: 0.1rem;
+}
