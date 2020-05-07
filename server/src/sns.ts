@@ -1,26 +1,6 @@
 import SNS from "aws-sdk/clients/sns";
 import { default as core, IRouterMatcher } from "express-serve-static-core";
-import express, {RequestHandler} from "express";
-
-const snsDomain = "http://866b18a3.ngrok.io"; // `${process.env.ROOT_DOMAIN}:${process.env.PORT}`
-
-const snsSubscriptions = [
-  {
-    Protocol: "http" /* required */,
-    TopicArn: process.env.AWS_SNS_TRANSCODE_START!,
-    Endpoint: `${snsDomain}/sns/transcode/start`,
-  },
-  {
-    Protocol: "http" /* required */,
-    TopicArn: process.env.AWS_SNS_TRANSCODE_COMPLETION!,
-    Endpoint: `${snsDomain}/sns/transcode/completion`,
-  },
-  {
-    Protocol: "http" /* required */,
-    TopicArn: process.env.AWS_SNS_TRANSCODE_ERROR!,
-    Endpoint: `${snsDomain}/sns/transcode/error`,
-  },
-];
+import express, { RequestHandler } from "express";
 
 type SnsEndpoint = {
   topic: string;

@@ -31,7 +31,7 @@ const s3 = new S3({
 const snsDomain =
   process.env.NODE_ENV === "production"
     ? `${process.env.ROOT_DOMAIN}:${process.env.PORT}`
-    : "http://c1675c36.ngrok.io";
+    : "http://nononono.ngrok.io";
 
 function getBasicAuthUsers(usersData: string) {
   if (!usersData || usersData.indexOf(":") === -1) {
