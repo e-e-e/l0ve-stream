@@ -28,7 +28,10 @@ const s3 = new S3({
   apiVersion: "2006-03-01",
 });
 
-const snsDomain = "http://c1675c36.ngrok.io"; // `${process.env.ROOT_DOMAIN}:${process.env.PORT}`
+const snsDomain =
+  process.env.NODE_ENV === "production"
+    ? `${process.env.ROOT_DOMAIN}:${process.env.PORT}`
+    : "http://c1675c36.ngrok.io";
 
 function getBasicAuthUsers(usersData: string) {
   if (!usersData || usersData.indexOf(":") === -1) {
@@ -54,7 +57,11 @@ const database = createDatabase(
 );
 
 const websocket = installWebsockets({ port: 8000 });
-const { snsMessageHandler, presignedPutUrlHandler, presignedGetTrackHandler } = installTrackUpload({
+const {
+  snsMessageHandler,
+  presignedPutUrlHandler,
+  presignedGetTrackHandler,
+} = installTrackUpload({
   database,
   s3,
   websocket,
@@ -112,4 +119,3 @@ app.get("/track/:id/get", presignedGetTrackHandler);
 app.listen({ port: PORT }, () => {
   console.log(`listening on port ${PORT}`);
 });
-
