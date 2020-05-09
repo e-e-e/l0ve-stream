@@ -165,10 +165,6 @@ export class PlaylistsDataSource extends DataSource {
 
   async deleteTrack(playlistId: string, trackId: string) {
     await this.database.delete().from("tracks").where({ id: trackId });
-    await this.database
-      .delete()
-      .from("playlists_tracks")
-      .where({ track_id: trackId, playlist_id: playlistId });
   }
 
   async deletePlaylist(playlist: string) {
