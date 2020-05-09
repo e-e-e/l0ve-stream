@@ -1,11 +1,27 @@
+
 .gridContainer {
-    display: flex;
-    flex-direction: column;
-    border: black thin solid;
+    background: none;
+    transition: background-color 0.2s ease-in-out;
     margin: 1rem 0;
 }
 
-.clickable {
+.gridContainer.clickable {
+    padding: 0.5rem;
+}
+
+.gridContainer.clickable:hover {
+    background: black;
+}
+
+.gridWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: black thin solid;
+    background: white;
+}
+
+.clickable .gridWrapper {
     cursor: pointer;
 }
 
