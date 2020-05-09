@@ -1,5 +1,5 @@
 import SNS from "aws-sdk/clients/sns";
-import { default as core, IRouterMatcher } from "express-serve-static-core";
+import { default as core } from "express-serve-static-core";
 import express, { RequestHandler } from "express";
 
 type SnsEndpoint = {
