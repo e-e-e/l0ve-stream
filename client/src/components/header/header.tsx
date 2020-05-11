@@ -1,9 +1,9 @@
-import React, { ComponentType } from "react";
-import styles from "./header.module.css";
-import { AddIcon, MenuIcon, SearchIcon } from "../icons/icons";
-import { Button, ListButton } from "../button/button";
-import { useNavigationHandler } from "../../routes/routes";
-import { LayerIconButton } from "../layer_button/layer_button";
+import React, { ComponentType } from 'react';
+import styles from './header.module.css';
+import { AddIcon, MenuIcon, SearchIcon } from '../icons/icons';
+import { Button, ListButton } from '../button/button';
+import { useNavigationHandler } from '../../routes/routes';
+import { LayerIconButton } from '../layer_button/layer_button';
 
 type HeaderLayerProps = { close?(): void };
 type HeaderLayerContent = ComponentType<HeaderLayerProps>;
@@ -28,7 +28,7 @@ function MenuItem({ url, label, close }: MenuItem & { close?: () => void }) {
 function MainMenu({ menuItems, primaryAction, close }: MainMenuProps) {
   const primaryNavigationHandler = useNavigationHandler(
     primaryAction.url,
-    close
+    close,
   );
 
   return (
@@ -46,7 +46,7 @@ function MainMenu({ menuItems, primaryAction, close }: MainMenuProps) {
 function Header({ mainMenuOptions, plusOptions, searchOptions }: HeaderProps) {
   const MainMenuWithItems = React.useCallback(
     (props: HeaderLayerProps) => {
-      if (!mainMenuOptions) throw new Error("Should have menu options");
+      if (!mainMenuOptions) throw new Error('Should have menu options');
       return (
         <MainMenu
           menuItems={mainMenuOptions?.menuItems}
@@ -55,7 +55,7 @@ function Header({ mainMenuOptions, plusOptions, searchOptions }: HeaderProps) {
         />
       );
     },
-    [mainMenuOptions]
+    [mainMenuOptions],
   );
   return (
     <header className={styles.header}>

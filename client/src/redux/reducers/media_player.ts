@@ -1,4 +1,7 @@
-import {MediaPlayerActions, MediaPlayerActionTypes,} from "../actions/media_player";
+import {
+  MediaPlayerActions,
+  MediaPlayerActionTypes,
+} from '../actions/media_player';
 
 enum PlayerState {
   UNINITIALIZED,
@@ -18,7 +21,7 @@ type MediaPlayerState = {
   playlist: string | null;
   queue: TrackInfo[];
   currentTrack: string | null;
-  progress: number,
+  progress: number;
 };
 
 const initialState = {
@@ -31,7 +34,7 @@ const initialState = {
 
 export function mediaPlayerReducer(
   state: MediaPlayerState = initialState,
-  action: MediaPlayerActions
+  action: MediaPlayerActions,
 ): MediaPlayerState {
   switch (action.type) {
     case MediaPlayerActionTypes.SET_CURRENT_TRACK:

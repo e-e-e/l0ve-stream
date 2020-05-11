@@ -1,16 +1,16 @@
-import { createAction } from "redux-actions";
-import { ActionWithPayload } from "./types";
+import { createAction } from 'redux-actions';
+import { ActionWithPayload } from './types';
 
 export enum MediaPlayerActionTypes {
-  LOAD_PLAYLIST = "MP_LOAD_PLAYLIST",
-  PLAY = "MP_PLAY",
-  NEXT = "MP_NEXT",
-  PREV = "MP_PREV",
-  STOP = "MP_STOP",
-  PAUSE = "MP_PAUSE",
-  SET_CURRENT_TRACK = "MP_SET_CURRENT_TRACK",
-  SET_QUEUE = "MP_SET_QUEUE",
-  SET_PROGRESS = "MP_SET_PROGRESS",
+  LOAD_PLAYLIST = 'MP_LOAD_PLAYLIST',
+  PLAY = 'MP_PLAY',
+  NEXT = 'MP_NEXT',
+  PREV = 'MP_PREV',
+  STOP = 'MP_STOP',
+  PAUSE = 'MP_PAUSE',
+  SET_CURRENT_TRACK = 'MP_SET_CURRENT_TRACK',
+  SET_QUEUE = 'MP_SET_QUEUE',
+  SET_PROGRESS = 'MP_SET_PROGRESS',
 }
 
 type LoadPlaylistPayload = {
@@ -18,7 +18,7 @@ type LoadPlaylistPayload = {
 };
 
 export const loadPlaylist = createAction<LoadPlaylistPayload>(
-  MediaPlayerActionTypes.LOAD_PLAYLIST
+  MediaPlayerActionTypes.LOAD_PLAYLIST,
 );
 
 export type ActionLoadPlaylist = ActionWithPayload<
@@ -58,7 +58,7 @@ type SetCurrentTrackPayload = {
 };
 
 export const setCurrentTrack = createAction<SetCurrentTrackPayload>(
-  MediaPlayerActionTypes.SET_CURRENT_TRACK
+  MediaPlayerActionTypes.SET_CURRENT_TRACK,
 );
 
 export type ActionSetCurrentTrack = ActionWithPayload<
@@ -71,7 +71,7 @@ type SetQueuePayload = {
 };
 
 export const setQueue = createAction<SetQueuePayload>(
-  MediaPlayerActionTypes.SET_QUEUE
+  MediaPlayerActionTypes.SET_QUEUE,
 );
 
 export type ActionSetQueue = ActionWithPayload<
@@ -84,7 +84,7 @@ type SetProgressPayload = {
 };
 
 export const setProgress = createAction<SetProgressPayload>(
-  MediaPlayerActionTypes.SET_PROGRESS
+  MediaPlayerActionTypes.SET_PROGRESS,
 );
 
 export type ActionSetProgress = ActionWithPayload<

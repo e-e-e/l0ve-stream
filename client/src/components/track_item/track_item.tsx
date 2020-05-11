@@ -1,9 +1,9 @@
-import { Typography } from "../typography/typography";
-import { PlayIcon, PointIcon, RearrangeIcon, TrashIcon } from "../icons/icons";
-import React from "react";
-import styles from "./track_item.module.css";
-import { Draggable } from "react-beautiful-dnd";
-import { IconButton } from "../button/button";
+import { Typography } from '../typography/typography';
+import { PlayIcon, PointIcon, RearrangeIcon, TrashIcon } from '../icons/icons';
+import React from 'react';
+import styles from './track_item.module.css';
+import { Draggable } from 'react-beautiful-dnd';
+import { IconButton } from '../button/button';
 
 export const TrackItem = ({
   id,

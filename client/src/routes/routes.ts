@@ -1,24 +1,24 @@
-import { useHistory } from "react-router";
-import React from "react";
+import { useHistory } from 'react-router';
+import React from 'react';
 
 export function feedUrl() {
-  return "/feed";
+  return '/feed';
 }
 
 export function homeUrl() {
-  return "/";
+  return '/';
 }
 
 export function profileUrl() {
-  return "/me";
+  return '/me';
 }
 
 export function myPlaylistsUrl() {
-  return "/mine";
+  return '/mine';
 }
 
 export function createPlaylistUrl() {
-  return "/playlist/new";
+  return '/playlist/new';
 }
 
 export function playlistUrl(id: string) {
@@ -26,15 +26,15 @@ export function playlistUrl(id: string) {
 }
 
 export function logOutUrl() {
-  return "/logout";
+  return '/logout';
 }
 
 export function signupUrl() {
-  return "/signup";
+  return '/signup';
 }
 
 export function logInUrl() {
-  return "/login";
+  return '/login';
 }
 
 export const useNavigationHandler = (url: string, callback?: () => void) => {
@@ -46,6 +46,6 @@ export const useNavigationHandler = (url: string, callback?: () => void) => {
       callback?.();
       history.push(url);
     },
-    [history, url, callback]
+    [history, url, callback],
   );
 };

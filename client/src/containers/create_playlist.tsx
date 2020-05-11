@@ -1,11 +1,11 @@
-import React from "react";
-import { Input } from "../components/input/input";
-import { Button } from "../components/button/button";
-import { Typography } from "../components/typography/typography";
-import { DropArea } from "../components/drop_area/drop_area";
-import { PlaylistConverter } from "../services/playlist_converter/playlist_converter";
-import { useDispatch } from "react-redux";
-import { createPlaylist } from "../redux/actions/playlists_actions";
+import React from 'react';
+import { Input } from '../components/input/input';
+import { Button } from '../components/button/button';
+import { Typography } from '../components/typography/typography';
+import { DropArea } from '../components/drop_area/drop_area';
+import { PlaylistConverter } from '../services/playlist_converter/playlist_converter';
+import { useDispatch } from 'react-redux';
+import { createPlaylist } from '../redux/actions/playlists_actions';
 
 const convertPlaylist = new PlaylistConverter();
 
@@ -18,19 +18,19 @@ export function CreatePlaylist() {
       if (!(event.target instanceof HTMLFormElement)) return;
       const formdata = new FormData(event.target);
       const data = {
-        title: formdata.get("title") as string,
-        description: formdata.get("description") as string,
+        title: formdata.get('title') as string,
+        description: formdata.get('description') as string,
       };
       dispatch(createPlaylist(data));
     },
-    [dispatch]
+    [dispatch],
   );
   const onFileDrop = React.useCallback(
     async (file: File) => {
       const data = await convertPlaylist.fromITunesXML(file);
       dispatch(createPlaylist(data));
     },
-    [dispatch]
+    [dispatch],
   );
   return (
     <DropArea

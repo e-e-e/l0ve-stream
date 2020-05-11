@@ -1,7 +1,7 @@
 export type GroupedById<T> = { byId: Record<string, T>; allIds: string[] };
 
 export function groupByIds<T extends { id: string }>(
-  data: T[]
+  data: T[],
 ): GroupedById<T> {
   return data.reduce(
     (p: GroupedById<T>, c: T) => {
@@ -9,7 +9,7 @@ export function groupByIds<T extends { id: string }>(
       p.allIds.push(c.id);
       return p;
     },
-    { byId: {}, allIds: [] }
+    { byId: {}, allIds: [] },
   );
 }
 

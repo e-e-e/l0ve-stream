@@ -16,7 +16,7 @@ class FileUploadClient implements FileUploadService {
       type: data.type,
     });
     return fetch(`/track/${data.trackId}/upload?${params}`, {
-      credentials: "include",
+      credentials: 'include',
     }).then((body) => body.json());
   }
 }

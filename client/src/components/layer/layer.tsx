@@ -1,16 +1,16 @@
-import style from "./layer.module.css";
-import React, { MouseEvent, PropsWithChildren } from "react";
-import ReactDOM from "react-dom";
+import style from './layer.module.css';
+import React, { MouseEvent, PropsWithChildren } from 'react';
+import ReactDOM from 'react-dom';
 
 class Layers {
   private layers: HTMLElement[] = [];
   private root: HTMLElement | null = null;
 
   push(): HTMLDivElement {
-    const element = document.createElement("div");
+    const element = document.createElement('div');
     if (!this.root) {
-      this.root = document.createElement("div");
-      document.body.style.overflow = "hidden";
+      this.root = document.createElement('div');
+      document.body.style.overflow = 'hidden';
       document.body.append(this.root);
     }
     this.layers.push(element);
@@ -22,7 +22,7 @@ class Layers {
     element?.parentElement?.removeChild(element);
     if (this.layers.length === 0 && this.root) {
       document.body.removeChild(this.root);
-      document.body.style.overflow = "scroll";
+      document.body.style.overflow = 'scroll';
       this.root = null;
     }
   }
@@ -44,7 +44,7 @@ const LayerInternal = ({
         onBackgroundClick?.(e);
       }
     },
-    [onBackgroundClick]
+    [onBackgroundClick],
   );
   return (
     <div className={style.layer} onClick={onClick}>

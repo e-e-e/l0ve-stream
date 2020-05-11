@@ -1,9 +1,9 @@
-import React, { ReactEventHandler } from "react";
-import classNames from "classnames";
-import styles from "./button.module.css";
+import React, { ReactEventHandler } from 'react';
+import classNames from 'classnames';
+import styles from './button.module.css';
 
 type CommonProps = {
-  variant?: "basic" | "icon" | "list";
+  variant?: 'basic' | 'icon' | 'list';
   invert?: boolean;
   onClick?: ReactEventHandler;
   disabled?: boolean;
@@ -11,11 +11,11 @@ type CommonProps = {
 };
 
 type CommonButtonProps = {
-  type: "submit" | "button";
+  type: 'submit' | 'button';
 };
 
 type CommonLinkProps = {
-  type: "link";
+  type: 'link';
   href: string;
 };
 type ButtonOrLinkProps = CommonProps & (CommonButtonProps | CommonLinkProps);
@@ -23,12 +23,12 @@ type ButtonOrLinkProps = CommonProps & (CommonButtonProps | CommonLinkProps);
 const UnstyledButtonOrLink = (props: ButtonOrLinkProps) => {
   const buttonClass = classNames(styles.reset, {
     [styles.disabled]: props.disabled,
-    [styles.basicButton]: props.variant === "basic",
-    [styles.iconButton]: props.variant === "icon",
-    [styles.listButton]: props.variant === "list",
+    [styles.basicButton]: props.variant === 'basic',
+    [styles.iconButton]: props.variant === 'icon',
+    [styles.listButton]: props.variant === 'list',
     [styles.invert]: props.invert,
   });
-  if (props.type === "link") {
+  if (props.type === 'link') {
     // need to prevent navigation if disabled
     return (
       <a className={buttonClass} onClick={props.onClick} href={props.href}>
@@ -40,7 +40,7 @@ const UnstyledButtonOrLink = (props: ButtonOrLinkProps) => {
     <button
       className={buttonClass}
       onClick={props.onClick}
-      type={props.type === "submit" ? "submit" : undefined}
+      type={props.type === 'submit' ? 'submit' : undefined}
       disabled={props.disabled}
     >
       {props.children}
@@ -48,14 +48,14 @@ const UnstyledButtonOrLink = (props: ButtonOrLinkProps) => {
   );
 };
 
-type ButtonProps = Omit<CommonProps, "variant"> &
-  Omit<CommonButtonProps, "type"> & { type?: "submit" };
-type LinkProps = Omit<CommonProps, "variant"> & Omit<CommonLinkProps, "type">;
+type ButtonProps = Omit<CommonProps, 'variant'> &
+  Omit<CommonButtonProps, 'type'> & { type?: 'submit' };
+type LinkProps = Omit<CommonProps, 'variant'> & Omit<CommonLinkProps, 'type'>;
 
 export const Button = (props: ButtonProps) => (
   <UnstyledButtonOrLink
     {...props}
-    type={props.type || "button"}
+    type={props.type || 'button'}
     variant="basic"
   />
 );
@@ -63,7 +63,7 @@ export const Button = (props: ButtonProps) => (
 export const IconButton = (props: ButtonProps) => (
   <UnstyledButtonOrLink
     {...props}
-    type={props.type || "button"}
+    type={props.type || 'button'}
     variant="icon"
   />
 );
@@ -71,7 +71,7 @@ export const IconButton = (props: ButtonProps) => (
 export const ListButton = (props: ButtonProps) => (
   <UnstyledButtonOrLink
     {...props}
-    type={props.type || "button"}
+    type={props.type || 'button'}
     variant="list"
   />
 );

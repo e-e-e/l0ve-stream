@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./grid_card.module.css";
-import classNames from "classnames";
+import React from 'react';
+import styles from './grid_card.module.css';
+import classNames from 'classnames';
 
 type GridProps = {
   onClick?: () => void;
@@ -28,13 +28,13 @@ export const GridCard = (props: GridProps) => {
           <div className={styles.gridRight}>
             <div className={styles.aspect}>
               <div className={classNames(styles.info, styles.fill)}>
-                <svg style={{ width: "100%", height: "100%" }}>
+                <svg style={{ width: '100%', height: '100%' }}>
                   <line
                     x1="0"
                     y1="100%"
                     x2="100%"
                     y2="0"
-                    style={{ stroke: "rgb(0,0,0)", strokeWidth: 1 }}
+                    style={{ stroke: 'rgb(0,0,0)', strokeWidth: 1 }}
                   />
                 </svg>
               </div>
@@ -47,7 +47,7 @@ export const GridCard = (props: GridProps) => {
                 className={classNames(
                   styles.infoBottom,
                   styles.info,
-                  styles.item
+                  styles.item,
                 )}
               >
                 {info?.bottom}

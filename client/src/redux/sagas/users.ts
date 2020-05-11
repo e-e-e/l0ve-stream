@@ -5,12 +5,10 @@ import {
   fork,
   all,
   getContext,
-} from "redux-saga/effects";
-import { fetchWhoAmIError, fetchWhoAmISuccess } from "../actions/user_actions";
-import { GraphQueriesService } from "../../services/graphql/queries";
-import {
-  FETCH_WHOAMI,
-} from "../actions/action_types";
+} from 'redux-saga/effects';
+import { fetchWhoAmIError, fetchWhoAmISuccess } from '../actions/user_actions';
+import { GraphQueriesService } from '../../services/graphql/queries';
+import { FETCH_WHOAMI } from '../actions/action_types';
 
 type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
   ? U
@@ -20,10 +18,10 @@ type PromisedReturnType<T extends (...args: any) => Promise<any>> = PromiseType<
 >;
 
 function* fetchWhoAmI() {
-  const queries: GraphQueriesService = yield getContext("queries");
+  const queries: GraphQueriesService = yield getContext('queries');
   try {
     const data: PromisedReturnType<
-      GraphQueriesService["whoAmI"]
+      GraphQueriesService['whoAmI']
     > = yield call(() => queries.whoAmI());
     yield put(fetchWhoAmISuccess(data));
   } catch (e) {

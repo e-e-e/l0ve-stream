@@ -1,11 +1,11 @@
-import { createAction } from "redux-actions";
-import { ActionWithPayload } from "./types";
+import { createAction } from 'redux-actions';
+import { ActionWithPayload } from './types';
 
 export enum UiActionTypes {
-  UPLOAD_REQUEST = "UPLOAD_REQUEST",
-  UPLOAD_PROGRESS = "UPLOAD_PROGRESS",
-  UPLOAD_SUCCESS = "UPLOAD_SUCCESS",
-  UPLOAD_ERROR = "UPLOAD_ERROR",
+  UPLOAD_REQUEST = 'UPLOAD_REQUEST',
+  UPLOAD_PROGRESS = 'UPLOAD_PROGRESS',
+  UPLOAD_SUCCESS = 'UPLOAD_SUCCESS',
+  UPLOAD_ERROR = 'UPLOAD_ERROR',
 }
 
 export type UploadRequestPayload = {
@@ -17,7 +17,7 @@ export type UploadRequestPayload = {
 };
 
 export const uploadRequest = createAction<UploadRequestPayload>(
-  UiActionTypes.UPLOAD_REQUEST
+  UiActionTypes.UPLOAD_REQUEST,
 );
 export type ActionUploadRequest = ActionWithPayload<
   UiActionTypes.UPLOAD_REQUEST,
@@ -30,7 +30,7 @@ type UploadProgressPayload = {
 };
 
 export const uploadProgress = createAction<UploadProgressPayload>(
-  UiActionTypes.UPLOAD_PROGRESS
+  UiActionTypes.UPLOAD_PROGRESS,
 );
 export type ActionUploadProgress = ActionWithPayload<
   UiActionTypes.UPLOAD_PROGRESS,
@@ -42,7 +42,7 @@ type UploadSuccessPayload = {
 };
 
 export const uploadSuccess = createAction<UploadSuccessPayload>(
-  UiActionTypes.UPLOAD_SUCCESS
+  UiActionTypes.UPLOAD_SUCCESS,
 );
 export type ActionUploadSuccess = ActionWithPayload<
   UiActionTypes.UPLOAD_SUCCESS,
@@ -55,7 +55,7 @@ type UploadErrorPayload = {
 };
 
 export const uploadError = createAction<UploadErrorPayload>(
-  UiActionTypes.UPLOAD_ERROR
+  UiActionTypes.UPLOAD_ERROR,
 );
 export type ActionUploadError = ActionWithPayload<
   UiActionTypes.UPLOAD_ERROR,

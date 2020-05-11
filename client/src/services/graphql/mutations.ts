@@ -1,26 +1,26 @@
-import { gql, ApolloClient } from "apollo-boost";
+import { gql, ApolloClient } from 'apollo-boost';
 import {
   UpdatePlaylist,
   UpdatePlaylistVariables,
-} from "./__generated_types__/UpdatePlaylist";
+} from './__generated_types__/UpdatePlaylist';
 import {
   PlaylistInputWithId,
   TrackInput,
   TrackInputWithOptionalId,
-} from "../../../__generated_types__/globalTypes";
+} from '../../../__generated_types__/globalTypes';
 import {
   DeletePlaylist,
   DeletePlaylistVariables,
-} from "./__generated_types__/DeletePlaylist";
+} from './__generated_types__/DeletePlaylist';
 import {
   CreatePlaylist,
   CreatePlaylistVariables,
-} from "./__generated_types__/CreatePlaylist";
+} from './__generated_types__/CreatePlaylist';
 import {
   CreateTrack,
   CreateTrackVariables,
-} from "./__generated_types__/CreateTrack";
-import { PLAYLIST_INFO } from "./fragments";
+} from './__generated_types__/CreateTrack';
+import { PLAYLIST_INFO } from './fragments';
 
 const CREATE_PLAYLIST = gql`
   mutation CreatePlaylist(
@@ -76,21 +76,21 @@ const DELETE_PLAYLIST = gql`
 
 export interface GraphMutationsService {
   createPlaylist(
-    playlist: CreatePlaylistVariables
-  ): Promise<CreatePlaylist["createPlaylist"]>;
+    playlist: CreatePlaylistVariables,
+  ): Promise<CreatePlaylist['createPlaylist']>;
   updatePlaylist(
-    playlist: PlaylistInputWithId
-  ): Promise<UpdatePlaylist["updatePlaylist"]>;
+    playlist: PlaylistInputWithId,
+  ): Promise<UpdatePlaylist['updatePlaylist']>;
   deletePlaylist(playlistId: string): Promise<void>;
   insertTrack(
     playlistId: string,
     track: TrackInput,
-    order: number
-  ): Promise<CreateTrack["createTrack"]>;
+    order: number,
+  ): Promise<CreateTrack['createTrack']>;
 }
 
 function sanitizeTrackInputWithOptionalId(
-  track: TrackInputWithOptionalId
+  track: TrackInputWithOptionalId,
 ): TrackInputWithOptionalId {
   return {
     id: track.id,
@@ -113,7 +113,7 @@ function sanitizeTrackInput(track: TrackInput): TrackInput {
 }
 
 function sanitizePlaylistInputWithId(
-  playlist: PlaylistInputWithId
+  playlist: PlaylistInputWithId,
 ): PlaylistInputWithId {
   return {
     id: playlist.id,
@@ -136,7 +136,7 @@ export class GraphMutationsClient implements GraphMutationsService {
     });
     if (!data?.createPlaylist?.success) {
       console.log(data, errors);
-      throw new Error("what!!!");
+      throw new Error('what!!!');
     }
     return data?.createPlaylist;
   }
@@ -153,7 +153,7 @@ export class GraphMutationsClient implements GraphMutationsService {
     });
     if (!data?.updatePlaylist?.success || !data?.updatePlaylist.playlist) {
       console.log(data, errors);
-      throw new Error("what!!!");
+      throw new Error('what!!!');
     }
     return data?.updatePlaylist;
   }
@@ -170,7 +170,7 @@ export class GraphMutationsClient implements GraphMutationsService {
     });
     if (!data?.deletePlaylist?.success) {
       console.log(data, errors);
-      throw new Error("what!!!");
+      throw new Error('what!!!');
     }
     return;
   }
@@ -189,7 +189,7 @@ export class GraphMutationsClient implements GraphMutationsService {
     });
     if (!data?.createTrack?.success) {
       console.log(data, errors);
-      throw new Error("what!!!");
+      throw new Error('what!!!');
     }
     return data?.createTrack;
   }

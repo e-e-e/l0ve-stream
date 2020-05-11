@@ -2,14 +2,14 @@ import {
   FETCH_WHOAMI,
   FETCH_WHOAMI_ERROR,
   FETCH_WHOAMI_SUCCESS,
-} from "../actions/action_types";
-import { LoadingState } from "./helpers";
-import { WhoAmI } from "../../services/graphql/__generated_types__/WhoAmI";
-import { UserActions } from "../actions/user_actions";
+} from '../actions/action_types';
+import { LoadingState } from './helpers';
+import { WhoAmI } from '../../services/graphql/__generated_types__/WhoAmI';
+import { UserActions } from '../actions/user_actions';
 
 export type UserState = {
   state: LoadingState;
-  whoami: WhoAmI["whoami"];
+  whoami: WhoAmI['whoami'];
   errorMessage: string | null;
 };
 
@@ -21,7 +21,7 @@ const initialState = {
 
 export function userReducer(
   state: UserState = initialState,
-  action: UserActions
+  action: UserActions,
 ): UserState {
   if (action.type === FETCH_WHOAMI) {
     return {
@@ -32,7 +32,7 @@ export function userReducer(
     };
   }
   if (action.type === FETCH_WHOAMI_SUCCESS) {
-    console.log("data", action.payload);
+    console.log('data', action.payload);
     const whoami = action.payload.whoami;
     if (whoami === null) {
       return state;

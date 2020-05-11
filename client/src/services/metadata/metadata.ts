@@ -1,4 +1,4 @@
-import * as musicMetadata from "music-metadata-browser";
+import * as musicMetadata from 'music-metadata-browser';
 
 export class Metadata {
   async read(file: File) {

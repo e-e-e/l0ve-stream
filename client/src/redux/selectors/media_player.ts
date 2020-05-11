@@ -1,4 +1,4 @@
-import { RootState } from "../reducers/reducers";
+import { RootState } from '../reducers/reducers';
 
 const selectPlayer = (state: RootState) => state.player;
 export const selectProgress = (state: RootState) =>

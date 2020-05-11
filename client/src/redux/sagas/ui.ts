@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, call, put, take } from "redux-saga/effects";
+import { all, fork, takeEvery, call, put, take } from 'redux-saga/effects';
 import {
   ActionUploadRequest,
   UiActionTypes,
@@ -6,8 +6,8 @@ import {
   uploadProgress,
   UploadRequestPayload,
   uploadSuccess,
-} from "../actions/ui_actions";
-import { eventChannel, END, buffers } from "redux-saga";
+} from '../actions/ui_actions';
+import { eventChannel, END, buffers } from 'redux-saga';
 
 function createUploadFileChannel(endpoint: string, file: File) {
   console.log(file);
@@ -21,12 +21,12 @@ function createUploadFileChannel(endpoint: string, file: File) {
     };
     const onFailure = (e?: ProgressEvent) => {
       console.log(e);
-      emitter({ err: new Error("Upload failed") });
+      emitter({ err: new Error('Upload failed') });
       emitter(END);
     };
-    xhr.upload.addEventListener("progress", onProgress);
-    xhr.upload.addEventListener("error", onFailure);
-    xhr.upload.addEventListener("abort", onFailure);
+    xhr.upload.addEventListener('progress', onProgress);
+    xhr.upload.addEventListener('error', onFailure);
+    xhr.upload.addEventListener('abort', onFailure);
     xhr.onreadystatechange = () => {
       const { readyState, status } = xhr;
       if (readyState === 4) {
@@ -34,20 +34,20 @@ function createUploadFileChannel(endpoint: string, file: File) {
           emitter({ success: true });
           emitter(END);
         } else {
-          console.log(xhr.responseText)
+          console.log(xhr.responseText);
           onFailure();
         }
       }
     };
-    xhr.open("PUT", endpoint);
+    xhr.open('PUT', endpoint);
     // xhr.setRequestHeader("X-PINGOTHER", "pingpong");
     // xhr.setRequestHeader('X-Amz-ACL', 'public-read');
-    xhr.setRequestHeader("Content-Type", file.type);
+    xhr.setRequestHeader('Content-Type', file.type);
     xhr.send(file);
     return () => {
-      xhr.upload.removeEventListener("progress", onProgress);
-      xhr.upload.removeEventListener("error", onFailure);
-      xhr.upload.removeEventListener("abort", onFailure);
+      xhr.upload.removeEventListener('progress', onProgress);
+      xhr.upload.removeEventListener('error', onFailure);
+      xhr.upload.removeEventListener('abort', onFailure);
       xhr.onreadystatechange = null;
       xhr.abort();
     };
@@ -76,7 +76,7 @@ export function* uploadFileSaga(data: UploadRequestPayload) {
 // defer to another saga to perform the actual upload
 export function* watchUploadRequest() {
   yield takeEvery(UiActionTypes.UPLOAD_REQUEST, function* (
-    action: ActionUploadRequest
+    action: ActionUploadRequest,
   ) {
     yield call(uploadFileSaga, action.payload);
   });

@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
-import { IconButton } from "../components/button/button";
-import { PlayIcon } from "../components/icons/icons";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback } from 'react';
+import { IconButton } from '../components/button/button';
+import { PlayIcon } from '../components/icons/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   loadPlaylist,
   next,
@@ -9,9 +9,9 @@ import {
   playTrack,
   prev,
   stop,
-} from "../redux/actions/media_player";
-import styles from "./player.module.css";
-import { selectProgress } from "../redux/selectors/media_player";
+} from '../redux/actions/media_player';
+import styles from './player.module.css';
+import { selectProgress } from '../redux/selectors/media_player';
 
 export const Player = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export const Player = () => {
     prevProgress.current = progress;
   }, [progress]);
   const value = prevProgress.current;
-  const load = () => dispatch(loadPlaylist({ playlist: "test" }));
+  const load = () => dispatch(loadPlaylist({ playlist: 'test' }));
   return (
     <div className={styles.player}>
       <div className={styles.background}>
@@ -34,7 +34,7 @@ export const Player = () => {
           className={styles.progress}
           style={{
             transform: `translateX(${-100 + progress * 100}%)`,
-            transition: progress > value ? "transform linear 0.1s" : "none",
+            transition: progress > value ? 'transform linear 0.1s' : 'none',
           }}
         />
         <div className={styles.controls}>
@@ -45,10 +45,10 @@ export const Player = () => {
             Load
           </IconButton>
           <IconButton invert onClick={prevTrack}>
-            {"<<"}
+            {'<<'}
           </IconButton>
           <IconButton invert onClick={nextTrack}>
-            {">>"}
+            {'>>'}
           </IconButton>
           <IconButton invert onClick={stopTrack}>
             stop

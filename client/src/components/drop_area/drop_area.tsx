@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from "react";
-import styles from "./drop_area.module.css";
-import classNames from "classnames";
-import { CloudIcon, Spinner } from "../icons/icons";
+import React, { PropsWithChildren } from 'react';
+import styles from './drop_area.module.css';
+import classNames from 'classnames';
+import { CloudIcon, Spinner } from '../icons/icons';
 
 type DropAreaProps = {
   onFileDrop?(file: Blob): Promise<void> | void;
@@ -22,7 +22,7 @@ export const DropArea = ({
       e.stopPropagation();
       !over && setOver(true);
     },
-    [over, setOver]
+    [over, setOver],
   );
   const onLeave = React.useCallback(
     (e: React.DragEvent<HTMLElement>) => {
@@ -30,7 +30,7 @@ export const DropArea = ({
       e.stopPropagation();
       over && setOver(false);
     },
-    [over, setOver]
+    [over, setOver],
   );
   const onDropHandler = React.useCallback(
     async (e: React.DragEvent<HTMLElement>) => {
@@ -42,14 +42,14 @@ export const DropArea = ({
       try {
         const files = e.dataTransfer?.files ?? [];
         for (let i = 0; i < files.length; i++) {
-          console.log(files[i].name)
+          console.log(files[i].name);
           await onFileDrop(files[i]);
         }
       } finally {
         setProcessing(false);
       }
     },
-    [onFileDrop, setProcessing, setOver, processing]
+    [onFileDrop, setProcessing, setOver, processing],
   );
   return (
     <div
@@ -66,7 +66,7 @@ export const DropArea = ({
       <div className={styles.overlay}>
         <div className={styles.overlayContent}>
           <div>{!processing ? <CloudIcon /> : <Spinner />}</div>
-          {overlayText && <div>{!processing ? overlayText : ""}</div>}
+          {overlayText && <div>{!processing ? overlayText : ''}</div>}
         </div>
       </div>
     </div>

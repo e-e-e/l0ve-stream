@@ -1,12 +1,12 @@
 import {
   PlaylistActions,
   PlaylistActionTypes,
-} from "../actions/playlists_actions";
-import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
-import { groupByIds, LoadingState } from "./helpers";
-import { produce } from "immer";
+} from '../actions/playlists_actions';
+import { FetchPlaylists } from '../../services/graphql/__generated_types__/FetchPlaylists';
+import { groupByIds, LoadingState } from './helpers';
+import { produce } from 'immer';
 
-export type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
+export type Playlist = Exclude<FetchPlaylists['playlists'], null>[number];
 type PlaylistsDict = { [Key: string]: Playlist };
 
 export type PlaylistsState = {
@@ -20,7 +20,7 @@ const initialState = {
   state: LoadingState.INITIAL,
   byId: {},
   allIds: [],
-  errorMessage: "",
+  errorMessage: '',
 };
 
 function move<T>(array: ReadonlyArray<T>, from: number, to: number): T[] {
@@ -30,7 +30,7 @@ function move<T>(array: ReadonlyArray<T>, from: number, to: number): T[] {
 }
 
 const defaultTrack = {
-  __typename: "Track" as const,
+  __typename: 'Track' as const,
   id: null,
   title: null,
   album: null,
@@ -42,7 +42,7 @@ const defaultTrack = {
 
 export function playlistReducer(
   state: PlaylistsState = initialState,
-  action: PlaylistActions
+  action: PlaylistActions,
 ): PlaylistsState {
   switch (action.type) {
     case PlaylistActionTypes.FETCH_PLAYLISTS:

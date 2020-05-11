@@ -1,5 +1,5 @@
-import { UiActions, UiActionTypes } from "../actions/ui_actions";
-import { produce } from "immer";
+import { UiActions, UiActionTypes } from '../actions/ui_actions';
+import { produce } from 'immer';
 
 enum UploadStatus {
   PROGRESS,
@@ -26,7 +26,7 @@ const initialState = {
 
 export function uiReducer(
   state: UiState = initialState,
-  action: UiActions
+  action: UiActions,
 ): UiState {
   switch (action.type) {
     case UiActionTypes.UPLOAD_REQUEST: {
@@ -47,11 +47,11 @@ export function uiReducer(
       const { progress, filename } = action.payload;
       const index = state.fileUploads.findIndex((a) => a.filename);
       if (index === -1)
-        throw new Error("Progress event for non-existent upload");
+        throw new Error('Progress event for non-existent upload');
       return produce(state, (draft) => {
         const upload = draft.fileUploads.find((a) => a.filename === filename);
         if (!upload) {
-          console.warn("Progress event for non-existent upload");
+          console.warn('Progress event for non-existent upload');
           return;
         }
         upload.progress = progress;
@@ -62,7 +62,7 @@ export function uiReducer(
       return produce(state, (draft) => {
         const upload = draft.fileUploads.find((a) => a.filename === filename);
         if (!upload) {
-          console.warn("Success event for non-existent upload");
+          console.warn('Success event for non-existent upload');
           return;
         }
         upload.progress = 1;
@@ -75,7 +75,7 @@ export function uiReducer(
       return produce(state, (draft) => {
         const upload = draft.fileUploads.find((a) => a.filename === filename);
         if (!upload) {
-          console.warn("Error event for non-existent upload");
+          console.warn('Error event for non-existent upload');
           return;
         }
         upload.progress = 1;

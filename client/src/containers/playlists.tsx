@@ -1,16 +1,16 @@
-import React, { useCallback } from "react";
-import { GridCard } from "../components/grid_card/grid_card";
-import { PlayIcon, TrashIcon } from "../components/icons/icons";
-import { Typography } from "../components/typography/typography";
-import { playlistUrl, useNavigationHandler } from "../routes/routes";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback } from 'react';
+import { GridCard } from '../components/grid_card/grid_card';
+import { PlayIcon, TrashIcon } from '../components/icons/icons';
+import { Typography } from '../components/typography/typography';
+import { playlistUrl, useNavigationHandler } from '../routes/routes';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   deletePlaylist,
   fetchPlaylists,
-} from "../redux/actions/playlists_actions";
-import { RootState } from "../redux/reducers/reducers";
-import { LoadingState } from "../redux/reducers/helpers";
-import { IconButton } from "../components/button/button";
+} from '../redux/actions/playlists_actions';
+import { RootState } from '../redux/reducers/reducers';
+import { LoadingState } from '../redux/reducers/helpers';
+import { IconButton } from '../components/button/button';
 
 type PlaylistCardProps = {
   title: string;
@@ -28,7 +28,7 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
       e.stopPropagation();
       dispatch(deletePlaylist({ playlistId: id }));
     },
-    [dispatch, id]
+    [dispatch, id],
   );
   return (
     <div>
@@ -42,14 +42,14 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
         }
         bottomLeft={<Typography>{owner}</Typography>}
         bottomRight={
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: 'center' }}>
             <IconButton onClick={deleteItem}>
               <TrashIcon />
             </IconButton>
             <PlayIcon />
           </div>
         }
-        info={{ top: "2", bottom: "14m" }}
+        info={{ top: '2', bottom: '14m' }}
       />
     </div>
   );

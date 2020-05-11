@@ -1,5 +1,5 @@
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import React, { PropsWithChildren } from "react";
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import React, { PropsWithChildren } from 'react';
 
 type DraggableListProps = {
   onDrop(result: DropResult): void;

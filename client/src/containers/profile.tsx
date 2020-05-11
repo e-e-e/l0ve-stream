@@ -1,17 +1,13 @@
-import React from "react";
-import { Typography } from "../components/typography/typography";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/reducers/reducers";
+import React from 'react';
+import { Typography } from '../components/typography/typography';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/reducers/reducers';
 
 const selectWhoami = (state: RootState) => state.user.whoami;
 export const ProfileView = () => {
   const whoami = useSelector(selectWhoami);
   if (!whoami) {
-    return (
-      <div>
-        Do not know who you are. Something went really wrong.
-      </div>
-    );
+    return <div>Do not know who you are. Something went really wrong.</div>;
   }
   return (
     <div>
