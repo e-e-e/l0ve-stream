@@ -1,46 +1,46 @@
-import React from "react";
-import Playlists from "./containers/playlists";
-import Page from "./components/page/page";
-import { CreatePlaylist } from "./containers/create_playlist";
-import { Switch, Route } from "react-router-dom";
-import { About } from "./containers/about";
-import { PlaylistView } from "./containers/playlist";
-import Header from "./components/header/header";
+import React from 'react';
+import Playlists from './containers/playlists';
+import Page from './components/page/page';
+import { CreatePlaylist } from './containers/create_playlist';
+import { Switch, Route } from 'react-router-dom';
+import { About } from './containers/about';
+import { PlaylistView } from './containers/playlist';
+import Header from './components/header/header';
 import {
   createPlaylistUrl,
   feedUrl,
   logOutUrl,
   myPlaylistsUrl,
   profileUrl,
-} from "./routes/routes";
-import { ProfileView } from "./containers/profile";
-import { Typography } from "./components/typography/typography";
-import { useDispatch } from "react-redux";
-import { fetchWhoAmI } from "./redux/actions/user_actions";
-import { AddTrackView } from "./containers/add_track";
-import { Player } from "./containers/player";
+} from './routes/routes';
+import { ProfileView } from './containers/profile';
+import { Typography } from './components/typography/typography';
+import { useDispatch } from 'react-redux';
+import { fetchWhoAmI } from './redux/actions/user_actions';
+import { AddTrackView } from './containers/add_track';
+import { Player } from './containers/player';
 
 function App() {
   const mainMenuOptions = {
     primaryAction: {
-      label: "Log out",
+      label: 'Log out',
       url: logOutUrl(),
     },
     menuItems: [
       {
-        label: "Profile",
+        label: 'Profile',
         url: profileUrl(),
       },
       {
-        label: "Feed",
+        label: 'Feed',
         url: feedUrl(),
       },
       {
-        label: "My playlists",
+        label: 'My playlists',
         url: myPlaylistsUrl(),
       },
       {
-        label: "Add playlist",
+        label: 'Add playlist',
         url: createPlaylistUrl(),
       },
     ],

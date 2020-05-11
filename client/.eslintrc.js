@@ -5,6 +5,11 @@ module.exports = {
     '@typescript-eslint',
     'prettier'
   ],
+  settings: {
+    react: {
+      version: "detect",
+    }
+  },
   rules: {
     "@typescript-eslint/explicit-function-return-type": 0,
     "prettier/prettier": "error",

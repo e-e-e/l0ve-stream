@@ -1,18 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import { installWebsocketClient } from "./websocket_client";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { installRedux } from "./redux/install";
-import { installGraphQL } from "./services/graphql/install";
-import { createBrowserHistory } from "history";
-import { Router } from "react-router-dom";
-import { installFileUpload } from "./services/file_upload/install";
-import { createMediaPlayer } from "./media_player";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import { installWebsocketClient } from './websocket_client';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { installRedux } from './redux/install';
+import { installGraphQL } from './services/graphql/install';
+import { createBrowserHistory } from 'history';
+import { Router } from 'react-router-dom';
+import { installFileUpload } from './services/file_upload/install';
+import { createMediaPlayer } from './media_player';
 
 const { subscribeToTranscodeUpdates } = installWebsocketClient({
-  url: "ws://localhost:8000",
+  url: 'ws://localhost:8000',
 });
 const history = createBrowserHistory();
 const { client, queries, mutations } = installGraphQL();
@@ -36,5 +36,5 @@ ReactDOM.render(
       </ApolloProvider>
     </ReduxProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

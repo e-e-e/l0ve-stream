@@ -1,23 +1,23 @@
-import { Howl } from "howler";
-import { type } from "os";
-import { hashmap } from "aws-sdk/clients/glacier";
+import { Howl } from 'howler';
+import { type } from 'os';
+import { hashmap } from 'aws-sdk/clients/glacier';
 
-type TrackState = "uninitialized" | "loading" | "loaded" | "error-loading";
+type TrackState = 'uninitialized' | 'loading' | 'loaded' | 'error-loading';
 
 class Track {
   private sound: Howl | null = null;
-  private state: TrackState = "uninitialized";
+  private state: TrackState = 'uninitialized';
   private playWhenReady = false;
 
   constructor(
     readonly id: string,
     private readonly onEnd: (id: string) => void,
-    private readonly fetchUrl: (id: string) => Promise<string>
+    private readonly fetchUrl: (id: string) => Promise<string>,
   ) {}
 
   async load() {
-    if (this.state !== "uninitialized") return;
-    this.state = "loading";
+    if (this.state !== 'uninitialized') return;
+    this.state = 'loading';
     const url = await this.fetchUrl(this.id);
     this.sound = new Howl({
       src: [url],
@@ -28,31 +28,31 @@ class Track {
         this.onEnd(this.id);
       },
       onload: () => {
-        this.state = "loaded";
+        this.state = 'loaded';
         if (this.playWhenReady) {
           this.play();
-          console.log("loaded and playing", this.id);
+          console.log('loaded and playing', this.id);
           this.playWhenReady = false;
         }
         // notify that track is ready to be played
       },
       onloaderror: () => {
-        this.state = "error-loading";
+        this.state = 'error-loading';
       },
     });
   }
 
   ready() {
-    return this.state === "loaded";
+    return this.state === 'loaded';
   }
 
   play() {
     if (!this.ready()) {
-      console.log("not ready");
+      console.log('not ready');
       this.playWhenReady = true;
       return;
     }
-    console.log("--play", this.id, !!this.sound);
+    console.log('--play', this.id, !!this.sound);
     if (this.sound?.playing()) return;
     this.sound?.play();
   }
@@ -63,7 +63,7 @@ class Track {
       return;
     }
     this.sound?.stop();
-    console.log("--stop", this.id);
+    console.log('--stop', this.id);
   }
 
   pause() {
@@ -77,7 +77,7 @@ class Track {
   elapsed(): number | undefined {
     const pos = this.sound?.seek();
     // console.log(pos);
-    if (typeof pos !== "number" && pos !== undefined) {
+    if (typeof pos !== 'number' && pos !== undefined) {
       // console.log(pos);
       return undefined;
       // throw new Error("This should not be possible");
@@ -91,7 +91,7 @@ class Track {
   }
 
   unload() {
-    this.state = "uninitialized";
+    this.state = 'uninitialized';
     this.sound?.unload();
   }
 }
@@ -122,22 +122,22 @@ export class MediaPlayer {
       return acc;
     }, {});
 
-    console.log("loaded", tracks);
+    console.log('loaded', tracks);
   }
 
   private onTrackEnd = (id: string) => {
-    console.log("ended", id);
+    console.log('ended', id);
     this.next();
   };
 
   private preload(id: string) {
     const track = this.tracks[id];
     if (!track) {
-      console.log("track does not exist", id);
+      console.log('track does not exist', id);
       return;
     }
     if (!track.ready()) {
-      console.log("preload", id);
+      console.log('preload', id);
       track.load().catch(console.log);
     }
   }
@@ -160,8 +160,8 @@ export class MediaPlayer {
     ];
   }
 
-  on(event: "playing", handler: MediaPlayerEventHandlers["playing"]): void;
-  on(event: "ready", handler: MediaPlayerEventHandlers["ready"]): void;
+  on(event: 'playing', handler: MediaPlayerEventHandlers['playing']): void;
+  on(event: 'ready', handler: MediaPlayerEventHandlers['ready']): void;
   // on(event: "progress", handler: MediaPlayerEventHandlers["progress"]): void;
   on(event: keyof MediaPlayerEventHandlers, handler: () => {}): void {
     this.eventHandlers[event] = handler;
@@ -174,7 +174,7 @@ export class MediaPlayer {
     const trackId = id || this.queue[this.currentTrackIndex || 0];
     this.currentTrackIndex = queue.indexOf(trackId);
     const track = tracks[trackId];
-    console.log("play", track);
+    console.log('play', track);
     if (!track) return;
     if (!track.ready()) {
       track
@@ -185,14 +185,14 @@ export class MediaPlayer {
         .catch((e) => {
           console.log(e);
         });
-      console.log("loaded", track.id);
+      console.log('loaded', track.id);
     }
     track.play();
     this.eventHandlers.playing?.(track.id);
   }
 
   next() {
-    console.log("next");
+    console.log('next');
     // slip to next track
     // load next in queue too
     const nextTrackId = this.nextTrackId();
@@ -236,7 +236,7 @@ export class MediaPlayer {
     const duration = this.tracks[trackId].duration();
     if (!duration || !elapsed) return 0;
     // console.log(elapsed, duration);
-    return (elapsed / duration);
+    return elapsed / duration;
   }
 
   clear() {
