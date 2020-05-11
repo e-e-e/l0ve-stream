@@ -17,6 +17,7 @@ export enum PlaylistActionTypes {
   UPDATE_PLAYLIST_TRACK_ORDER = "UPDATE_PLAYLIST_TRACK_ORDER",
   CREATE_PLAYLIST_TRACK = "CREATE_PLAYLIST_TRACK",
   INSERT_PLAYLIST_TRACK = "INSERT_PLAYLIST_TRACK",
+  UPDATE_PLAYLIST_TRACK = "UPDATE_PLAYLIST_TRACK",
   DELETE_PLAYLIST_TRACK = "DELETE_PLAYLIST_TRACK",
   DELETE_PLAYLIST = "DELETE_PLAYLIST",
   CREATE_PLAYLIST = "CREATE_PLAYLIST",
@@ -150,6 +151,21 @@ export type ActionInsertPlaylistTrack = ActionWithPayload<
   PlaylistActionTypes.INSERT_PLAYLIST_TRACK,
   InsertPlaylistTrackPayload
 >;
+
+/**
+ * UPDATE PLAYLIST TRACK
+ */
+
+type UpdatePlaylistTrackPayload = InsertPlaylistTrackPayload;
+
+export const updatePlaylistTrack = createAction<UpdatePlaylistTrackPayload>(
+  PlaylistActionTypes.UPDATE_PLAYLIST_TRACK
+);
+export type ActionUpdatePlaylistTrack = ActionWithPayload<
+  PlaylistActionTypes.UPDATE_PLAYLIST_TRACK,
+  UpdatePlaylistTrackPayload
+>;
+
 /**
  * DELETE TRACK FROM PLAYLIST
  */
@@ -209,6 +225,7 @@ export type PlaylistActions =
   | ActionUpdatePlaylistTrackOrder
   | ActionCreatePlaylistTrack
   | ActionInsertPlaylistTrack
+  | ActionUpdatePlaylistTrack
   | ActionDeletePlaylistTrack
   | ActionDeletePlaylist
   | ActionCreatePlaylist;

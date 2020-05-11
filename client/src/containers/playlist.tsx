@@ -23,6 +23,18 @@ import {
   selectIsLoading,
   selectPlaylist,
 } from "../redux/selectors/playlists";
+import { Layer } from "../components/layer/layer";
+import { Button } from "../components/button/button";
+import { Playlist } from "../redux/reducers/playlists";
+
+const getTrackData = (playlist: Playlist, trackId: string) => {
+  const track = playlist.tracks?.find((t) => t.id === trackId);
+  if (!track || !track.id) return undefined;
+  return {
+    ...track,
+    id: track.id,
+  };
+};
 
 export const PlaylistView = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,16 +47,19 @@ export const PlaylistView = () => {
       dispatch(fetchPlaylist({ id }));
     }
   }, [id, dispatch, data]);
-  const addTrack = React.useCallback(
-    ({ close }: { close?(): void }) => <AddTrackView close={close} />,
-    []
+  const [editingTrackId, setEditingTrackWithId] = React.useState<string | null>(
+    null
   );
+  const openAddTrackLayer = (id?: string) => setEditingTrackWithId(id || null);
+  const hideAddTrackLayer = () => setEditingTrackWithId(null);
+
   const deleteTrack = React.useCallback(
     (trackId: string) => {
       dispatch(deletePlaylistTrack({ playlistId: id, trackId }));
     },
     [dispatch, id]
   );
+  // const editTrack = React.useCallback(() => openAddTrackLayer(id), []);
   const updateTrackOrder = React.useCallback(
     (result: DropResult) => {
       console.log(result);
@@ -102,12 +117,21 @@ export const PlaylistView = () => {
                 album={track.album}
                 isDraggable={true}
                 onDelete={deleteTrack}
+                onEdit={openAddTrackLayer}
                 onPlay={hasFiles ? playTrack : undefined}
               />
             );
           })}
         </DraggableList>
-        <LayerButton Content={addTrack}>Add new track</LayerButton>
+        {editingTrackId && (
+          <Layer onBackgroundClick={hideAddTrackLayer}>
+            <AddTrackView
+              close={hideAddTrackLayer}
+              initialState={getTrackData(data, editingTrackId)}
+            />
+          </Layer>
+        )}
+        <Button onClick={() => openAddTrackLayer("new")}>Add new track</Button>
       </Section>
     </DropArea>
   );

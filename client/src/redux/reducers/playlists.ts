@@ -4,6 +4,7 @@ import {
 } from "../actions/playlists_actions";
 import { FetchPlaylists } from "../../services/graphql/__generated_types__/FetchPlaylists";
 import { groupByIds, LoadingState } from "./helpers";
+import { produce } from "immer";
 
 export type Playlist = Exclude<FetchPlaylists["playlists"], null>[number];
 type PlaylistsDict = { [Key: string]: Playlist };
@@ -165,6 +166,16 @@ export function playlistReducer(
           },
         },
       };
+    }
+    case PlaylistActionTypes.UPDATE_PLAYLIST_TRACK: {
+      const { playlistId, track } = action.payload;
+      return produce(state, (draft) => {
+        const item = draft.byId[playlistId];
+        if (!item || !item.tracks) return;
+        const index = item.tracks.findIndex((t) => t.id === track.id);
+        if (index < 0) return;
+        item.tracks[index] = { ...item.tracks[index], ...track };
+      });
     }
   }
   return state;

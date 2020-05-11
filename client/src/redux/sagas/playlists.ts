@@ -177,6 +177,10 @@ function* watchPlaylistFetch() {
   yield takeLatest(PlaylistActionTypes.FETCH_PLAYLIST, fetchPlaylist);
 }
 
+function* watchUpdatePlaylistTrack() {
+  yield takeLatest(PlaylistActionTypes.UPDATE_PLAYLIST_TRACK, updatePlaylist);
+}
+
 function* watchDeletePlaylistTrack() {
   yield takeLatest(PlaylistActionTypes.DELETE_PLAYLIST_TRACK, updatePlaylist);
 }
@@ -209,6 +213,7 @@ export const playlistSagas = function* playlistSagas() {
     fork(watchPlaylistFetch),
     fork(watchUpdatePlaylist),
     fork(watchCreatePlaylistTrack),
+    fork(watchUpdatePlaylistTrack),
     fork(watchDeletePlaylistTrack),
     fork(watchDeletePlaylist),
     fork(watchCreatePlaylist),
