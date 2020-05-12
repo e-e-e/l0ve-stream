@@ -95,7 +95,9 @@ export const AddTrackView = ({ close, initialState }: AddTrackProps) => {
           onChange={onAlbumChange}
           value={trackData.album}
         />
-        <Input name="file" type="file" onChange={onFileChange} />
+        {initialState ? undefined : (
+          <Input name="file" type="file" onChange={onFileChange} />
+        )}
         <Button type="submit" disabled={false}>
           {initialState ? 'Update track' : 'Add new track'}
         </Button>
