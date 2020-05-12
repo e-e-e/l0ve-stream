@@ -16,6 +16,7 @@ export const TrackItem = ({
   onDelete,
   onPlay,
   onEdit,
+  progress,
 }: {
   id: string;
   index: number;
@@ -27,6 +28,7 @@ export const TrackItem = ({
   onDelete?: (id: string) => void;
   onPlay?: (id: string) => void;
   onEdit?: (id: string) => void;
+  progress?: number;
 }) => {
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!isDraggable}>
@@ -62,6 +64,7 @@ export const TrackItem = ({
               ) : (
                 <PointIcon />
               )}
+              {progress}
             </div>
           </div>
         );

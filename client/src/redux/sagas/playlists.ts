@@ -97,6 +97,7 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
   const subscribeToTranscodeUpdates = yield getContext(
     'subscribeToTranscodeUpdates',
   );
+  console.log('create')
   try {
     // insert track into database
     const data: PromisedReturnType<
@@ -111,6 +112,7 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
     // insert track into reducer
     yield put(insertPlaylistTrack({ playlistId, track: { ...track, id } }));
     if (!track.file) {
+      console.log('Bail out early');
       // bail out early - nothing to upload
       return;
     }
@@ -121,7 +123,7 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
     > = yield call(() =>
       fileUpload.getPresignedTrackUploadUrl({
         trackId: id,
-        type: track.file?.type || 'mp3',
+        type: track.file?.type || 'audio/mpeg',
       }),
     );
     subscribeToTranscodeUpdates(presignedUrl.fileId);

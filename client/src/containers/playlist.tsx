@@ -6,15 +6,13 @@ import { TrackItem } from '../components/track_item/track_item';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { AddTrackView } from './add_track';
-import { LayerButton } from '../components/layer_button/layer_button';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/reducers/reducers';
 import {
+  createPlaylistTrack,
   deletePlaylistTrack,
   fetchPlaylist,
   updatePlaylistTrackOrder,
 } from '../redux/actions/playlists_actions';
-import { LoadingState } from '../redux/reducers/helpers';
 import { DropResult } from 'react-beautiful-dnd';
 import { DraggableList } from '../components/draggable_list/draggable_list';
 import { DropArea } from '../components/drop_area/drop_area';
@@ -26,6 +24,9 @@ import {
 import { Layer } from '../components/layer/layer';
 import { Button } from '../components/button/button';
 import { Playlist } from '../redux/reducers/playlists';
+import { Metadata } from '../services/metadata/metadata';
+import { playTrack } from '../redux/actions/media_player';
+import { getFileUpload } from '../redux/selectors/ui';
 
 const getTrackData = (playlist: Playlist, trackId: string) => {
   const track = playlist.tracks?.find((t) => t.id === trackId);
@@ -34,6 +35,54 @@ const getTrackData = (playlist: Playlist, trackId: string) => {
     ...track,
     id: track.id,
   };
+};
+
+const metadataService = new Metadata();
+
+const TrackView = ({
+  id,
+  index,
+  title,
+  artist,
+  album,
+  filename,
+  hasFiles,
+  onEdit,
+  onDelete,
+  onPlay,
+}: {
+  id?: string | null;
+  index: number;
+  title?: string | null;
+  artist?: string | null;
+  album?: string | null;
+  filename?: string;
+  hasFiles?: boolean;
+  onDelete?: (id: string) => void;
+  onPlay?: (id: string) => void;
+  onEdit?: (id: string) => void;
+  progress?: number;
+}) => {
+  console.log('render track', id);
+  const upload = useSelector(getFileUpload(id || undefined));
+  if (!id || !title || !artist || !album) {
+    return null;
+  }
+  console.log('status', upload?.status);
+  return (
+    <TrackItem
+      id={id}
+      index={index}
+      title={title}
+      artist={artist}
+      album={album}
+      isDraggable={true}
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onPlay={hasFiles ? onPlay : undefined}
+      progress={upload?.progress || 0.5}
+    />
+  );
 };
 
 export const PlaylistView = () => {
@@ -75,20 +124,36 @@ export const PlaylistView = () => {
     },
     [id, dispatch],
   );
-  const playTrack = React.useCallback((trackId: string) => {
+  const playTrackWithId = React.useCallback((trackId: string) => {
     console.log('play', trackId);
+    dispatch(playTrack({ track: trackId }));
   }, []);
+  const addTrackFile = React.useCallback(
+    async (file: File) => {
+      const data = await metadataService.read(file);
+      dispatch(
+        createPlaylistTrack({
+          playlistId: id,
+          track: {
+            title: data.title || data.filename,
+            album: data.album || 'unknown',
+            artist: data.album || 'unknown',
+            // year: data.year,
+            // genre: data.genre,
+            file: file,
+          },
+        }),
+      );
+    },
+    [dispatch, id],
+  );
   if (error) return <div>{error}</div>;
   if (loading) return <div>{loading}</div>;
   if (!data) {
     return <>Not found</>;
   }
   return (
-    <DropArea
-      onFileDrop={(file) => {
-        // process file and open add dialog prefilled
-      }}
-    >
+    <DropArea onFileDrop={addTrackFile}>
       <GridCard
         topLeft={<Typography variant="h2">{data.title}</Typography>}
         bottomLeft={<Typography>{data.owner?.name}</Typography>}
@@ -103,23 +168,29 @@ export const PlaylistView = () => {
       <Section>
         <DraggableList onDrop={updateTrackOrder}>
           {data.tracks?.map((track, i) => {
-            if (!track?.id || !track.title || !track.artist || !track.album)
-              return;
-            const hasFiles =
-              track.files?.length && track.files[0]?.status === '2';
+            console.log(i, track?.files)
             return (
-              <TrackItem
-                key={track.id}
-                id={track.id}
-                index={i}
-                title={track.title}
-                artist={track.artist}
-                album={track.album}
-                isDraggable={true}
-                onDelete={deleteTrack}
-                onEdit={openAddTrackLayer}
-                onPlay={hasFiles ? playTrack : undefined}
-              />
+              track && (
+                <TrackView
+                  key={track.id || i}
+                  id={track.id}
+                  index={i}
+                  title={track.title}
+                  artist={track.artist}
+                  album={track.album}
+                  onDelete={deleteTrack}
+                  filename={
+                    track.files?.length
+                      ? track.files[0].filename || undefined
+                      : undefined
+                  }
+                  hasFiles={
+                    track.files?.length ? track.files[0]?.status === '2' : false
+                  }
+                  onEdit={openAddTrackLayer}
+                  onPlay={playTrackWithId}
+                />
+              )
             );
           })}
         </DraggableList>

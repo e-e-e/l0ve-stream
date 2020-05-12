@@ -13,6 +13,7 @@ const validMimeTypes = [
   "audio/mpeg", //mp3
   "audio/m4a", //m4a
   "audio/x-aiff", //aif aifc aiff
+  "audio/aiff", //aif aifc aiff
   "audio/vnd.wav", //wav
 ];
 
@@ -24,6 +25,8 @@ const mimeTypetoExt = (type: string) => {
       return "mp3";
     case "audio/m4a":
       return "m4a";
+    case "audio/aiff":
+      return "aiff";
     case "audio/x-aiff":
       return "aiff";
     case "audio/vnd.wav":
@@ -40,7 +43,7 @@ const extToMimeType = (ext: string) => {
     case "m4a":
       return "audio/m4a";
     case "aiff":
-      return "audio/x-aiff";
+      return "audio/aiff";
     case "wav":
       return "audio/vnd.wav";
     default:
