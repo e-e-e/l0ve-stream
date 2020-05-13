@@ -158,7 +158,7 @@ export function installTrackUpload({
     )[0];
     const key = encodeTrackKey({ trackId: id, fileId, type });
     await database("tracks_files").insert({ track_id: id, file_id: fileId });
-    await database("files").update({ filename: key });
+    await database("files").update({ filename: key }).where({ id: fileId });
     // generate link
     const params = {
       Bucket: process.env.AWS_RAW_TRACK_BUCKET,

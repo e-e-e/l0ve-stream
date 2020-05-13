@@ -24,6 +24,7 @@ class Track {
       src: [url],
       autoplay: false,
       volume: 1,
+      html5: true,
       onend: () => {
         // should go to next item in queue;
         this.onEnd(this.id);
