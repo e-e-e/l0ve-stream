@@ -34,37 +34,52 @@ export const TrackItem = ({
     <Draggable draggableId={id} index={index} isDragDisabled={!isDraggable}>
       {(provided, snapshot) => {
         return (
-          <div
-            className={styles.track}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-          >
-            {isDraggable && (
-              <div className={styles.dragControl} {...provided.dragHandleProps}>
-                <RearrangeIcon />
+          <div className={styles.trackContainer}>
+            {progress !== undefined && (
+              <div className={styles.progress}>
+                <div
+                  className={styles.progressBar}
+                  style={{ transform: `scaleX(${progress})` }}
+                ></div>
+                <div className={styles.progressLabel}>
+                  Uploading {(progress * 100).toFixed()}%
+                </div>
               </div>
             )}
-            <div className={styles.info}>
-              <Typography>{title}</Typography>
-              <Typography variant="subtitle">{artist}</Typography>
-            </div>
-            <div className={styles.controls}>
-              {onDelete && (
-                <IconButton onClick={() => onDelete(id)}>
-                  <TrashIcon />
-                </IconButton>
+            <div
+              className={styles.track}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+            >
+              {isDraggable && (
+                <div
+                  className={styles.dragControl}
+                  {...provided.dragHandleProps}
+                >
+                  <RearrangeIcon />
+                </div>
               )}
-              {onEdit && (
-                <IconButton onClick={() => onEdit(id)}>Edit</IconButton>
-              )}
-              {onPlay ? (
-                <IconButton onClick={() => onPlay(id)}>
-                  <PlayIcon />
-                </IconButton>
-              ) : (
-                <PointIcon />
-              )}
-              {progress}
+              <div className={styles.info}>
+                <Typography>{title}</Typography>
+                <Typography variant="subtitle">{artist}</Typography>
+              </div>
+              <div className={styles.controls}>
+                {onDelete && (
+                  <IconButton onClick={() => onDelete(id)}>
+                    <TrashIcon />
+                  </IconButton>
+                )}
+                {onEdit && (
+                  <IconButton onClick={() => onEdit(id)}>Edit</IconButton>
+                )}
+                {onPlay ? (
+                  <IconButton onClick={() => onPlay(id)}>
+                    <PlayIcon />
+                  </IconButton>
+                ) : (
+                  <PointIcon />
+                )}
+              </div>
             </div>
           </div>
         );

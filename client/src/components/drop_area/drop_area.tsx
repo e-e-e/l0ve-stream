@@ -44,6 +44,7 @@ export const DropArea = ({
         for (let i = 0; i < files.length; i++) {
           console.log(files[i].name);
           await onFileDrop(files[i]);
+          if (i > 0) break;
         }
       } finally {
         setProcessing(false);

@@ -80,7 +80,7 @@ const TrackView = ({
       onDelete={onDelete}
       onEdit={onEdit}
       onPlay={hasFiles ? onPlay : undefined}
-      progress={upload?.progress || 0.5}
+      progress={upload?.progress}
     />
   );
 };

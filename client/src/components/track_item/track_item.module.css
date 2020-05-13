@@ -1,4 +1,37 @@
+.trackContainer {
+    position: relative;
+    display: block;
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+}
+
+.progressBar {
+    position: absolute;
+    background: rgba(0,0,0,0.1);
+    transform-origin: left;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+.progressLabel {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
 .track {
+    position: relative;
     display: flex;
     width: 100%;
     /*margin: 1rem 0;*/
