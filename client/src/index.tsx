@@ -17,7 +17,7 @@ const { subscribeToTranscodeUpdates } = installWebsocketClient({
 const history = createBrowserHistory();
 const { client, queries, mutations } = installGraphQL();
 const fileUpload = installFileUpload();
-const player = createMediaPlayer();
+const player = createMediaPlayer(fileUpload);
 
 const { ReduxProvider } = installRedux({
   services: { queries, mutations, fileUpload },

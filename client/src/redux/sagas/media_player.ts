@@ -11,7 +11,6 @@ import {
   delay,
   race,
 } from 'redux-saga/effects';
-import { eventChannel, END, buffers } from 'redux-saga';
 import { selectTracksWithFiles } from '../selectors/playlists';
 import {
   ActionLoadPlaylist,
@@ -23,6 +22,8 @@ import {
   setQueue,
 } from '../actions/media_player';
 import { MediaPlayer } from '../../media_player';
+import { RootState } from '../reducers/reducers';
+import { getQueuedPlaylistId } from '../selectors/media_player';
 
 function* progressWorker() {
   while (true) {
@@ -44,23 +45,33 @@ function* watchProgress() {
   }
 }
 
-function* loadPlaylist(data: ActionLoadPlaylist) {
+function* initQueue(playlistId: string) {
   // set state to loading
   const mediaPlayer: MediaPlayer = yield getContext('mediaPlayer');
-  const tracks = selectTracksWithFiles(data.payload.playlist)(yield select());
-  // const trackIds = tracks.map((t) => t.id).filter((a) => a != null) as string[];
-  const trackIds = [
-    '/samples/1.mp3',
-    '/samples/2.mp3',
-    '/samples/3.mp3',
-    '/samples/4.mp3',
-  ];
+  const tracks = selectTracksWithFiles(playlistId)(yield select());
+  const trackIds = tracks.map((t) => t.id).filter((a) => a != null) as string[];
+  // const trackIds = [
+  //   '/samples/1.mp3',
+  //   '/samples/2.mp3',
+  //   '/samples/3.mp3',
+  //   '/samples/4.mp3',
+  // ];
+  console.log('init with', trackIds);
   mediaPlayer.init(trackIds);
-  yield put(setQueue({ tracks: trackIds }));
+  yield put(setQueue({ tracks: trackIds, playlist: playlistId }));
+}
+
+function* loadPlaylist(data: ActionLoadPlaylist) {
+  // set state to loading
+  yield call(initQueue, data.payload.playlist);
 }
 
 function* play(data: ActionPlay) {
   const mediaPlayer: MediaPlayer = yield getContext('mediaPlayer');
+  const playlistId = getQueuedPlaylistId(yield select());
+  if (data.payload.playlist && playlistId !== data.payload.playlist) {
+    yield call(initQueue, data.payload.playlist);
+  }
   // if not inited - init.
   mediaPlayer.play(data.payload.track);
 }

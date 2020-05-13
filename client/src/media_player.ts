@@ -1,6 +1,7 @@
 import { Howl } from 'howler';
 import { type } from 'os';
 import { hashmap } from 'aws-sdk/clients/glacier';
+import { FileUploadService } from './services/file_upload/install';
 
 type TrackState = 'uninitialized' | 'loading' | 'loaded' | 'error-loading';
 
@@ -250,6 +251,10 @@ export class MediaPlayer {
   }
 }
 
-export function createMediaPlayer() {
-  return new MediaPlayer((a) => Promise.resolve(a));
+export function createMediaPlayer(fileUploadService: FileUploadService) {
+  const getUrl = (id: string) =>
+    fileUploadService
+      .getPresignedTrackUrl({ trackId: id })
+      .then((res) => res.url);
+  return new MediaPlayer(getUrl);
 }

@@ -26,7 +26,7 @@ export const Player = () => {
     prevProgress.current = progress;
   }, [progress]);
   const value = prevProgress.current;
-  const load = () => dispatch(loadPlaylist({ playlist: 'test' }));
+  // const load = () => dispatch(loadPlaylist({ playlist: 'test' }));
   return (
     <div className={styles.player}>
       <div className={styles.background}>
@@ -41,9 +41,9 @@ export const Player = () => {
           <IconButton invert onClick={play}>
             <PlayIcon />
           </IconButton>
-          <IconButton invert onClick={load}>
-            Load
-          </IconButton>
+          {/*<IconButton invert onClick={load}>*/}
+          {/*  Load*/}
+          {/*</IconButton>*/}
           <IconButton invert onClick={prevTrack}>
             {'<<'}
           </IconButton>

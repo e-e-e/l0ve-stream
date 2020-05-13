@@ -125,8 +125,8 @@ export const PlaylistView = () => {
     [id, dispatch],
   );
   const playTrackWithId = React.useCallback((trackId: string) => {
-    console.log('play', trackId);
-    dispatch(playTrack({ track: trackId }));
+    console.log('play', trackId, id);
+    dispatch(playTrack({ track: trackId, playlist: id }));
   }, []);
   const addTrackFile = React.useCallback(
     async (file: File) => {

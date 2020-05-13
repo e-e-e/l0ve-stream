@@ -40,7 +40,7 @@ export function mediaPlayerReducer(
     case MediaPlayerActionTypes.SET_CURRENT_TRACK:
       return { ...state, currentTrack: action.payload.track };
     case MediaPlayerActionTypes.SET_QUEUE:
-      return { ...state, queue: action.payload.tracks.map((id) => ({ id })) };
+      return { ...state, queue: action.payload.tracks.map((id) => ({ id })), playlist: action.payload.playlist };
     case MediaPlayerActionTypes.SET_PROGRESS:
       return { ...state, progress: action.payload.value };
     case MediaPlayerActionTypes.STOP:

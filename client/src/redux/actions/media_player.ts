@@ -28,6 +28,7 @@ export type ActionLoadPlaylist = ActionWithPayload<
 
 type PlayPayload = {
   track?: string;
+  playlist?: string;
 };
 
 export const playTrack = createAction<PlayPayload>(MediaPlayerActionTypes.PLAY);
@@ -68,6 +69,7 @@ export type ActionSetCurrentTrack = ActionWithPayload<
 
 type SetQueuePayload = {
   tracks: string[];
+  playlist: string;
 };
 
 export const setQueue = createAction<SetQueuePayload>(

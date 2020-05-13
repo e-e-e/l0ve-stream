@@ -17,7 +17,7 @@ const validMimeTypes = [
   "audio/vnd.wav", //wav
 ];
 
-const validQualites = ["original", "196", "320"];
+const validQualites = ["original", "192", "320"];
 
 const mimeTypetoExt = (type: string) => {
   switch (type) {
@@ -181,9 +181,19 @@ export function installTrackUpload({
       throw new Error("Invalid quality option");
     }
     if (!quality) {
-      quality = "196";
+      quality = "192";
     }
-    const filedata = (await database.select().from("files").where({ id }))[0];
+    const filedata = (
+      await database
+        .select(
+          "files.id as id",
+          "files.status as status",
+          "files.filename as filename"
+        )
+        .from("tracks_files")
+        .join("files", "files.id", "=", "tracks_files.file_id")
+        .where({ track_id: id })
+    )[0];
     if (!filedata) {
       return res.sendStatus(404);
     }
