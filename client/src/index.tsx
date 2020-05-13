@@ -12,7 +12,7 @@ import { installFileUpload } from './services/file_upload/install';
 import { createMediaPlayer } from './media_player';
 
 const { subscribeToTranscodeUpdates } = installWebsocketClient({
-  url: 'ws://localhost:8000',
+  url: window.location.origin.replace(/^http/, 'ws').replace(/:3000/, ':8080'),
 });
 const history = createBrowserHistory();
 const { client, queries, mutations } = installGraphQL();

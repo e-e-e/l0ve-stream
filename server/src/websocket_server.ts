@@ -1,5 +1,7 @@
 import ws from "ws";
 import { FileStatus } from "./track_upload";
+import * as http from "http";
+import * as https from "https";
 
 type TranscodeStatusUpdate = {
   trackId: string;
@@ -7,12 +9,14 @@ type TranscodeStatusUpdate = {
   status: FileStatus;
 };
 
-export function installWebsockets(config: { port: number }) {
+export function installWebsockets(config: {
+  server: http.Server | https.Server;
+}) {
   const transcodeListeners: Record<
     string,
     (info: TranscodeStatusUpdate) => void
   > = {};
-  const wss = new ws.Server({ port: config.port });
+  const wss = new ws.Server({ server: config.server });
   wss.on("connection", function connection(ws) {
     ws.on("close", () => {
       // should do some clean up

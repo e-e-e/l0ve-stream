@@ -55,8 +55,11 @@ const database = createDatabase(
     password: process.env.DB_PASSWORD!,
   }
 );
+const httpServer = app.listen({ port: PORT }, () => {
+  console.log(`listening on port ${PORT}`);
+});
 
-const websocket = installWebsockets({ port: 8000 });
+const websocket = installWebsockets({ server: httpServer });
 const {
   snsMessageHandler,
   presignedPutUrlHandler,
@@ -115,7 +118,3 @@ app.post("/convert/itunes", async (req, res) => {
 
 app.get("/track/:id/upload", presignedPutUrlHandler);
 app.get("/track/:id/get", presignedGetTrackHandler);
-
-app.listen({ port: PORT }, () => {
-  console.log(`listening on port ${PORT}`);
-});
