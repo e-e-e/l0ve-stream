@@ -29,7 +29,9 @@ function* progressWorker() {
   while (true) {
     const mediaPlayer: MediaPlayer = yield getContext('mediaPlayer');
     const progress = mediaPlayer.progress();
-    yield put(setProgress({ value: progress }));
+    const elapsed = mediaPlayer.elapsed();
+    const duration = mediaPlayer.duration();
+    yield put(setProgress({ value: progress, elapsed, duration }));
     yield delay(100);
   }
 }

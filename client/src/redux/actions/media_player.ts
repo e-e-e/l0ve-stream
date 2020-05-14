@@ -83,6 +83,8 @@ export type ActionSetQueue = ActionWithPayload<
 
 type SetProgressPayload = {
   value: number;
+  duration: number;
+  elapsed: number;
 };
 
 export const setProgress = createAction<SetProgressPayload>(

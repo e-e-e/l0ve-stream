@@ -3,7 +3,6 @@ import { IconButton } from '../components/button/button';
 import { PlayIcon } from '../components/icons/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  loadPlaylist,
   next,
   pause,
   playTrack,
@@ -11,7 +10,15 @@ import {
   stop,
 } from '../redux/actions/media_player';
 import styles from './player.module.css';
-import { selectProgress } from '../redux/selectors/media_player';
+import { getCurrentTrack, getTimeInfo } from '../redux/selectors/media_player';
+import { Typography } from '../components/typography/typography';
+
+function toTimeString(x: number) {
+  const whole = Math.floor(x)
+  const part = (x - whole) * 20;
+  return `${whole}:${part.toFixed(0)}`
+}
+
 
 export const Player = () => {
   const dispatch = useDispatch();
@@ -21,10 +28,11 @@ export const Player = () => {
   const nextTrack = useCallback(() => dispatch(next()), [dispatch]);
   const prevTrack = useCallback(() => dispatch(prev()), [dispatch]);
   const pauseTrack = useCallback(() => dispatch(pause()), [dispatch]);
-  const progress = useSelector(selectProgress);
+  const timeInfo = useSelector(getTimeInfo);
+  const track = useSelector(getCurrentTrack);
   React.useEffect(() => {
-    prevProgress.current = progress;
-  }, [progress]);
+    prevProgress.current = timeInfo.progress;
+  }, [timeInfo.progress]);
   const value = prevProgress.current;
   // const load = () => dispatch(loadPlaylist({ playlist: 'test' }));
   return (
@@ -33,30 +41,56 @@ export const Player = () => {
         <div
           className={styles.progress}
           style={{
-            transform: `translateX(${-100 + progress * 100}%)`,
-            transition: progress > value ? 'transform linear 0.1s' : 'none',
+            transform: `translateX(${-100 + timeInfo.progress * 100}%)`,
+            transition:
+              timeInfo.progress > value ? 'transform linear 0.1s' : 'none',
           }}
         />
-        <div className={styles.controls}>
-          <IconButton invert onClick={play}>
-            <PlayIcon />
-          </IconButton>
-          {/*<IconButton invert onClick={load}>*/}
-          {/*  Load*/}
-          {/*</IconButton>*/}
-          <IconButton invert onClick={prevTrack}>
-            {'<<'}
-          </IconButton>
-          <IconButton invert onClick={nextTrack}>
-            {'>>'}
-          </IconButton>
-          <IconButton invert onClick={stopTrack}>
-            stop
-          </IconButton>
-          <IconButton invert onClick={pauseTrack}>
-            pause
-          </IconButton>
-          {/*<IconButton onClick={() => player.clear()}>clear</IconButton>*/}
+        <div className={styles.container}>
+          <div className={styles.controls}>
+            <IconButton invert onClick={play}>
+              <PlayIcon />
+            </IconButton>
+            {/*<IconButton invert onClick={load}>*/}
+            {/*  Load*/}
+            {/*</IconButton>*/}
+            <IconButton invert onClick={prevTrack}>
+              {'<<'}
+            </IconButton>
+            <IconButton invert onClick={nextTrack}>
+              {'>>'}
+            </IconButton>
+            <IconButton invert onClick={stopTrack}>
+              stop
+            </IconButton>
+            <IconButton invert onClick={pauseTrack}>
+              pause
+            </IconButton>
+            {/*<IconButton onClick={() => player.clear()}>clear</IconButton>*/}
+          </div>
+          <div className={styles.trackInfo}>
+            <div className={styles.top}>
+              <div>
+                <Typography color="white">{track?.title}</Typography>
+              </div>
+              <div>
+                <Typography color="grey">{track?.artist}</Typography>
+              </div>
+            </div>
+            <div className={styles.bottom}>
+              <div>
+                <Typography variant="subtitle" color="white">
+                  {toTimeString(timeInfo.elapsed)}
+                </Typography>
+              </div>
+              <div>/</div>
+              <div>
+                <Typography variant="subtitle" color="grey">
+                  {toTimeString(timeInfo.duration)}
+                </Typography>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

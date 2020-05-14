@@ -6,6 +6,14 @@ const selectPlaylists = (state: RootState) => state.entities.playlists;
 export const selectPlaylist = (id: string) => (state: RootState) =>
   selectPlaylists(state).byId[id];
 
+export const selectTrack = (playlistId: string, trackId: string) => (
+  state: RootState,
+) => {
+  return selectPlaylist(playlistId)(state).tracks?.find(
+    (track) => track.id === trackId,
+  );
+};
+
 export const selectTracksWithFiles = (playlistId: string) => (
   state: RootState,
 ) => {

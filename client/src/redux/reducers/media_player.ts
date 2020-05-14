@@ -22,6 +22,8 @@ type MediaPlayerState = {
   queue: TrackInfo[];
   currentTrack: string | null;
   progress: number;
+  duration: number;
+  elapsed: number;
 };
 
 const initialState = {
@@ -30,6 +32,8 @@ const initialState = {
   queue: [],
   currentTrack: null,
   progress: 0,
+  duration: 0,
+  elapsed: 0,
 };
 
 export function mediaPlayerReducer(
@@ -40,11 +44,15 @@ export function mediaPlayerReducer(
     case MediaPlayerActionTypes.SET_CURRENT_TRACK:
       return { ...state, currentTrack: action.payload.track };
     case MediaPlayerActionTypes.SET_QUEUE:
-      return { ...state, queue: action.payload.tracks.map((id) => ({ id })), playlist: action.payload.playlist };
+      return {
+        ...state,
+        queue: action.payload.tracks.map((id) => ({ id })),
+        playlist: action.payload.playlist,
+      };
     case MediaPlayerActionTypes.SET_PROGRESS:
-      return { ...state, progress: action.payload.value };
+      return { ...state, progress: action.payload.value, elapsed: action.payload.elapsed, duration: action.payload.duration };
     case MediaPlayerActionTypes.STOP:
-      return { ...state, progress: 0 };
+      return { ...state, progress: 0, elapsed: 0 };
   }
   return state;
 }

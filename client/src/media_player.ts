@@ -234,11 +234,23 @@ export class MediaPlayer {
   progress(): number {
     const trackId = this.queue[this.currentTrackIndex || 0];
     if (!trackId) return 0;
-    const elapsed = this.tracks[trackId].elapsed();
-    const duration = this.tracks[trackId].duration();
+    const elapsed = this.elapsed();
+    const duration = this.duration();
     if (!duration || !elapsed) return 0;
     // console.log(elapsed, duration);
     return elapsed / duration;
+  }
+
+  elapsed(): number {
+    const trackId = this.queue[this.currentTrackIndex || 0];
+    if (!trackId) return 0;
+    return this.tracks[trackId].elapsed() || 0;
+  }
+
+  duration(): number {
+    const trackId = this.queue[this.currentTrackIndex || 0];
+    if (!trackId) return 0;
+    return this.tracks[trackId].duration();
   }
 
   clear() {

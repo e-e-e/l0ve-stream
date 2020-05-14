@@ -6,7 +6,6 @@
     background: black;
     color: white;
     border-top: thin black solid;
-    text-align: center;
     z-index: 100;
 }
 
@@ -18,15 +17,33 @@
 .progress {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 4px;
+    bottom: 0px;
     /*transform: scaleX(0);*/
     transform-origin: left;
-    background: linear-gradient(90deg, #FF7E21 0%, #E101E6 51.57%, #6900EE 100%);
+    /*background: linear-gradient(90deg, #FF7E21 0%, #E101E6 51.57%, #6900EE 100%);*/
     z-index: 1;
+    background: yellow;
 
 }
-.controls {
+
+.container {
     position: relative;
+    display: flex;
+    align-items: center;
     z-index: 2;
     padding: 1rem;
+}
+
+.trackInfo {
+    display: flex;
+    flex-direction: column;
+}
+.top, .bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.top > div, .bottom > div {
+    padding-left: 0.5rem;
 }

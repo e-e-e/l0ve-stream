@@ -137,7 +137,7 @@ export const PlaylistView = () => {
           track: {
             title: data.title || data.filename,
             album: data.album || 'unknown',
-            artist: data.album || 'unknown',
+            artist: data.artist || 'unknown',
             // year: data.year,
             // genre: data.genre,
             file: file,
