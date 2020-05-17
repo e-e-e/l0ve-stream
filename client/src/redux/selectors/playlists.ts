@@ -24,6 +24,17 @@ export const selectTracksWithFiles = (playlistId: string) => (
   );
 };
 
+export const selectTracks = (playlistId: string) => (state: RootState) => {
+  const playlist = selectPlaylist(playlistId)(state);
+  if (!playlist) return [];
+  return playlist.tracks || [];
+};
+
+export const selectPlaylistDuration = (id: string) => (state: RootState) =>
+  selectTracks(id)(state).reduce((acc, t) => {
+    return acc + (t.duration || 0);
+  }, 0);
+
 export const selectError = (state: RootState) =>
   selectPlaylists(state).state === LoadingState.ERROR &&
   selectPlaylists(state).errorMessage;

@@ -20,6 +20,7 @@ import {
   selectError,
   selectIsLoading,
   selectPlaylist,
+  selectPlaylistDuration,
 } from '../redux/selectors/playlists';
 import { Layer } from '../components/layer/layer';
 import { Button } from '../components/button/button';
@@ -27,6 +28,7 @@ import { Playlist } from '../redux/reducers/playlists';
 import { Metadata } from '../services/metadata/metadata';
 import { playTrack } from '../redux/actions/media_player';
 import { getFileUpload } from '../redux/selectors/ui';
+import { toMinutes } from '../base/time';
 
 const getTrackData = (playlist: Playlist, trackId: string) => {
   const track = playlist.tracks?.find((t) => t.id === trackId);
@@ -89,6 +91,7 @@ export const PlaylistView = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const data = useSelector(selectPlaylist(id));
+  const duration = useSelector(selectPlaylistDuration(id));
   const error = useSelector(selectError);
   const loading = useSelector(selectIsLoading);
   React.useEffect(() => {
@@ -163,13 +166,16 @@ export const PlaylistView = () => {
             <PlayIcon />
           </div>
         }
-        info={{ top: '2', bottom: '14m' }}
+        info={{
+          top: `${data.tracks?.length || 0}`,
+          bottom: toMinutes(duration),
+        }}
       />
       <p>{data.description}</p>
       <Section>
         <DraggableList onDrop={updateTrackOrder}>
           {data.tracks?.map((track, i) => {
-            console.log(i, track?.files)
+            console.log(i, track?.files);
             return (
               track && (
                 <TrackView

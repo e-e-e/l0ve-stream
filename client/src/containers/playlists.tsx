@@ -11,16 +11,27 @@ import {
 import { RootState } from '../redux/reducers/reducers';
 import { LoadingState } from '../redux/reducers/helpers';
 import { IconButton } from '../components/button/button';
+import { selectPlaylistDuration } from '../redux/selectors/playlists';
+import {toMinutes} from "../base/time";
 
 type PlaylistCardProps = {
   title: string;
   owner: string;
+  trackNumber?: number;
   description?: string | null;
   id: string;
 };
 
-const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
+
+const PlaylistCard = ({
+  title,
+  owner,
+  description,
+  id,
+  trackNumber,
+}: PlaylistCardProps) => {
   const openPlaylist = useNavigationHandler(playlistUrl(id));
+  const playlistDuration = useSelector(selectPlaylistDuration(id));
   const dispatch = useDispatch();
   // replace with dispatch
   const deleteItem = useCallback(
@@ -49,7 +60,10 @@ const PlaylistCard = ({ title, owner, description, id }: PlaylistCardProps) => {
             <PlayIcon />
           </div>
         }
-        info={{ top: '2', bottom: '14m' }}
+        info={{
+          top: `${trackNumber || 0}`,
+          bottom: toMinutes(playlistDuration),
+        }}
       />
     </div>
   );
@@ -85,6 +99,7 @@ function Playlists() {
             key={`${i}-${v?.id}`}
             title={v?.title}
             owner={v?.owner?.name}
+            trackNumber={v.tracks?.length}
             id={v.id}
             description={v.description}
           />
