@@ -122,6 +122,7 @@ type Track = {
   title: string;
   album: string;
   artist: string;
+  duration?: number | null;
 };
 
 type CreatePlaylistTrackPayload = {

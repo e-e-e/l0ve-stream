@@ -121,10 +121,11 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
     const presignedUrl: PromisedReturnType<
       FileUploadService['getPresignedTrackUploadUrl']
     > = yield call(() =>
-      fileUpload.getPresignedTrackUploadUrl({
-        trackId: id,
-        type: track.file?.type || 'audio/mpeg',
-      }),
+       '...'
+      // fileUpload.getPresignedTrackUploadUrl({
+      //   trackId: id,
+      //   type: track.file?.type || 'audio/mpeg',
+      // }),
     );
     subscribeToTranscodeUpdates(presignedUrl.fileId);
     console.log(presignedUrl);

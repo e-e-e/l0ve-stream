@@ -1,4 +1,4 @@
-import { DataSource, DataSourceConfig } from "apollo-datasource";
+import { DataSource } from "apollo-datasource";
 import Knex from "knex";
 
 export type Track = {
@@ -7,6 +7,7 @@ export type Track = {
   album: string;
   genre?: string;
   year?: number;
+  duration?: number;
 };
 export type TrackWithId = Track & { id: string };
 export type TrackWithOptionalId = Track & { id?: string };
@@ -129,6 +130,7 @@ export class PlaylistsDataSource extends DataSource {
       album: track.album,
       genre: track.genre,
       year: track.year,
+      duration: track.duration,
     };
     const trackWithId = (
       await this.database.insert(trackData).into("tracks").returning("*")
@@ -150,6 +152,7 @@ export class PlaylistsDataSource extends DataSource {
       album: track.album,
       genre: track.genre,
       year: track.year,
+      duration: track.duration,
     };
     const trackWithId = (
       await this.database("tracks")

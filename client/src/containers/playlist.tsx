@@ -140,6 +140,7 @@ export const PlaylistView = () => {
             artist: data.artist || 'unknown',
             // year: data.year,
             // genre: data.genre,
+            duration: data.duration || undefined,
             file: file,
           },
         }),

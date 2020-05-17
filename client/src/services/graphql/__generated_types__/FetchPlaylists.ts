@@ -22,6 +22,7 @@ export interface FetchPlaylists_playlists_tracks {
   artist: string | null;
   year: number | null;
   genre: string | null;
+  duration: number | null;
   files: FetchPlaylists_playlists_tracks_files[] | null;
 }
 

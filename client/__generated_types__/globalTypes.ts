@@ -20,6 +20,7 @@ export interface TrackInput {
   album: string;
   genre?: string | null;
   year?: number | null;
+  duration?: number | null;
 }
 
 export interface TrackInputWithOptionalId {
@@ -29,6 +30,7 @@ export interface TrackInputWithOptionalId {
   album?: string | null;
   genre?: string | null;
   year?: number | null;
+  duration?: number | null;
 }
 
 //==============================================================

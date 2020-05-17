@@ -99,6 +99,7 @@ function sanitizeTrackInputWithOptionalId(
     album: track.album,
     year: track.year,
     genre: track.genre,
+    duration: track.duration,
   };
 }
 
@@ -109,6 +110,7 @@ function sanitizeTrackInput(track: TrackInput): TrackInput {
     album: track.album,
     year: track.year,
     genre: track.genre,
+    duration: track.duration,
   };
 }
 

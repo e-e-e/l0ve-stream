@@ -3,7 +3,7 @@ import { IResolvers } from "graphql-tools";
 import { UsersDataSource } from "./datasources/users";
 import Knex from "knex";
 import { PlaylistsDataSource } from "./datasources/playlists";
-import { Track, TracksDataSource, TrackWithId } from "./datasources/tracks";
+import { TracksDataSource } from "./datasources/tracks";
 import { IBasicAuthedRequest } from "express-basic-auth";
 
 type MutationResponse = {

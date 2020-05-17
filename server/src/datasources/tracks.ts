@@ -1,16 +1,5 @@
-import { DataSource, DataSourceConfig } from "apollo-datasource";
+import { DataSource } from "apollo-datasource";
 import Knex from "knex";
-
-export type Track = {
-  title: string;
-  artist: string;
-  album: string;
-  genre?: string;
-  year?: number;
-  notes?: string;
-};
-
-export type TrackWithId = Track & { id: string };
 
 export class TracksDataSource extends DataSource {
   constructor(private readonly database: Knex) {

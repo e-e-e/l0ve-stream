@@ -29,6 +29,7 @@ export const AddTrackView = ({ close, initialState }: AddTrackProps) => {
     title: initialState?.title || '',
     artist: initialState?.artist || '',
     album: initialState?.album || '',
+    duration: null,
   });
   const submit = React.useCallback(
     async (event: React.FormEvent) => {

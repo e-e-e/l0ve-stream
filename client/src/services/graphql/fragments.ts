@@ -8,6 +8,7 @@ export const TRACK_INFO = gql`
     artist
     year
     genre
+    duration
     files {
       id
       filename

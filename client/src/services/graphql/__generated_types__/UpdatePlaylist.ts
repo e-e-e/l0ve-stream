@@ -24,6 +24,7 @@ export interface UpdatePlaylist_updatePlaylist_playlist_tracks {
   artist: string | null;
   year: number | null;
   genre: string | null;
+  duration: number | null;
   files: UpdatePlaylist_updatePlaylist_playlist_tracks_files[] | null;
 }
 

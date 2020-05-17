@@ -22,5 +22,6 @@ export interface TrackInfo {
   artist: string | null;
   year: number | null;
   genre: string | null;
+  duration: number | null;
   files: TrackInfo_files[] | null;
 }

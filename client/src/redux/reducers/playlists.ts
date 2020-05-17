@@ -36,6 +36,7 @@ const defaultTrack = {
   album: null,
   artist: null,
   year: null,
+  duration: null,
   genre: null,
   files: null,
 };

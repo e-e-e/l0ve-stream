@@ -22,6 +22,7 @@ export interface PlaylistInfo_tracks {
   artist: string | null;
   year: number | null;
   genre: string | null;
+  duration: number | null;
   files: PlaylistInfo_tracks_files[] | null;
 }
 
