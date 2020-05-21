@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { installWebsocketClient } from './websocket_client';
+import { installWebSocketClient } from './websocket_client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { installRedux } from './redux/install';
 import { installGraphQL } from './services/graphql/install';
@@ -11,7 +11,7 @@ import { Router } from 'react-router-dom';
 import { installFileUpload } from './services/file_upload/install';
 import { createMediaPlayer } from './media_player';
 
-const { subscribeToTranscodeUpdates } = installWebsocketClient({
+const webSocketClient = installWebSocketClient({
   url: window.location.origin.replace(/^http/, 'ws').replace(/:3000/, ':8080'),
 });
 const history = createBrowserHistory();
@@ -21,7 +21,7 @@ const player = createMediaPlayer(fileUpload);
 
 const { ReduxProvider } = installRedux({
   services: { queries, mutations, fileUpload },
-  subscribeToTranscodeUpdates,
+  webSocketClient,
   history,
   mediaPlayer: player,
 });

@@ -21,6 +21,7 @@ export enum PlaylistActionTypes {
   DELETE_PLAYLIST_TRACK = 'DELETE_PLAYLIST_TRACK',
   DELETE_PLAYLIST = 'DELETE_PLAYLIST',
   CREATE_PLAYLIST = 'CREATE_PLAYLIST',
+  UPDATE_PLAYLIST_TRACK_TRANSCODING_STATUS = 'UPDATE_PLAYLIST_TRACK_TRANSCODING_STATUS',
 }
 /*
  * SYNC PLAYLIST ACTIONS
@@ -210,6 +211,23 @@ export type ActionCreatePlaylist = ActionWithPayload<
   PlaylistActionTypes.CREATE_PLAYLIST,
   CreatePlaylistPayload
 >;
+
+/**
+ * UPDATE PLAYLIST TRACK TRANSCODING STATUS
+ */
+type UpdateTrackTranscodingStatusPayload = {
+  trackId: string;
+  fileId: string;
+  playlistId: string;
+  status: number;
+};
+export const updateTrackTranscodingStatus = createAction<
+  UpdateTrackTranscodingStatusPayload
+>(PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_TRANSCODING_STATUS);
+export type ActionUpdateTrackTranscodingStatus = ActionWithPayload<
+  PlaylistActionTypes.UPDATE_PLAYLIST_TRACK_TRANSCODING_STATUS,
+  UpdateTrackTranscodingStatusPayload
+>;
 /*
  *  ALL VALID REDUCER ACTIONS
  */
@@ -229,4 +247,5 @@ export type PlaylistActions =
   | ActionUpdatePlaylistTrack
   | ActionDeletePlaylistTrack
   | ActionDeletePlaylist
-  | ActionCreatePlaylist;
+  | ActionCreatePlaylist
+  | ActionUpdateTrackTranscodingStatus;

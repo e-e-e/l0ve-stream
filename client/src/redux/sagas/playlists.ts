@@ -32,6 +32,7 @@ import { History } from 'history';
 import { FileUploadService } from '../../services/file_upload/install';
 import { uploadRequest } from '../actions/ui_actions';
 import { selectPlaylist } from '../selectors/playlists';
+import { WebSocketClient } from '../../websocket_client';
 
 type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
   ? U
@@ -94,10 +95,8 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
   const playlist = yield select(selectPlaylist(playlistId));
   const mutations: GraphMutationsService = yield getContext('mutations');
   const fileUpload: FileUploadService = yield getContext('fileUpload');
-  const subscribeToTranscodeUpdates = yield getContext(
-    'subscribeToTranscodeUpdates',
-  );
-  console.log('create')
+  const webSocketClient: WebSocketClient = yield getContext('webSocketClient');
+  console.log('create');
   try {
     // insert track into database
     const data: PromisedReturnType<
@@ -126,7 +125,7 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
         type: track.file?.type || 'audio/mpeg',
       }),
     );
-    subscribeToTranscodeUpdates(presignedUrl.fileId);
+    webSocketClient.subscribeToTranscodeUpdates(presignedUrl.fileId);
     console.log(presignedUrl);
     // start uploading
     yield put(

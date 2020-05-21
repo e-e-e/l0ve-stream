@@ -30,6 +30,14 @@
     color: white;
 }
 
+.transcodingIndicator {
+    animation: pulse infinite ease-in-out 2s;
+}
+
+.error {
+    background: pink;
+}
+
 .track {
     position: relative;
     display: flex;
@@ -55,4 +63,16 @@
     display: flex;
     align-items: center;
     margin-left: -0.2rem;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.25;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.25;
+    }
 }

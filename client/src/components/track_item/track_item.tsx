@@ -4,6 +4,33 @@ import React from 'react';
 import styles from './track_item.module.css';
 import { Draggable } from 'react-beautiful-dnd';
 import { IconButton } from '../button/button';
+import classNames from "classnames";
+
+const Progress = ({ progress }: { progress: number }) => {
+  return (
+    <div className={styles.progress}>
+      <div
+        className={styles.progressBar}
+        style={{ transform: `scaleX(${progress})` }}
+      />
+      <div className={styles.progressLabel}>
+        Uploading {(progress * 100).toFixed()}%
+      </div>
+    </div>
+  );
+};
+const Transcoding = () => (
+  <div className={styles.progress}>
+    <div className={classNames(styles.progressBar, styles.transcodingIndicator)} />
+    <div className={styles.progressLabel}>TRANSCODING AUDIO FILES</div>
+  </div>
+);
+const Error = () => (
+  <div className={styles.progress}>
+    <div className={classNames(styles.progressBar, styles.error)} />
+    <div className={styles.progressLabel}>ERROR TRANSCODING FILES</div>
+  </div>
+);
 
 export const TrackItem = ({
   id,
@@ -17,6 +44,7 @@ export const TrackItem = ({
   onPlay,
   onEdit,
   progress,
+  status,
 }: {
   id: string;
   index: number;
@@ -29,23 +57,16 @@ export const TrackItem = ({
   onPlay?: (id: string) => void;
   onEdit?: (id: string) => void;
   progress?: number;
+  status?: string; // 0 1 2 3
 }) => {
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!isDraggable}>
       {(provided, snapshot) => {
         return (
           <div className={styles.trackContainer}>
-            {progress !== undefined && (
-              <div className={styles.progress}>
-                <div
-                  className={styles.progressBar}
-                  style={{ transform: `scaleX(${progress})` }}
-                ></div>
-                <div className={styles.progressLabel}>
-                  Uploading {(progress * 100).toFixed()}%
-                </div>
-              </div>
-            )}
+            {status === '1' && <Transcoding />}
+            {status === '3' && <Error />}
+            {progress !== undefined && status === '0' && <Progress progress={progress} />}
             <div
               className={styles.track}
               ref={provided.innerRef}

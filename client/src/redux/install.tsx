@@ -11,11 +11,13 @@ import { History } from 'history';
 import { FileUploadService } from '../services/file_upload/install';
 import { MediaPlayer } from '../media_player';
 import { setCurrentTrack } from './actions/media_player';
+import {WebSocketClient} from "../websocket_client";
+import {updateTrackTranscodingStatus} from "./actions/playlists_actions";
 
 export function installRedux({
   services,
   history,
-  subscribeToTranscodeUpdates,
+  webSocketClient,
   mediaPlayer,
 }: {
   services: {
@@ -24,7 +26,7 @@ export function installRedux({
     fileUpload: FileUploadService;
   };
   history: History<unknown>;
-  subscribeToTranscodeUpdates: (fileId: string) => void;
+  webSocketClient: WebSocketClient;
   mediaPlayer: MediaPlayer;
 }) {
   const sagaMiddleware = createSagaMiddleware({
@@ -33,7 +35,7 @@ export function installRedux({
       mutations: services.mutations,
       fileUpload: services.fileUpload,
       history,
-      subscribeToTranscodeUpdates,
+      webSocketClient,
       mediaPlayer,
     },
   });
@@ -46,6 +48,9 @@ export function installRedux({
     store.dispatch(setCurrentTrack({ track: id }));
   });
 
+  webSocketClient.onTranscodingUpdate((data) => {
+    store.dispatch(updateTrackTranscodingStatus(data));
+  })
   return {
     ReduxProvider: ({ children }: PropsWithChildren<{}>) => (
       <Provider store={store}>{children}</Provider>

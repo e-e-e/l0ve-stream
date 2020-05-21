@@ -6,6 +6,7 @@ import * as https from "https";
 type TranscodeStatusUpdate = {
   trackId: string;
   fileId: string;
+  playlistId?: string;
   status: FileStatus;
 };
 
@@ -22,6 +23,18 @@ export function installWebsockets(config: {
       // should do some clean up
       console.log("closed");
     });
+    // ws.send(
+    //   JSON.stringify({
+    //     type: "transcode-status",
+    //     data: {
+    //       trackId: "4e1d146a-954e-11ea-aad2-7b29e1d678a9",
+    //       fileId: "4e234d08-954e-11ea-aad2-77e2de179f55",
+    //       playlistId: "5ccfcfca-9224-11ea-8315-0b53c934f012",
+    //       status: FileStatus.TRANSCODING_COMPLETED,
+    //     },
+    //
+    //   })
+    // );
     ws.on("message", function incoming(message) {
       console.log("received: %s", message);
       if (typeof message !== "string") return;
@@ -36,7 +49,7 @@ export function installWebsockets(config: {
         console.log("creating subscription", data.fileId);
         // this should always be one to one so no worry about overwriting another sockets connection
         transcodeListeners[data.fileId] = (info: TranscodeStatusUpdate) => {
-          ws.send(JSON.stringify({ type: "transcode-status", ...info }));
+          ws.send(JSON.stringify({ type: "transcode-status", data: info }));
         };
       }
     });

@@ -21,6 +21,7 @@ import {
   selectIsLoading,
   selectPlaylist,
   selectPlaylistDuration,
+  selectTrackTranscodingStatus,
 } from '../redux/selectors/playlists';
 import { Layer } from '../components/layer/layer';
 import { Button } from '../components/button/button';
@@ -43,6 +44,7 @@ const metadataService = new Metadata();
 
 const TrackView = ({
   id,
+  playlistId,
   index,
   title,
   artist,
@@ -54,6 +56,7 @@ const TrackView = ({
   onPlay,
 }: {
   id?: string | null;
+  playlistId: string;
   index: number;
   title?: string | null;
   artist?: string | null;
@@ -65,12 +68,18 @@ const TrackView = ({
   onEdit?: (id: string) => void;
   progress?: number;
 }) => {
-  console.log('render track', id);
   const upload = useSelector(getFileUpload(id || undefined));
+  const status = useSelector(
+    selectTrackTranscodingStatus(playlistId, id || undefined),
+  );
+  console.log('playlist', playlistId);
+  console.log('track', id);
+  console.log('statusssss', status);
+  console.log('------');
   if (!id || !title || !artist || !album) {
     return null;
   }
-  console.log('status', upload?.status);
+  // console.log('status', upload?.status);
   return (
     <TrackItem
       id={id}
@@ -83,6 +92,7 @@ const TrackView = ({
       onEdit={onEdit}
       onPlay={hasFiles ? onPlay : undefined}
       progress={upload?.progress}
+      status={status}
     />
   );
 };
@@ -180,6 +190,7 @@ export const PlaylistView = () => {
               track && (
                 <TrackView
                   key={track.id || i}
+                  playlistId={data.id}
                   id={track.id}
                   index={i}
                   title={track.title}

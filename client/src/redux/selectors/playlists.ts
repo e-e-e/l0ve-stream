@@ -30,6 +30,20 @@ export const selectTracks = (playlistId: string) => (state: RootState) => {
   return playlist.tracks || [];
 };
 
+export const selectTrackTranscodingStatus = (
+  playlistId: string,
+  trackId?: string,
+) => (state: RootState) => {
+  if (!trackId) return '0';
+  const track = selectTrack(playlistId, trackId)(state);
+  if (track?.files && track.files.length > 0) {
+    console.log('-----');
+    console.log('file:', track.files[0].id);
+    return track.files[0].status || '0';
+  }
+  return '0';
+};
+
 export const selectPlaylistDuration = (id: string) => (state: RootState) =>
   selectTracks(id)(state).reduce((acc, t) => {
     return acc + (t.duration || 0);

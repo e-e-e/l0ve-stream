@@ -85,6 +85,7 @@ export function installTrackUpload({
     broadcastFileTranscodeStatus: (data: {
       trackId: string;
       fileId: string;
+      playlistId?: string;
       status: number;
     }) => void;
   };
@@ -93,6 +94,17 @@ export function installTrackUpload({
     const message = JSON.parse(req.body.Message);
     const input = message.input.key;
     const { trackId, fileId } = decodeTrackKey(input);
+    // What happens when we have tracks associated with multiple playlists
+    let playlistId: string | undefined;
+    try {
+       const result = await database("playlists_tracks")
+        .select("playlist_id")
+        .where({ track_id: trackId })
+        .first();
+       playlistId = result && result.playlist_id;
+    } catch (e) {
+      console.log(e);
+    }
     switch (message.state) {
       case "COMPLETED":
         if (
@@ -109,6 +121,7 @@ export function installTrackUpload({
         websocket.broadcastFileTranscodeStatus({
           trackId,
           fileId,
+          playlistId,
           status: FileStatus.TRANSCODING_COMPLETED,
         });
         break;
@@ -120,6 +133,7 @@ export function installTrackUpload({
         websocket.broadcastFileTranscodeStatus({
           trackId,
           fileId,
+          playlistId,
           status: FileStatus.TRANSCODING_STARTED,
         });
         break;
@@ -131,6 +145,7 @@ export function installTrackUpload({
         websocket.broadcastFileTranscodeStatus({
           trackId,
           fileId,
+          playlistId,
           status: FileStatus.TRANSCODING_ERRORED,
         });
         break;
