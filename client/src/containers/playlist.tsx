@@ -220,7 +220,10 @@ export const PlaylistView = () => {
             />
           </Layer>
         )}
-        <Button onClick={() => openAddTrackLayer('new')}>Add new track</Button>
+        <Typography align={'center'}>
+          Drag audio files here to add tracks to your playlist.
+        </Typography>
+        {/*<Button onClick={() => openAddTrackLayer('new')}>Add new track</Button>*/}
       </Section>
     </DropArea>
   );

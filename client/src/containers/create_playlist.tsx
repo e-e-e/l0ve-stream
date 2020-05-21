@@ -9,7 +9,7 @@ import { createPlaylist } from '../redux/actions/playlists_actions';
 
 const convertPlaylist = new PlaylistConverter();
 
-export function CreatePlaylist() {
+export function CreatePlaylist({ close }: { close?: () => void }) {
   const dispatch = useDispatch();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent) => {
@@ -22,8 +22,9 @@ export function CreatePlaylist() {
         description: formdata.get('description') as string,
       };
       dispatch(createPlaylist(data));
+      close && close();
     },
-    [dispatch],
+    [dispatch, close],
   );
   const onFileDrop = React.useCallback(
     async (file: File) => {
