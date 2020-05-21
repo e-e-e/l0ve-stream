@@ -77,14 +77,20 @@ class Track {
   }
 
   elapsed(): number | undefined {
-    const pos = this.sound?.seek();
-    // console.log(pos);
-    if (typeof pos !== 'number' && pos !== undefined) {
+    try {
+      const pos = this.sound?.seek();
+
       // console.log(pos);
+      if (typeof pos !== 'number' && pos !== undefined) {
+        // console.log(pos);
+        return undefined;
+        // throw new Error("This should not be possible");
+      }
+      return pos;
+    } catch (e) {
+      console.error(e);
       return undefined;
-      // throw new Error("This should not be possible");
     }
-    return pos;
   }
 
   duration(): number {

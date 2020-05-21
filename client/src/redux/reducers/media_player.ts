@@ -50,7 +50,12 @@ export function mediaPlayerReducer(
         playlist: action.payload.playlist,
       };
     case MediaPlayerActionTypes.SET_PROGRESS:
-      return { ...state, progress: action.payload.value, elapsed: action.payload.elapsed, duration: action.payload.duration };
+      return {
+        ...state,
+        progress: action.payload.value,
+        elapsed: action.payload.elapsed,
+        duration: action.payload.duration,
+      };
     case MediaPlayerActionTypes.STOP:
       return { ...state, progress: 0, elapsed: 0 };
   }
