@@ -230,7 +230,7 @@ export function installTrackUpload({
             Key: encodeTrackKey({
               trackId,
               fileId,
-              type: "audio/mp3",
+              type: "audio/mpeg",
               quality,
             }),
           };
