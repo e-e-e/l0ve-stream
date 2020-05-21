@@ -37,8 +37,6 @@ export const selectTrackTranscodingStatus = (
   if (!trackId) return '0';
   const track = selectTrack(playlistId, trackId)(state);
   if (track?.files && track.files.length > 0) {
-    console.log('-----');
-    console.log('file:', track.files[0].id);
     return track.files[0].status || '0';
   }
   return '0';

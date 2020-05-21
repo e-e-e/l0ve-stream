@@ -72,10 +72,10 @@ const TrackView = ({
   const status = useSelector(
     selectTrackTranscodingStatus(playlistId, id || undefined),
   );
-  console.log('playlist', playlistId);
-  console.log('track', id);
-  console.log('statusssss', status);
-  console.log('------');
+  // console.log('playlist', playlistId);
+  // console.log('track', id);
+  // console.log('statusssss', status);
+  // console.log('------');
   if (!id || !title || !artist || !album) {
     return null;
   }
