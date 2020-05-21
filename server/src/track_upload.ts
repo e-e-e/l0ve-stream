@@ -97,11 +97,11 @@ export function installTrackUpload({
     // What happens when we have tracks associated with multiple playlists
     let playlistId: string | undefined;
     try {
-       const result = await database("playlists_tracks")
+      const result = await database("playlists_tracks")
         .select("playlist_id")
         .where({ track_id: trackId })
         .first();
-       playlistId = result && result.playlist_id;
+      playlistId = result && result.playlist_id;
     } catch (e) {
       console.log(e);
     }
@@ -227,7 +227,12 @@ export function installTrackUpload({
           }
         : {
             Bucket: process.env.AWS_TRANSCODED_TRACK_BUCKET,
-            Key: encodeTrackKey({ trackId, fileId, type, quality }),
+            Key: encodeTrackKey({
+              trackId,
+              fileId,
+              type: "audio/mp3",
+              quality,
+            }),
           };
     s3.getSignedUrl("getObject", params, (err, url) => {
       if (err) {
