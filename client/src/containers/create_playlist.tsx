@@ -30,6 +30,7 @@ export function CreatePlaylist({ close }: { close?: () => void }) {
     async (file: File) => {
       const data = await convertPlaylist.fromITunesXML(file);
       dispatch(createPlaylist(data));
+      close && close();
     },
     [dispatch],
   );

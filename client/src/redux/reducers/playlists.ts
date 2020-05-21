@@ -5,7 +5,6 @@ import {
 import { FetchPlaylists } from '../../services/graphql/__generated_types__/FetchPlaylists';
 import { groupByIds, LoadingState } from './helpers';
 import { produce } from 'immer';
-import { selectTrack } from '../selectors/playlists';
 
 export type Playlist = Exclude<FetchPlaylists['playlists'], null>[number];
 type PlaylistsDict = { [Key: string]: Playlist };
@@ -40,6 +39,13 @@ const defaultTrack = {
   duration: null,
   genre: null,
   files: null,
+};
+
+const pendingFile = {
+  __typename: 'File' as const,
+  id: null,
+  filename: null,
+  status: '0',
 };
 
 export function playlistReducer(
@@ -150,11 +156,13 @@ export function playlistReducer(
       };
     }
     case PlaylistActionTypes.INSERT_PLAYLIST_TRACK: {
-      const { playlistId, track } = action.payload;
+      const { playlistId, track, hasFile } = action.payload;
       const playlist = state.byId[playlistId];
+      const files = hasFile ? [pendingFile] : [];
       const trackData = {
         ...defaultTrack,
         ...track,
+        files,
       };
       return {
         ...state,
@@ -185,8 +193,12 @@ export function playlistReducer(
         const track = draft.byId[playlistId]?.tracks?.find(
           (t) => t.id === trackId,
         );
-        const file = track?.files?.find((file) => file.id === fileId);
+        let file = track?.files?.find((file) => file.id === fileId);
+        if (!file) {
+          file = track?.files?.[0];
+        }
         if (file) {
+          file.id = fileId;
           file.status = status.toString();
         }
       });

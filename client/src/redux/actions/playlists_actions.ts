@@ -144,6 +144,7 @@ export type ActionCreatePlaylistTrack = ActionWithPayload<
 type InsertPlaylistTrackPayload = {
   playlistId: string;
   track: Track & { id: string };
+  hasFile: boolean;
 };
 
 export const insertPlaylistTrack = createAction<InsertPlaylistTrackPayload>(
@@ -158,7 +159,7 @@ export type ActionInsertPlaylistTrack = ActionWithPayload<
  * UPDATE PLAYLIST TRACK
  */
 
-type UpdatePlaylistTrackPayload = InsertPlaylistTrackPayload;
+type UpdatePlaylistTrackPayload = Omit<InsertPlaylistTrackPayload, 'hasFile'>;
 
 export const updatePlaylistTrack = createAction<UpdatePlaylistTrackPayload>(
   PlaylistActionTypes.UPDATE_PLAYLIST_TRACK,

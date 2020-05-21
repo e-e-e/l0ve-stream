@@ -109,7 +109,13 @@ function* createPlaylistTrack(action: ActionCreatePlaylistTrack) {
       throw new Error('did not return track id');
     }
     // insert track into reducer
-    yield put(insertPlaylistTrack({ playlistId, track: { ...track, id } }));
+    yield put(
+      insertPlaylistTrack({
+        playlistId,
+        track: { ...track, id },
+        hasFile: !!track.file,
+      }),
+    );
     if (!track.file) {
       console.log('Bail out early');
       // bail out early - nothing to upload
