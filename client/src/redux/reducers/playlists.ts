@@ -57,8 +57,8 @@ export function playlistReducer(
       return {
         ...state,
         state: LoadingState.LOADING,
-        byId: {},
-        allIds: [],
+        // byId: {},
+        // allIds: [],
       };
     case PlaylistActionTypes.FETCH_PLAYLISTS_SUCCESS: {
       const playlists = action.payload.playlists;

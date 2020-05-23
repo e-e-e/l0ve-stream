@@ -101,7 +101,6 @@ server.applyMiddleware({ app });
 
 app.use(express.static(path.resolve(__dirname, "../../client/build")));
 
-
 // default options
 app.use(fileUpload());
 
@@ -121,11 +120,11 @@ app.post("/api/convert/itunes", async (req, res) => {
 app.get("/api/track/:id/upload", presignedPutUrlHandler);
 app.get("/api/track/:id/get", presignedGetTrackHandler);
 
-function serveIndex (req: express.Request, res: express.Response) {
+function serveIndex(req: express.Request, res: express.Response) {
   res.sendFile("index.html", {
     root: path.resolve(__dirname, "../../client/build"),
   });
-};
+}
 
 app.get("/playlist*", serveIndex);
 app.get("/feed", serveIndex);
