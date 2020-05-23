@@ -1,8 +1,20 @@
-.player {
+.overlay {
     position: fixed;
+    display: flex;
+    top: 0;
     bottom: 0;
-    left: 0;
     right: 0;
+    left: 0;
+    flex-direction: column;
+    pointer-events: none;
+}
+.playlistProgress {
+    flex-grow: 1;
+    pointer-events: none;
+}
+
+.player {
+    pointer-events: all;
     background: black;
     color: white;
     border-top: thin black solid;

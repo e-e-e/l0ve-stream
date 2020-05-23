@@ -62,7 +62,7 @@ class Track {
   stop() {
     if (!this.ready()) {
       this.playWhenReady = false;
-      return;
+      // return;
     }
     this.sound?.stop();
     console.log('--stop', this.id);
@@ -71,7 +71,7 @@ class Track {
   pause() {
     if (!this.ready()) {
       this.playWhenReady = false;
-      return;
+      // return;
     }
     this.sound?.pause();
   }

@@ -10,15 +10,16 @@ import {
   stop,
 } from '../redux/actions/media_player';
 import styles from './player.module.css';
-import { getCurrentTrack, getTimeInfo } from '../redux/selectors/media_player';
+import {getCurrentTrack, getTimeInfo, getTotalProgress} from '../redux/selectors/media_player';
 import { Typography } from '../components/typography/typography';
+import {BackgroundProgress} from "../components/background_progress/background_progress";
+import Page from "../components/page/page";
 
 function toTimeString(x: number) {
-  const whole = Math.floor(x)
+  const whole = Math.floor(x);
   const part = (x - whole) * 20;
-  return `${whole}:${part.toFixed(0)}`
+  return `${whole}:${part.toFixed(0)}`;
 }
-
 
 export const Player = () => {
   const dispatch = useDispatch();
@@ -30,64 +31,70 @@ export const Player = () => {
   const pauseTrack = useCallback(() => dispatch(pause()), [dispatch]);
   const timeInfo = useSelector(getTimeInfo);
   const track = useSelector(getCurrentTrack);
+  const totalProgress = useSelector(getTotalProgress);
   React.useEffect(() => {
     prevProgress.current = timeInfo.progress;
   }, [timeInfo.progress]);
   const value = prevProgress.current;
   // const load = () => dispatch(loadPlaylist({ playlist: 'test' }));
   return (
-    <div className={styles.player}>
-      <div className={styles.background}>
-        <div
-          className={styles.progress}
-          style={{
-            transform: `translateX(${-100 + timeInfo.progress * 100}%)`,
-            transition:
-              timeInfo.progress > value ? 'transform linear 0.1s' : 'none',
-          }}
-        />
-        <div className={styles.container}>
-          <div className={styles.controls}>
-            <IconButton invert onClick={play}>
-              <PlayIcon />
-            </IconButton>
-            {/*<IconButton invert onClick={load}>*/}
-            {/*  Load*/}
-            {/*</IconButton>*/}
-            <IconButton invert onClick={prevTrack}>
-              {'<<'}
-            </IconButton>
-            <IconButton invert onClick={nextTrack}>
-              {'>>'}
-            </IconButton>
-            <IconButton invert onClick={stopTrack}>
-              stop
-            </IconButton>
-            <IconButton invert onClick={pauseTrack}>
-              pause
-            </IconButton>
-            {/*<IconButton onClick={() => player.clear()}>clear</IconButton>*/}
-          </div>
-          <div className={styles.trackInfo}>
-            <div className={styles.top}>
-              <div>
-                <Typography color="white">{track?.title}</Typography>
-              </div>
-              <div>
-                <Typography color="grey">{track?.artist}</Typography>
-              </div>
+    <div className={styles.overlay}>
+      <div className={styles.playlistProgress}>
+        <BackgroundProgress progress={totalProgress} />
+      </div>
+      <div className={styles.player}>
+        <div className={styles.background}>
+          <div
+            className={styles.progress}
+            style={{
+              transform: `translateX(${-100 + timeInfo.progress * 100}%)`,
+              transition:
+                timeInfo.progress > value ? 'transform linear 0.1s' : 'none',
+            }}
+          />
+          <div className={styles.container}>
+            <div className={styles.controls}>
+              <IconButton invert onClick={play}>
+                <PlayIcon />
+              </IconButton>
+              {/*<IconButton invert onClick={load}>*/}
+              {/*  Load*/}
+              {/*</IconButton>*/}
+              <IconButton invert onClick={prevTrack}>
+                {'<<'}
+              </IconButton>
+              <IconButton invert onClick={nextTrack}>
+                {'>>'}
+              </IconButton>
+              <IconButton invert onClick={stopTrack}>
+                stop
+              </IconButton>
+              <IconButton invert onClick={pauseTrack}>
+                pause
+              </IconButton>
+              {/*<IconButton onClick={() => player.clear()}>clear</IconButton>*/}
             </div>
-            <div className={styles.bottom}>
-              <div>
-                <Typography variant="subtitle" color="white">
-                  {toTimeString(timeInfo.elapsed)}
-                </Typography>
+            <div className={styles.trackInfo}>
+              <div className={styles.top}>
+                <div>
+                  <Typography color="white">{track?.title}</Typography>
+                </div>
+                <div>
+                  <Typography color="grey">{track?.artist}</Typography>
+                </div>
               </div>
-              <div>/</div>
-              <div>
-                <Typography variant="subtitle" color="grey">
-                  {toTimeString(timeInfo.duration)}
-                </Typography>
+              <div className={styles.bottom}>
+                <div>
+                  <Typography variant="subtitle" color="white">
+                    {toTimeString(timeInfo.elapsed)}
+                  </Typography>
+                </div>
+                <div>/</div>
+                <div>
+                  <Typography variant="subtitle" color="grey">
+                    {toTimeString(timeInfo.duration)}
+                  </Typography>
+                </div>
               </div>
             </div>
           </div>

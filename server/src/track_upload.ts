@@ -218,7 +218,7 @@ export function installTrackUpload({
     ) {
       throw new Error("File not transcoded");
     }
-    const { trackId, fileId, type } = decodeTrackKey(filedata.filename);
+    const { trackId, fileId } = decodeTrackKey(filedata.filename);
     const params =
       quality === "original"
         ? {

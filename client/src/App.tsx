@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { fetchWhoAmI } from './redux/actions/user_actions';
 // import { AddTrackView } from './containers/add_track';
 import { Player } from './containers/player';
+import {BackgroundProgress} from "./components/background_progress/background_progress";
 
 function App() {
   const mainMenuOptions = {
