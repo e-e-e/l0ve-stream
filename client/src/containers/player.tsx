@@ -19,20 +19,15 @@ import {
 import { Typography } from '../components/typography/typography';
 import { BackgroundProgress } from '../components/background_progress/background_progress';
 import { PlayerState } from '../redux/reducers/media_player';
-
-function toTimeString(x: number) {
-  const whole = Math.floor(x);
-  const part = (x - whole) * 20;
-  return `${whole}:${part.toFixed(0)}`;
-}
+import { toTimeCode } from '../base/time';
 
 export const Player = () => {
   const dispatch = useDispatch();
   const prevProgress = React.useRef<number>(0);
   const play = useCallback(() => dispatch(playTrack({})), [dispatch]);
   const stopTrack = useCallback(() => dispatch(stop()), [dispatch]);
-  const nextTrack = useCallback(() => dispatch(next()), [dispatch]);
-  const prevTrack = useCallback(() => dispatch(prev()), [dispatch]);
+  // const nextTrack = useCallback(() => dispatch(next()), [dispatch]);
+  // const prevTrack = useCallback(() => dispatch(prev()), [dispatch]);
   const pauseTrack = useCallback(() => dispatch(pause()), [dispatch]);
   const timeInfo = useSelector(getTimeInfo);
   const track = useSelector(getCurrentTrack);
@@ -67,15 +62,12 @@ export const Player = () => {
               <IconButton invert onClick={isPlaying ? pauseTrack : play}>
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
               </IconButton>
-              {/*<IconButton invert onClick={load}>*/}
-              {/*  Load*/}
+              {/*<IconButton invert onClick={prevTrack}>*/}
+              {/*  {'<<'}*/}
               {/*</IconButton>*/}
-              <IconButton invert onClick={prevTrack}>
-                {'<<'}
-              </IconButton>
-              <IconButton invert onClick={nextTrack}>
-                {'>>'}
-              </IconButton>
+              {/*<IconButton invert onClick={nextTrack}>*/}
+              {/*  {'>>'}*/}
+              {/*</IconButton>*/}
             </div>
             <div className={styles.trackInfo}>
               <div className={styles.top}>
@@ -89,13 +81,13 @@ export const Player = () => {
               <div className={styles.bottom}>
                 <div>
                   <Typography variant="subtitle" color="white">
-                    {toTimeString(timeInfo.elapsed)}
+                    {toTimeCode(timeInfo.elapsed)}
                   </Typography>
                 </div>
                 <div>/</div>
                 <div>
                   <Typography variant="subtitle" color="grey">
-                    {toTimeString(timeInfo.duration)}
+                    {toTimeCode(timeInfo.duration)}
                   </Typography>
                 </div>
               </div>
