@@ -8,6 +8,7 @@ type TrackState = 'uninitialized' | 'loading' | 'loaded' | 'error-loading';
 class Track {
   private sound: Howl | null = null;
   private state: TrackState = 'uninitialized';
+  private previousElapsed = 0;
   private playWhenReady = false;
 
   constructor(
@@ -64,6 +65,10 @@ class Track {
       this.playWhenReady = false;
       // return;
     }
+    if (!this.sound?.playing()) {
+      return;
+    }
+    this.previousElapsed = 0;
     this.sound?.stop();
     console.log('--stop', this.id);
   }
@@ -79,12 +84,12 @@ class Track {
   elapsed(): number | undefined {
     const pos = this.sound?.seek();
 
-    // console.log(pos);
+    // console.log('pos', pos);
     if (typeof pos !== 'number' && pos !== undefined) {
-      // console.log(pos);
-      return undefined;
+      return this.previousElapsed;
       // throw new Error("This should not be possible");
     }
+    this.previousElapsed = pos || 0;
     return pos;
   }
 

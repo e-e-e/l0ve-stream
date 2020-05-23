@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { IconButton } from '../components/button/button';
-import { PlayIcon } from '../components/icons/icons';
+import { CloseIcon, PauseIcon, PlayIcon } from '../components/icons/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   next,
@@ -10,10 +10,15 @@ import {
   stop,
 } from '../redux/actions/media_player';
 import styles from './player.module.css';
-import {getCurrentTrack, getTimeInfo, getTotalProgress} from '../redux/selectors/media_player';
+import {
+  getCurrentTrack,
+  getTimeInfo,
+  getTotalProgress,
+  selectState,
+} from '../redux/selectors/media_player';
 import { Typography } from '../components/typography/typography';
-import {BackgroundProgress} from "../components/background_progress/background_progress";
-import Page from "../components/page/page";
+import { BackgroundProgress } from '../components/background_progress/background_progress';
+import { PlayerState } from '../redux/reducers/media_player';
 
 function toTimeString(x: number) {
   const whole = Math.floor(x);
@@ -31,11 +36,16 @@ export const Player = () => {
   const pauseTrack = useCallback(() => dispatch(pause()), [dispatch]);
   const timeInfo = useSelector(getTimeInfo);
   const track = useSelector(getCurrentTrack);
+  const state = useSelector(selectState);
   const totalProgress = useSelector(getTotalProgress);
   React.useEffect(() => {
     prevProgress.current = timeInfo.progress;
   }, [timeInfo.progress]);
   const value = prevProgress.current;
+  if (state !== PlayerState.PLAYING && state !== PlayerState.PAUSED) {
+    return <></>;
+  }
+  const isPlaying = state === PlayerState.PLAYING;
   // const load = () => dispatch(loadPlaylist({ playlist: 'test' }));
   return (
     <div className={styles.overlay}>
@@ -54,8 +64,8 @@ export const Player = () => {
           />
           <div className={styles.container}>
             <div className={styles.controls}>
-              <IconButton invert onClick={play}>
-                <PlayIcon />
+              <IconButton invert onClick={isPlaying ? pauseTrack : play}>
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
               </IconButton>
               {/*<IconButton invert onClick={load}>*/}
               {/*  Load*/}
@@ -66,13 +76,6 @@ export const Player = () => {
               <IconButton invert onClick={nextTrack}>
                 {'>>'}
               </IconButton>
-              <IconButton invert onClick={stopTrack}>
-                stop
-              </IconButton>
-              <IconButton invert onClick={pauseTrack}>
-                pause
-              </IconButton>
-              {/*<IconButton onClick={() => player.clear()}>clear</IconButton>*/}
             </div>
             <div className={styles.trackInfo}>
               <div className={styles.top}>
@@ -96,6 +99,11 @@ export const Player = () => {
                   </Typography>
                 </div>
               </div>
+            </div>
+            <div className={styles.close}>
+              <IconButton invert onClick={stopTrack}>
+                <CloseIcon />
+              </IconButton>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import {
   MediaPlayerActionTypes,
 } from '../actions/media_player';
 
-enum PlayerState {
+export enum PlayerState {
   UNINITIALIZED,
   LOADING,
   PLAYING,
@@ -41,8 +41,26 @@ export function mediaPlayerReducer(
   action: MediaPlayerActions,
 ): MediaPlayerState {
   switch (action.type) {
+    case MediaPlayerActionTypes.PLAY:
+      return {
+        ...state,
+        state: PlayerState.PLAYING,
+      };
+    case MediaPlayerActionTypes.PAUSE:
+      return {
+        ...state,
+        state: PlayerState.PAUSED,
+      };
     case MediaPlayerActionTypes.SET_CURRENT_TRACK:
-      return { ...state, currentTrack: action.payload.track, progress: 0, elapsed: 0 };
+      if (state.currentTrack === action.payload.track) {
+        return state;
+      }
+      return {
+        ...state,
+        currentTrack: action.payload.track,
+        progress: 0,
+        elapsed: 0,
+      };
     case MediaPlayerActionTypes.SET_QUEUE:
       return {
         ...state,
@@ -57,7 +75,12 @@ export function mediaPlayerReducer(
         duration: action.payload.duration,
       };
     case MediaPlayerActionTypes.STOP:
-      return { ...state, progress: 0, elapsed: 0 };
+      return {
+        ...state,
+        progress: 0,
+        elapsed: 0,
+        state: PlayerState.STOPPED,
+      };
   }
   return state;
 }

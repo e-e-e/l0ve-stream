@@ -7,6 +7,8 @@ import {
 
 const selectPlayer = (state: RootState) => state.player;
 
+export const selectState = (state: RootState) => selectPlayer(state).state;
+
 export const getTimeInfo = (state: RootState) => {
   const { progress, elapsed, duration } = selectPlayer(state);
   return { progress, elapsed, duration };
