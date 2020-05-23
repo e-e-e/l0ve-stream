@@ -175,6 +175,7 @@ export class MediaPlayer {
     // play item in queue
     // load next item in queue too
     const trackId = id || this.queue[this.currentTrackIndex || 0];
+    this.stop();
     this.currentTrackIndex = queue.indexOf(trackId);
     const track = tracks[trackId];
     console.log('play', track);
@@ -207,7 +208,7 @@ export class MediaPlayer {
     // skip to start of current track or if withing a threshold the prev track
     const currentTrack = this.currentTrack();
     const elapsed = (currentTrack && currentTrack.elapsed()) || 0;
-    console.log(elapsed);
+    // console.log(elapsed);
     if (elapsed < 0.5) {
       this.stop();
       this.play();

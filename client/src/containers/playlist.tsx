@@ -185,7 +185,7 @@ export const PlaylistView = () => {
       <Section>
         <DraggableList onDrop={updateTrackOrder}>
           {data.tracks?.map((track, i) => {
-            console.log(i, track?.files);
+            // console.log(i, track?.files);
             return (
               track && (
                 <TrackView
