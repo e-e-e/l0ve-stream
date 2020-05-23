@@ -35,7 +35,6 @@
     transform-origin: left;
     z-index: 1;
     background: yellow;
-
 }
 
 .container {
@@ -58,6 +57,10 @@
 }
 .top > div, .bottom > div {
     padding-left: 0.5rem;
+}
+
+.duration, .elapsed {
+    min-width: 3rem;
 }
 
 .close {

@@ -79,13 +79,13 @@ export const Player = () => {
                 </div>
               </div>
               <div className={styles.bottom}>
-                <div>
+                <div className={styles.elapsed}>
                   <Typography variant="subtitle" color="white">
                     {toTimeCode(timeInfo.elapsed)}
                   </Typography>
                 </div>
                 <div>/</div>
-                <div>
+                <div className={styles.duration}>
                   <Typography variant="subtitle" color="grey">
                     {toTimeCode(timeInfo.duration)}
                   </Typography>
