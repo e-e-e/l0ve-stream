@@ -94,8 +94,8 @@ function App() {
           </Route>
         </Switch>
         <Typography align="center"> ( ( ( ❤ ) ) ) ️</Typography>
-        <Player />
       </main>
+      <Player />
     </Page>
   );
 }
