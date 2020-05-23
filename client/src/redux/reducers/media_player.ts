@@ -42,7 +42,7 @@ export function mediaPlayerReducer(
 ): MediaPlayerState {
   switch (action.type) {
     case MediaPlayerActionTypes.SET_CURRENT_TRACK:
-      return { ...state, currentTrack: action.payload.track };
+      return { ...state, currentTrack: action.payload.track, progress: 0, elapsed: 0 };
     case MediaPlayerActionTypes.SET_QUEUE:
       return {
         ...state,
