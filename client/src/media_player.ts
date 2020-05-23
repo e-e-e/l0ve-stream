@@ -60,13 +60,14 @@ class Track {
     this.sound?.play();
   }
 
+  playing(): boolean {
+    return !!this.sound?.playing();
+  }
+
   stop() {
     if (!this.ready()) {
       this.playWhenReady = false;
       // return;
-    }
-    if (!this.sound?.playing()) {
-      return;
     }
     this.previousElapsed = 0;
     this.sound?.stop();
@@ -180,7 +181,7 @@ export class MediaPlayer {
     // play item in queue
     // load next item in queue too
     const trackId = id || this.queue[this.currentTrackIndex || 0];
-    this.stop();
+    this.stopIfPlaying();
     this.currentTrackIndex = queue.indexOf(trackId);
     const track = tracks[trackId];
     console.log('play', track);
@@ -229,6 +230,16 @@ export class MediaPlayer {
     const trackId = id || this.queue[this.currentTrackIndex || 0];
     if (!trackId) return;
     this.tracks[trackId].stop();
+  }
+
+  private stopIfPlaying() {
+    // stop playing
+    const trackId = this.queue[this.currentTrackIndex || 0];
+    if (!trackId) return;
+    const track = this.tracks[trackId];
+    if (track.playing()) {
+      track.stop();
+    }
   }
 
   pause(id?: string) {
