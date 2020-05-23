@@ -19,7 +19,7 @@ import { useDispatch } from 'react-redux';
 import { fetchWhoAmI } from './redux/actions/user_actions';
 // import { AddTrackView } from './containers/add_track';
 import { Player } from './containers/player';
-import {BackgroundProgress} from "./components/background_progress/background_progress";
+import { ScrollToTop } from './components/scroll_to_top/scroll_to_top';
 
 function App() {
   const mainMenuOptions = {
@@ -70,6 +70,7 @@ function App() {
   }, [dispatch]);
   return (
     <Page>
+      <ScrollToTop />
       <Header
         searchOptions={searchMenuOptions}
         plusOptions={plusMenuOptions}
