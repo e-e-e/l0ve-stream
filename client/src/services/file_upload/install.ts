@@ -20,7 +20,7 @@ class FileUploadClient implements FileUploadService {
     const params = new URLSearchParams({
       type: data.type,
     });
-    return fetch(`/track/${data.trackId}/upload?${params}`, {
+    return fetch(`/api/track/${data.trackId}/upload?${params}`, {
       credentials: 'include',
     }).then((body) => body.json());
   }
@@ -34,7 +34,7 @@ class FileUploadClient implements FileUploadService {
           quality: data.quality,
         })
       : '';
-    return fetch(`/track/${data.trackId}/get`, {
+    return fetch(`/api/track/${data.trackId}/get`, {
       credentials: 'include',
     }).then((body) => body.json());
   }

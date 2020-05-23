@@ -1,4 +1,4 @@
-const CONVERTER_URL = '/convert/itunes';
+const CONVERTER_URL = '/api/convert/itunes';
 
 export class PlaylistConverter {
   fromITunesXML(file: File) {

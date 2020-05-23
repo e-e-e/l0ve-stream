@@ -100,10 +100,12 @@ app.use(
 server.applyMiddleware({ app });
 
 app.use(express.static(path.resolve(__dirname, "../../client/build")));
+
+
 // default options
 app.use(fileUpload());
 
-app.post("/convert/itunes", async (req, res) => {
+app.post("/api/convert/itunes", async (req, res) => {
   const { files } = req;
   if (!files) return res.sendStatus(400);
   if (Array.isArray(files.file)) return res.sendStatus(400);
@@ -116,5 +118,19 @@ app.post("/convert/itunes", async (req, res) => {
   }
 });
 
-app.get("/track/:id/upload", presignedPutUrlHandler);
-app.get("/track/:id/get", presignedGetTrackHandler);
+app.get("/api/track/:id/upload", presignedPutUrlHandler);
+app.get("/api/track/:id/get", presignedGetTrackHandler);
+
+function serveIndex (req: express.Request, res: express.Response) {
+  res.sendFile("index.html", {
+    root: path.resolve(__dirname, "../../client/build"),
+  });
+};
+
+app.get("/playlist*", serveIndex);
+app.get("/feed", serveIndex);
+app.get("/login", serveIndex);
+app.get("/logout", serveIndex);
+app.get("/signup", serveIndex);
+app.get("/me", serveIndex);
+app.get("/mine", serveIndex);
